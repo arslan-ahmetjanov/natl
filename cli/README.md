@@ -4,7 +4,7 @@
 
 # @natl/cli
 
-CLI for **NATL** — short fullstack YAML scenarios for **web UI + API**.
+CLI for **NATL** — YAML scenarios for **web UI + API**.
 
 One compact scenario (and optional POM) for QA, developers, and DevOps. Swap the UI adapter (`engine:`) when the team’s stack changes; browser matrix is whatever that adapter supports. Stands and data differ via config / `--env` / vars — not by rewriting steps.
 

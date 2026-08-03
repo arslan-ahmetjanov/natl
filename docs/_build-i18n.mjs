@@ -9,7 +9,7 @@ function load(name) {
 }
 
 const enHome = `
-<p>NATL is a short open-source <strong>test runner</strong>: scenarios in YAML for <strong>web UI and API</strong>. Write one compact scenario, run it locally or in CI, and keep it when the browser stack changes — swap <code>engine:</code> instead of rewriting the suite.</p>
+<p>NATL is an open-source <strong>test runner</strong>: scenarios in YAML for <strong>web UI and API</strong>. Write one compact scenario, run it locally or in CI, and keep it when the browser stack changes — swap <code>engine:</code> instead of rewriting the suite.</p>
 <p>New here? Open the <a href="getting-started.html">guide</a> and start at Install.</p>
 <div class="card-grid">
   <a class="card" href="getting-started.html"><h3>Guide</h3><p>Install, first PASS, then the language block by block.</p></a>
@@ -32,7 +32,7 @@ natl --version</code></pre>
 </div>`;
 
 const ruHome = `
-<p>NATL — короткий open-source <strong>тест-раннер</strong>: сценарии на YAML для <strong>web UI и API</strong>. Один компактный сценарий, локально или в CI. Сменился браузерный стек — меняете <code>engine:</code>, а не весь сьют.</p>
+<p>NATL — open-source <strong>тест-раннер</strong>: сценарии на YAML для <strong>web UI и API</strong>. Один компактный сценарий, локально или в CI. Сменился браузерный стек — меняете <code>engine:</code>, а не весь сьют.</p>
 <p>С нуля? Откройте <a href="getting-started.html">гайд</a> и начните с установки.</p>
 <div class="card-grid">
   <a class="card" href="getting-started.html"><h3>Гайд</h3><p>Установка, первый PASS, затем язык по блокам.</p></a>
@@ -55,7 +55,7 @@ natl --version</code></pre>
 </div>`;
 
 const zhHome = `
-<p>NATL 是短小的开源<strong>测试运行器</strong>：用 YAML 写 <strong>Web UI 与 API</strong> 场景。写一份紧凑场景，本地或 CI 运行；浏览器栈变了，改 <code>engine:</code> 即可，不必整套重写。</p>
+<p>NATL 是开源<strong>测试运行器</strong>：用 YAML 写 <strong>Web UI 与 API</strong> 场景。写一份紧凑场景，本地或 CI 运行；浏览器栈变了，改 <code>engine:</code> 即可，不必整套重写。</p>
 <p>第一次用？打开<a href="getting-started.html">指南</a>，从安装开始。</p>
 <div class="card-grid">
   <a class="card" href="getting-started.html"><h3>指南</h3><p>安装、首次 PASS，再按块看语言。</p></a>
@@ -78,7 +78,7 @@ natl --version</code></pre>
 </div>`;
 
 const esHome = `
-<p>NATL es un <strong>test runner</strong> corto de código abierto: escenarios YAML para <strong>UI web y API</strong>. Escribes un escenario compacto, lo corres local o en CI, y lo conservas cuando cambia el stack del navegador: cambias <code>engine:</code>, no toda la suite.</p>
+<p>NATL es un <strong>test runner</strong> de código abierto: escenarios YAML para <strong>UI web y API</strong>. Escribes un escenario compacto, lo corres local o en CI, y lo conservas cuando cambia el stack del navegador: cambias <code>engine:</code>, no toda la suite.</p>
 <p>¿Empiezas ahora? Abre la <a href="getting-started.html">guía</a> y empieza por Instalar.</p>
 <div class="card-grid">
   <a class="card" href="getting-started.html"><h3>Guía</h3><p>Instalación, primer PASS y el lenguaje por bloques.</p></a>
@@ -295,7 +295,7 @@ const enCanon = `
 <table>
 <thead><tr><th>I believe</th><th>So</th></tr></thead>
 <tbody>
-<tr><td>Short language</td><td>A smoke fits on one screen</td></tr>
+<tr><td>Compact language</td><td>A smoke fits on one screen</td></tr>
 <tr><td>UI + API together</td><td><code>with: http</code> in the same file</td></tr>
 <tr><td>Context outside steps</td><td>config / <code>--env</code> / <code>cases:</code></td></tr>
 <tr><td>Portable via adapters</td><td>Same YAML; browsers = adapter capability</td></tr>
@@ -309,7 +309,7 @@ const ruCanon = `
 <table>
 <thead><tr><th>Верю</th><th>Значит</th></tr></thead>
 <tbody>
-<tr><td>Короткий язык</td><td>Smoke на один экран</td></tr>
+<tr><td>Компактный язык</td><td>Smoke на один экран</td></tr>
 <tr><td>UI + API вместе</td><td><code>with: http</code> в одном файле</td></tr>
 <tr><td>Контекст вне шагов</td><td>config / <code>--env</code> / <code>cases:</code></td></tr>
 <tr><td>Портативность через адаптеры</td><td>Тот же YAML; браузеры = capability адаптера</td></tr>
@@ -323,7 +323,7 @@ const zhCanon = `
 <table>
 <thead><tr><th>我相信</th><th>因此</th></tr></thead>
 <tbody>
-<tr><td>短语言</td><td>一个 smoke 放进一屏</td></tr>
+<tr><td>紧凑语言</td><td>一个 smoke 放进一屏</td></tr>
 <tr><td>UI + API 一起</td><td>同一文件里 <code>with: http</code></td></tr>
 <tr><td>上下文在步骤外</td><td>config / <code>--env</code> / <code>cases:</code></td></tr>
 <tr><td>靠适配器可移植</td><td>同一份 YAML；浏览器 = 适配器能力</td></tr>
@@ -337,7 +337,7 @@ const esCanon = `
 <table>
 <thead><tr><th>Creo</th><th>Así que</th></tr></thead>
 <tbody>
-<tr><td>Lenguaje corto</td><td>Un smoke cabe en una pantalla</td></tr>
+<tr><td>Lenguaje compacto</td><td>Un smoke cabe en una pantalla</td></tr>
 <tr><td>UI + API juntos</td><td><code>with: http</code> en el mismo archivo</td></tr>
 <tr><td>Contexto fuera de los pasos</td><td>config / <code>--env</code> / <code>cases:</code></td></tr>
 <tr><td>Portable con adaptadores</td><td>Mismo YAML; navegadores = capacidad del adaptador</td></tr>
@@ -362,7 +362,7 @@ const locales = {
     { line: "MIT License." },
     {
       headline: "Test web UI and API with YAML.",
-      lede: "A short open-source test runner. Write scenarios in YAML, run them locally or in CI, keep them when the browser stack changes.",
+      lede: "An open-source test runner. Write scenarios in YAML, run them locally or in CI, keep them when the browser stack changes.",
     },
     {
       home: { title: "Home", html: enHome },
@@ -388,7 +388,7 @@ const locales = {
     { line: "Лицензия MIT." },
     {
       headline: "Тесты web UI и API на YAML.",
-      lede: "Короткий open-source тест-раннер. Пишете сценарии на YAML, гоняете локально или в CI, оставляете их при смене браузерного стека.",
+      lede: "Open-source тест-раннер. Пишете сценарии на YAML, гоняете локально или в CI, оставляете их при смене браузерного стека.",
     },
     {
       home: { title: "Главная", html: ruHome },
@@ -414,7 +414,7 @@ const locales = {
     { line: "MIT 许可。" },
     {
       headline: "用 YAML 测 Web UI 与 API。",
-      lede: "短小的开源测试运行器。用 YAML 写场景，本地或 CI 跑；浏览器栈变了也不必整套重写。",
+      lede: "开源测试运行器。用 YAML 写场景，本地或 CI 跑；浏览器栈变了也不必整套重写。",
     },
     {
       home: { title: "首页", html: zhHome },
@@ -440,7 +440,7 @@ const locales = {
     { line: "Licencia MIT." },
     {
       headline: "Pruebas de UI web y API en YAML.",
-      lede: "Un test runner corto de código abierto. Escenarios en YAML, local o en CI; se conservan cuando cambia el stack del navegador.",
+      lede: "Un test runner de código abierto. Escenarios en YAML, local o en CI; se conservan cuando cambia el stack del navegador.",
     },
     {
       home: { title: "Inicio", html: esHome },

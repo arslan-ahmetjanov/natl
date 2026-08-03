@@ -4,7 +4,7 @@
 
 # @natl/core
 
-Language runtime for **NATL** — a short YAML DSL for **web UI + API** scenarios.
+Language runtime for **NATL** — a YAML DSL for **web UI + API** scenarios.
 
 Write compact steps once (plus optional POM). UI engines plug in via `EngineAdapter`; browsers and driver features are whatever the chosen adapter supports. Typical flows stay portable across adapters; engine-specific edges are an escape hatch, not the happy path.
 

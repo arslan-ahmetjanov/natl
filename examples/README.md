@@ -4,7 +4,7 @@
 
 # NATL examples
 
-Demo scenarios for the short **web UI + API** YAML language: same steps, swap stands with `--env`, run under `@natl/cli` + `@natl/adapter-playwright`.
+Demo scenarios for the **web UI + API** YAML language: same steps, swap stands with `--env`, run under `@natl/cli` + `@natl/adapter-playwright`.
 
 Logo assets: [`brand/`](./brand/).
 

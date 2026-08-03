@@ -4,7 +4,7 @@
 
 # NATL
 
-**Not Another Testing Language** — a short, open-source **test runner**: YAML scenarios for **web UI and API**.
+**Not Another Testing Language** — an open-source **test runner**: YAML scenarios for **web UI and API**.
 
 Write one compact scenario (optional POM). Run it locally or in CI. Keep it when the stack moves — swap `engine:` (`playwright` → `selenium` / `cypress`) without rewriting typical flows. Mix UI and HTTP in the same file.
 
@@ -16,7 +16,7 @@ Write one compact scenario (optional POM). Run it locally or in CI. Keep it when
 
 | | |
 |--|--|
-| **Short language** | Compact YAML, `elements` / `actions` / `do:` |
+| **Compact language** | Compact YAML, `elements` / `actions` / `do:` |
 | **Fullstack** | Web UI + API in one file (`with: http`) |
 | **One scenario, many contexts** | Stands (`--env`), vars, `cases:` — not `if: mobile` in steps |
 | **Portable via adapters** | Same YAML; browsers = what the adapter supports |

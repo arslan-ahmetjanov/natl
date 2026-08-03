@@ -23,12 +23,12 @@
   },
   "home": {
     "headline": "Тесты web UI и API на YAML.",
-    "lede": "Короткий open-source тест-раннер. Пишете сценарии на YAML, гоняете локально или в CI, оставляете их при смене браузерного стека."
+    "lede": "Open-source тест-раннер. Пишете сценарии на YAML, гоняете локально или в CI, оставляете их при смене браузерного стека."
   },
   "pages": {
     "home": {
       "title": "Главная",
-      "html": "\n<p>NATL — короткий open-source <strong>тест-раннер</strong>: сценарии на YAML для <strong>web UI и API</strong>. Один компактный сценарий, локально или в CI. Сменился браузерный стек — меняете <code>engine:</code>, а не весь сьют.</p>\n<p>С нуля? Откройте <a href=\"getting-started.html\">гайд</a> и начните с установки.</p>\n<div class=\"card-grid\">\n  <a class=\"card\" href=\"getting-started.html\"><h3>Гайд</h3><p>Установка, первый PASS, затем язык по блокам.</p></a>\n  <a class=\"card\" href=\"troubleshooting.html\"><h3>Сбои</h3><p>Типичные ошибки и что с ними делать.</p></a>\n  <a class=\"card\" href=\"adapters.html\"><h3>Адаптеры</h3><p>Playwright по умолчанию; Selenium и Cypress при необходимости.</p></a>\n  <a class=\"card\" href=\"canon.html\"><h3>Канон</h3><p>Зафиксированные решения по дизайну.</p></a>\n</div>\n<h2>Установка</h2>\n<pre><code>npm install -g @natl/cli @natl/adapter-playwright\nnpx playwright install chromium\nnatl --version</code></pre>\n<ul>\n  <li><a href=\"https://github.com/arslan-ahmetjanov/natl\">GitHub</a></li>\n  <li><a href=\"https://www.npmjs.com/package/@natl/cli\">npm @natl/cli</a></li>\n  <li><a href=\"https://github.com/arslan-ahmetjanov/natl/tree/main/examples\">examples/</a></li>\n</ul>\n<div class=\"author-block\">\n  <p><strong>Арслан Ахметжанов</strong></p>\n  <p class=\"muted\"><a href=\"https://telegram.me/arslan_ahmetjanov\">Telegram</a></p>\n</div>"
+      "html": "\n<p>NATL — open-source <strong>тест-раннер</strong>: сценарии на YAML для <strong>web UI и API</strong>. Один компактный сценарий, локально или в CI. Сменился браузерный стек — меняете <code>engine:</code>, а не весь сьют.</p>\n<p>С нуля? Откройте <a href=\"getting-started.html\">гайд</a> и начните с установки.</p>\n<div class=\"card-grid\">\n  <a class=\"card\" href=\"getting-started.html\"><h3>Гайд</h3><p>Установка, первый PASS, затем язык по блокам.</p></a>\n  <a class=\"card\" href=\"troubleshooting.html\"><h3>Сбои</h3><p>Типичные ошибки и что с ними делать.</p></a>\n  <a class=\"card\" href=\"adapters.html\"><h3>Адаптеры</h3><p>Playwright по умолчанию; Selenium и Cypress при необходимости.</p></a>\n  <a class=\"card\" href=\"canon.html\"><h3>Канон</h3><p>Зафиксированные решения по дизайну.</p></a>\n</div>\n<h2>Установка</h2>\n<pre><code>npm install -g @natl/cli @natl/adapter-playwright\nnpx playwright install chromium\nnatl --version</code></pre>\n<ul>\n  <li><a href=\"https://github.com/arslan-ahmetjanov/natl\">GitHub</a></li>\n  <li><a href=\"https://www.npmjs.com/package/@natl/cli\">npm @natl/cli</a></li>\n  <li><a href=\"https://github.com/arslan-ahmetjanov/natl/tree/main/examples\">examples/</a></li>\n</ul>\n<div class=\"author-block\">\n  <p><strong>Арслан Ахметжанов</strong></p>\n  <p class=\"muted\"><a href=\"https://telegram.me/arslan_ahmetjanov\">Telegram</a></p>\n</div>"
     },
     "guide": {
       "title": "Гайд",
@@ -48,7 +48,7 @@
     },
     "canon": {
       "title": "Канон",
-      "html": "\n<h1>Канон</h1>\n<table>\n<thead><tr><th>Верю</th><th>Значит</th></tr></thead>\n<tbody>\n<tr><td>Короткий язык</td><td>Smoke на один экран</td></tr>\n<tr><td>UI + API вместе</td><td><code>with: http</code> в одном файле</td></tr>\n<tr><td>Контекст вне шагов</td><td>config / <code>--env</code> / <code>cases:</code></td></tr>\n<tr><td>Портативность через адаптеры</td><td>Тот же YAML; браузеры = capability адаптера</td></tr>\n<tr><td>Честный потолок</td><td>~90% smokes; остальное — escape hatch</td></tr>\n<tr><td>Раннер ≠ TMS</td><td>CLI гоняет тесты — без дашборд-продукта</td></tr>\n</tbody>\n</table>"
+      "html": "\n<h1>Канон</h1>\n<table>\n<thead><tr><th>Верю</th><th>Значит</th></tr></thead>\n<tbody>\n<tr><td>Компактный язык</td><td>Smoke на один экран</td></tr>\n<tr><td>UI + API вместе</td><td><code>with: http</code> в одном файле</td></tr>\n<tr><td>Контекст вне шагов</td><td>config / <code>--env</code> / <code>cases:</code></td></tr>\n<tr><td>Портативность через адаптеры</td><td>Тот же YAML; браузеры = capability адаптера</td></tr>\n<tr><td>Честный потолок</td><td>~90% smokes; остальное — escape hatch</td></tr>\n<tr><td>Раннер ≠ TMS</td><td>CLI гоняет тесты — без дашборд-продукта</td></tr>\n</tbody>\n</table>"
     }
   }
 }

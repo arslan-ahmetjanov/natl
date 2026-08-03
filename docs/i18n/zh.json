@@ -23,12 +23,12 @@
   },
   "home": {
     "headline": "用 YAML 测 Web UI 与 API。",
-    "lede": "短小的开源测试运行器。用 YAML 写场景，本地或 CI 跑；浏览器栈变了也不必整套重写。"
+    "lede": "开源测试运行器。用 YAML 写场景，本地或 CI 跑；浏览器栈变了也不必整套重写。"
   },
   "pages": {
     "home": {
       "title": "首页",
-      "html": "\n<p>NATL 是短小的开源<strong>测试运行器</strong>：用 YAML 写 <strong>Web UI 与 API</strong> 场景。写一份紧凑场景，本地或 CI 运行；浏览器栈变了，改 <code>engine:</code> 即可，不必整套重写。</p>\n<p>第一次用？打开<a href=\"getting-started.html\">指南</a>，从安装开始。</p>\n<div class=\"card-grid\">\n  <a class=\"card\" href=\"getting-started.html\"><h3>指南</h3><p>安装、首次 PASS，再按块看语言。</p></a>\n  <a class=\"card\" href=\"troubleshooting.html\"><h3>排错</h3><p>常见失败与处理办法。</p></a>\n  <a class=\"card\" href=\"adapters.html\"><h3>适配器</h3><p>默认 Playwright；需要时用 Selenium / Cypress。</p></a>\n  <a class=\"card\" href=\"canon.html\"><h3>规范</h3><p>固定下来的设计取舍。</p></a>\n</div>\n<h2>安装</h2>\n<pre><code>npm install -g @natl/cli @natl/adapter-playwright\nnpx playwright install chromium\nnatl --version</code></pre>\n<ul>\n  <li><a href=\"https://github.com/arslan-ahmetjanov/natl\">GitHub</a></li>\n  <li><a href=\"https://www.npmjs.com/package/@natl/cli\">npm @natl/cli</a></li>\n  <li><a href=\"https://github.com/arslan-ahmetjanov/natl/tree/main/examples\">examples/</a></li>\n</ul>\n<div class=\"author-block\">\n  <p><strong>Arslan Ahmetjanov</strong></p>\n  <p class=\"muted\"><a href=\"https://telegram.me/arslan_ahmetjanov\">Telegram</a></p>\n</div>"
+      "html": "\n<p>NATL 是开源<strong>测试运行器</strong>：用 YAML 写 <strong>Web UI 与 API</strong> 场景。写一份紧凑场景，本地或 CI 运行；浏览器栈变了，改 <code>engine:</code> 即可，不必整套重写。</p>\n<p>第一次用？打开<a href=\"getting-started.html\">指南</a>，从安装开始。</p>\n<div class=\"card-grid\">\n  <a class=\"card\" href=\"getting-started.html\"><h3>指南</h3><p>安装、首次 PASS，再按块看语言。</p></a>\n  <a class=\"card\" href=\"troubleshooting.html\"><h3>排错</h3><p>常见失败与处理办法。</p></a>\n  <a class=\"card\" href=\"adapters.html\"><h3>适配器</h3><p>默认 Playwright；需要时用 Selenium / Cypress。</p></a>\n  <a class=\"card\" href=\"canon.html\"><h3>规范</h3><p>固定下来的设计取舍。</p></a>\n</div>\n<h2>安装</h2>\n<pre><code>npm install -g @natl/cli @natl/adapter-playwright\nnpx playwright install chromium\nnatl --version</code></pre>\n<ul>\n  <li><a href=\"https://github.com/arslan-ahmetjanov/natl\">GitHub</a></li>\n  <li><a href=\"https://www.npmjs.com/package/@natl/cli\">npm @natl/cli</a></li>\n  <li><a href=\"https://github.com/arslan-ahmetjanov/natl/tree/main/examples\">examples/</a></li>\n</ul>\n<div class=\"author-block\">\n  <p><strong>Arslan Ahmetjanov</strong></p>\n  <p class=\"muted\"><a href=\"https://telegram.me/arslan_ahmetjanov\">Telegram</a></p>\n</div>"
     },
     "guide": {
       "title": "指南",
@@ -48,7 +48,7 @@
     },
     "canon": {
       "title": "规范",
-      "html": "\n<h1>规范</h1>\n<table>\n<thead><tr><th>我相信</th><th>因此</th></tr></thead>\n<tbody>\n<tr><td>短语言</td><td>一个 smoke 放进一屏</td></tr>\n<tr><td>UI + API 一起</td><td>同一文件里 <code>with: http</code></td></tr>\n<tr><td>上下文在步骤外</td><td>config / <code>--env</code> / <code>cases:</code></td></tr>\n<tr><td>靠适配器可移植</td><td>同一份 YAML；浏览器 = 适配器能力</td></tr>\n<tr><td>诚实的能力边界</td><td>~90% smoke；其余用逃生舱</td></tr>\n<tr><td>运行器 ≠ TMS</td><td>CLI 跑测试 — 不是仪表盘产品</td></tr>\n</tbody>\n</table>"
+      "html": "\n<h1>规范</h1>\n<table>\n<thead><tr><th>我相信</th><th>因此</th></tr></thead>\n<tbody>\n<tr><td>紧凑语言</td><td>一个 smoke 放进一屏</td></tr>\n<tr><td>UI + API 一起</td><td>同一文件里 <code>with: http</code></td></tr>\n<tr><td>上下文在步骤外</td><td>config / <code>--env</code> / <code>cases:</code></td></tr>\n<tr><td>靠适配器可移植</td><td>同一份 YAML；浏览器 = 适配器能力</td></tr>\n<tr><td>诚实的能力边界</td><td>~90% smoke；其余用逃生舱</td></tr>\n<tr><td>运行器 ≠ TMS</td><td>CLI 跑测试 — 不是仪表盘产品</td></tr>\n</tbody>\n</table>"
     }
   }
 }
