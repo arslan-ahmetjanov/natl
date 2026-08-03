@@ -272,6 +272,48 @@ html[data-theme="dark"] .hero img.lockup {
   margin: 2rem 0 0.75rem;
   padding-bottom: 0.35rem;
   border-bottom: 1px solid var(--border);
+  scroll-margin-top: 5rem;
+}
+
+.course-toc {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem 1.15rem;
+  margin: 1.25rem 0 1.75rem;
+  box-shadow: var(--shadow);
+}
+
+.course-toc h2 {
+  margin: 0 0 0.65rem;
+  border: none;
+  padding: 0;
+  font-size: 1rem;
+}
+
+.course-toc ol {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.course-toc li {
+  margin: 0.25rem 0;
+}
+
+.course-toc a {
+  text-decoration: none;
+}
+
+.course-toc a:hover {
+  text-decoration: underline;
+}
+
+.callout {
+  border-left: 3px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, var(--bg-elevated));
+  padding: 0.85rem 1rem;
+  border-radius: 0 10px 10px 0;
+  margin: 1.1rem 0;
 }
 
 .content h3 {

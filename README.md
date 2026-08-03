@@ -42,7 +42,7 @@ Or try the demos in [`examples/`](./examples/).
 ## Documentation
 
 Site (EN / RU / 中文 / ES · light & dark): **https://arslan-ahmetjanov.github.io/natl/**  
-Start with the [tutorial](https://arslan-ahmetjanov.github.io/natl/getting-started.html) — written in first person by the author.
+Start with the [course](https://arslan-ahmetjanov.github.io/natl/getting-started.html) (lectures + problem set). Full language map: [syntax](https://arslan-ahmetjanov.github.io/natl/syntax.html).
 
 ## Packages
 

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" data-theme="light">
   <head>
     <meta charset="utf-8" />
@@ -19,7 +19,7 @@
         </a>
         <nav class="nav" aria-label="Docs">
           <a href="index.html" data-i18n="nav.home">Home</a>
-          <a href="getting-started.html" data-i18n="nav.gettingStarted">Tutorial</a>
+          <a href="getting-started.html" data-i18n="nav.gettingStarted">Course</a>
           <a href="syntax.html" data-i18n="nav.syntax">Syntax</a>
           <a href="troubleshooting.html" data-i18n="nav.troubleshooting">Troubleshooting</a>
           <a href="canon.html" data-i18n="nav.canon">Canon</a>
@@ -40,8 +40,7 @@
     <main class="shell">
       <article class="content" data-page-content>
 <h1>Adapters</h1>
-<p>The YAML is the contract. Adapters are how we drive a browser — or skip the browser for HTTP.</p>
-<p>I default to Playwright because it's the happiest path for most people. Selenium and Cypress are there when your team already standardized on them.</p>
+<p>The YAML is the contract. Adapters drive a browser — or skip it for HTTP.</p>
 <table>
 <thead><tr><th>engine</th><th>Package</th><th>When I pick it</th></tr></thead>
 <tbody>
@@ -51,21 +50,12 @@
 <tr><td><code>http</code></td><td>built into <code>@natl/core</code></td><td>API-only scenarios</td></tr>
 </tbody>
 </table>
-<pre><code># natl.config.yaml
-engine: playwright
+<pre><code>engine: playwright
 browser: chromium
 headless: true</code></pre>
 <pre><code>natl run suite.yaml --engine selenium</code></pre>
-<h2>UI + HTTP in one file</h2>
-<pre><code>engine: playwright
-steps:
-  - goto: $base_url
-  - with: http
-    steps:
-      - get: $api_base/get
-        save: ping
-      - assert: $ping.status == 200</code></pre>
-<p class="muted">Browsers are an adapter capability — NATL doesn't hard-code a matrix in the language.</p>
+<p>UI + HTTP in one file → <code>with: http</code> (see the <a href="getting-started.html#l6">course, Lecture 6</a>).</p>
+<p class="muted">Browsers are an adapter capability — not a hard-coded matrix in the language.</p>
       </article>
     </main>
     <footer class="footer">

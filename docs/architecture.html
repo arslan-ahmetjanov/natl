@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" data-theme="light">
   <head>
     <meta charset="utf-8" />
@@ -19,7 +19,7 @@
         </a>
         <nav class="nav" aria-label="Docs">
           <a href="index.html" data-i18n="nav.home">Home</a>
-          <a href="getting-started.html" data-i18n="nav.gettingStarted">Tutorial</a>
+          <a href="getting-started.html" data-i18n="nav.gettingStarted">Course</a>
           <a href="syntax.html" data-i18n="nav.syntax">Syntax</a>
           <a href="troubleshooting.html" data-i18n="nav.troubleshooting">Troubleshooting</a>
           <a href="canon.html" data-i18n="nav.canon">Canon</a>
@@ -40,17 +40,14 @@
     <main class="shell">
       <article class="content" data-page-content>
 <h1>Architecture</h1>
-<p>Here's the mental model I use when I explain NATL on a whiteboard:</p>
+<p>Mental model I draw on a whiteboard:</p>
 <ul>
   <li><strong>You write YAML</strong> — what to test</li>
-  <li><strong>@natl/core</strong> — parses it, runs steps, talks HTTP</li>
-  <li><strong>@natl/cli</strong> — the <code>natl</code> command you type</li>
-  <li><strong>adapters</strong> — how clicks and asserts hit a real browser</li>
+  <li><strong>@natl/cli</strong> — finds files, loads config, filters tags</li>
+  <li><strong>@natl/core</strong> — parses, interpolates, runs the interpreter</li>
+  <li><strong>Adapter</strong> — Playwright / Selenium / Cypress — or built-in <code>http</code></li>
 </ul>
-<pre><code>YAML  →  CLI  →  core  →  adapter-playwright (or selenium / cypress)
-                     ↘  http (built-in)</code></pre>
-<p>That's why swapping engines is a config change for typical flows. Edge cases will always exist — I try to be honest about that in the <a href="canon.html">canon</a>.</p>
-<p class="muted">Monorepo: <code>core/</code>, <code>adapter-*</code>, <code>cli/</code>, <code>examples/</code>, <code>docs/</code>.</p>
+<p>Typical flows stay portable when you change <code>engine:</code>. Rare edges live in the <a href="canon.html">canon</a>.</p>
       </article>
     </main>
     <footer class="footer">

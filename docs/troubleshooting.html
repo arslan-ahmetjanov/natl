@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" data-theme="light">
   <head>
     <meta charset="utf-8" />
@@ -19,7 +19,7 @@
         </a>
         <nav class="nav" aria-label="Docs">
           <a href="index.html" data-i18n="nav.home">Home</a>
-          <a href="getting-started.html" data-i18n="nav.gettingStarted">Tutorial</a>
+          <a href="getting-started.html" data-i18n="nav.gettingStarted">Course</a>
           <a href="syntax.html" data-i18n="nav.syntax">Syntax</a>
           <a href="troubleshooting.html" aria-current="page" data-i18n="nav.troubleshooting">Troubleshooting</a>
           <a href="canon.html" data-i18n="nav.canon">Canon</a>
@@ -41,44 +41,29 @@
       <article class="content" data-page-content>
 <h1>Troubleshooting</h1>
 <p>When something breaks, I look here before I rewrite the scenario. You should too.</p>
-
 <h2><code>natl: command not found</code></h2>
-<p>The global install didn't land on your <code>PATH</code>. Try:</p>
 <pre><code>npm install -g @natl/cli @natl/adapter-playwright
 npm prefix -g
-# ensure that bin directory is on PATH
 natl --version</code></pre>
-
 <h2>Browser / Chromium errors</h2>
 <pre><code>npx playwright install chromium
-# or, with system deps on Linux CI:
 npx playwright install --with-deps chromium</code></pre>
-
 <h2><code>FAIL … assert</code> / element not found</h2>
 <ul>
-  <li>Open the page yourself — is the selector still right?</li>
-  <li>Prefer stable <code>#id</code> / roles over long CSS chains</li>
-  <li>Check the screenshot under <code>artifacts/</code> next to the scenario</li>
+  <li>Is the selector still right?</li>
+  <li>Prefer stable <code>#id</code> over long CSS chains</li>
+  <li>Check the screenshot under <code>artifacts/</code></li>
 </ul>
-
 <h2>YAML indentation</h2>
-<p>NATL is YAML. Two spaces. If the IDE screams, trust it. Sibling keys belong under the step:</p>
 <pre><code>- fill: "#email"
   with: $user</code></pre>
-
 <h2>HTTP examples hang or fail</h2>
-<p>My HTTP demos expect a local stub:</p>
 <pre><code>node stubs/echo-server.mjs
-# then in another terminal:
 natl run http_only.yaml</code></pre>
-
 <h2>Wrong engine / adapter missing</h2>
 <pre><code>natl engines
 npm install -g @natl/adapter-playwright</code></pre>
-<p>Default UI engine is Playwright. Say so in <code>natl.config.yaml</code> or the scenario.</p>
-
-<h2>Still stuck?</h2>
-<p>Open an issue on <a href="https://github.com/arslan-ahmetjanov/natl/issues">GitHub</a> with the FAIL line and your OS. I'll read it.</p>
+<p>Still stuck? Open an issue on <a href="https://github.com/arslan-ahmetjanov/natl/issues">GitHub</a> with the FAIL line and your OS.</p>
 <p class="muted">— Arslan</p>
       </article>
     </main>

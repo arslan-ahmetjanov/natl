@@ -1,0 +1,278 @@
+<h1>Curso</h1>
+<p>Bienvenido. Soy <strong>Arslan</strong>, y así enseño NATL — el camino que me hubiera gustado que alguien me guiara.</p>
+<p>Instalarás el runner, conseguirás un <code>PASS</code> en verde y aprenderás el lenguaje pieza por pieza: UI, variables, config, page objects, filas data-driven, HTTP y control de flujo. Al final deberías poder escribir una suite smoke real sin adivinar.</p>
+<p class="muted">Calcula más o menos una tarde de trabajo concentrado. Repasa el syllabus y luego haz las clases en orden. La página <a href="syntax.html">Sintaxis</a> es la referencia completa — vuelve a ella seguido.</p>
+
+<nav class="course-toc" aria-label="Syllabus">
+  <h2>Syllabus</h2>
+  <ol>
+    <li><a href="#l0">Clase 0 — Instalación y primer PASS</a></li>
+    <li><a href="#l1">Clase 1 — Anatomía de un escenario</a></li>
+    <li><a href="#l2">Clase 2 — Pasos UI y asserts</a></li>
+    <li><a href="#l3">Clase 3 — Vars, secrets y config del proyecto</a></li>
+    <li><a href="#l4">Clase 4 — Page objects (<code>do:</code>)</a></li>
+    <li><a href="#l5">Clase 5 — Data-driven <code>cases:</code></a></li>
+    <li><a href="#l6">Clase 6 — HTTP y <code>with: http</code></a></li>
+    <li><a href="#l7">Clase 7 — Flujo: if / for / repeat / parallel</a></li>
+    <li><a href="#l8">Clase 8 — Tags, retries y filtros CLI</a></li>
+    <li><a href="#ps">Problem set</a></li>
+  </ol>
+</nav>
+
+<h2 id="l0">Clase 0 — Instalación y primer PASS</h2>
+<p><strong>Objetivo:</strong> ver <code>✓ PASS</code> en un escenario real que ya escribí.</p>
+<p><strong>Necesitas:</strong> Node.js 18+, una terminal, unos quince minutos.</p>
+<pre><code>npm install -g @natl/cli @natl/adapter-playwright
+npx playwright install chromium
+natl --version</code></pre>
+<p>Clona el repo y ejecuta el fixture de login (HTML local — sin sitio público inestable):</p>
+<pre><code>git clone https://github.com/arslan-ahmetjanov/natl.git
+cd natl/examples
+natl run login.yaml</code></pre>
+<p>¿Esa sensación cuando pasa? Consérvala. Todo lo demás en este curso es más de eso.</p>
+<p class="callout"><strong>Prueba esto:</strong> rompe el texto del assert a propósito, vuelve a ejecutar, lee la línea FAIL (archivo + paso). Arréglalo. El aprendizaje empieza cuando rompes cosas con seguridad.</p>
+
+<h2 id="l1">Clase 1 — Anatomía de un escenario</h2>
+<p>Abre <code>examples/login.yaml</code> conmigo:</p>
+<pre><code>name: Login smoke
+engine: playwright
+tags: [smoke]
+vars:
+  base_url: ./fixtures/shop.html
+  user: demo@test.com
+  pass: secret
+steps:
+  - goto: $base_url
+  - fill: "#email"
+    with: $user
+  - fill: "#password"
+    with: $pass
+  - click: "#login-btn"
+  - assert: ".welcome"
+    text: "Добро пожаловать"</code></pre>
+<p>De arriba a abajo:</p>
+<ul>
+  <li><code>name</code> — lo que ves en el reporte</li>
+  <li><code>engine</code> — cómo manejamos el navegador (<code>playwright</code> por defecto; también <code>selenium</code>, <code>cypress</code> o <code>http</code>)</li>
+  <li><code>tags</code> — etiquetas opcionales para <code>--tags</code></li>
+  <li><code>vars</code> — valores que referencias como <code>$user</code></li>
+  <li><code>steps</code> — el script</li>
+</ul>
+<p>Otros campos raíz que verás pronto: <code>timeout</code>, <code>retries</code>, <code>secrets</code>, <code>imports</code>, <code>cases</code>, <code>before_each</code> / <code>after_each</code>, <code>elements</code>, <code>actions</code>, <code>locator_strategy</code>, <code>data</code>. Lista completa → <a href="syntax.html">Sintaxis</a>.</p>
+<p>Prepara tu propio proyecto cuando quieras dejar mis fixtures:</p>
+<pre><code>mkdir my-tests &amp;&amp; cd my-tests
+natl init
+natl run tests/</code></pre>
+
+<h2 id="l2">Clase 2 — Pasos UI y asserts</h2>
+<p>Diseñé los verbos para que un smoke quepa en una pantalla. Ritmo principal: <strong>objetivo + comprobación</strong>.</p>
+<pre><code>- goto: $base_url
+- fill: "#email"
+  with: $user
+- select: "#country"
+  with: "KZ"
+- check: "#agree"
+- click: "#submit"          # tap: is the same step
+- assert: ".ok"
+  text: "Done"
+- assert: ".ok"
+  contains: "Do"
+- assert: ".banner"
+  visible: true
+- assert: ".banner"
+  attr: class contains "active"
+- assert: current_url contains "/dashboard"</code></pre>
+<p><strong>Auto-wait:</strong> acciones y asserts esperan el objetivo dentro de <code>timeout</code>. Normalmente <em>no</em> necesitas <code>wait: ".ok visible"</code> antes de un assert.</p>
+<p>Usa <code>wait:</code> explícito para retrasos (<code>wait: 500</code>), <code>hidden</code> / <code>attached</code> / <code>detached</code>, o tiempos poco habituales.</p>
+<p>Fallos suaves (recopilar, no parar):</p>
+<pre><code>- assert: ".price"
+  text: "$10"
+  soft: true
+# alias:
+- soft_assert: ".stock"
+  visible: true</code></pre>
+<p>Captura y extrae cuando necesites un valor después:</p>
+<pre><code>- get_text: ".title"
+  save: page_title
+- get_attr: "#link"
+  attr: href
+  save: href
+- screenshot:
+    file: artifacts/after-login.png
+    full_page: true
+- set: $total = $price * $qty
+- log: "total=$total"</code></pre>
+<p>Gestos (el mismo escenario para web de escritorio y móvil — sin <code>if: mobile</code>):</p>
+<pre><code>- scroll: "#footer"
+  into_view: true
+- swipe: "#carousel"
+  direction: left
+- long_press: "#card"
+  duration_ms: 700</code></pre>
+<p class="callout"><strong>Prueba esto:</strong> ejecuta <code>examples/soft_assert_demo.yaml</code> y <code>examples/gestures_demo.yaml</code>.</p>
+
+<h2 id="l3">Clase 3 — Vars, secrets y config del proyecto</h2>
+<p><code>$name</code> viene de <code>vars</code> (y de filas de case, includes, llamadas POM). Anidado: <code>$order.id</code>.</p>
+<p>Secrets desde el entorno — nunca subas contraseñas reales:</p>
+<pre><code>secrets:
+  env:
+    file: .env
+
+vars:
+  user: $env.TEST_USER
+  pass: $secret.TEST_PASS</code></pre>
+<p><code>$env.KEY</code> y <code>$secret.KEY</code> leen el mismo almacén; los secrets se enmascaran en logs. Ver <code>examples/env_login.yaml</code>.</p>
+<p>Los defaults del proyecto viven en <code>natl.config.yaml</code>:</p>
+<pre><code>engine: playwright
+browser: chromium
+timeout: 15000
+base_url: https://staging.example.com
+headless: true
+artifacts_dir: artifacts
+retries: 0
+trace: on-fail
+video: off</code></pre>
+<p>Entornos sin copiar URLs en cada archivo:</p>
+<pre><code>config/staging.yaml
+config/prod.yaml
+
+natl run tests/ --env staging
+natl run tests/ --config config/prod.yaml</code></pre>
+<p>Orden de merge (gana el más alto): flags CLI → YAML del test → perfil env → <code>natl.config</code> → defaults.</p>
+
+<h2 id="l4">Clase 4 — Page objects (<code>do:</code>)</h2>
+<p>Pon selectores y flujos con nombre en un archivo de página. Llámalos desde el escenario.</p>
+<pre><code># pages/login.yaml
+elements:
+  email: "#email"
+  password: "#password"
+  submit: "#login-btn"
+actions:
+  login:
+    - fill: $email
+      with: $user
+    - fill: $password
+      with: $pass
+    - click: $submit
+
+# pom_login.yaml
+imports:
+  - pages/login.yaml
+steps:
+  - goto: $base_url
+  - do: login.login
+    user: $user
+    pass: $pass</code></pre>
+<p><code>do: page.action</code> es el camino feliz. <code>include: login/login</code> es la forma de más bajo nivel (archivo o reutilización de archivo entero). Las claves hermanas en <code>do:</code> se fusionan en el scope de la action.</p>
+<p>La estrategia de locator vive en config / page / element — no en cada paso. Web hoy: <code>css</code>, <code>xpath</code>.</p>
+<pre><code>elements:
+  title:
+    strategy: xpath
+    value: "//h1"</code></pre>
+<p class="callout"><strong>Prueba esto:</strong> <code>natl run pom_login.yaml</code> desde <code>examples/</code>.</p>
+
+<h2 id="l5">Clase 5 — Data-driven <code>cases:</code></h2>
+<p>Un escenario, muchas filas. Cada fila se fusiona en vars y ejecuta <code>steps</code> una vez.</p>
+<pre><code>name: Data-driven login
+cases:
+  - { name: user1, user: "a@test.com", pass: secret, expect: "Welcome, A" }
+  - { name: user2, user: "b@test.com", pass: secret, expect: "Welcome, B" }
+steps:
+  - goto: $base_url
+  - fill: "#email"
+    with: $user
+  - fill: "#password"
+    with: $pass
+  - click: "#login-btn"
+  - assert: ".welcome"
+    text: $expect</code></pre>
+<p>Los nombres en el reporte se ven como <code>Data-driven login [user1]</code>. Usa <code>name</code> o <code>label</code> en la fila; si no, <code>[case N]</code>.</p>
+<p>Para bucles anidados o calculados, usa <code>data:</code> + <code>for:</code> (siguiente clase). Prefiere <code>cases:</code> para tablas simples.</p>
+<p class="callout"><strong>Prueba esto:</strong> <code>natl run data_driven.yaml</code>.</p>
+
+<h2 id="l6">Clase 6 — HTTP y <code>with: http</code></h2>
+<p>Escenario solo API:</p>
+<pre><code>engine: http
+vars:
+  base_url: http://127.0.0.1:8765
+steps:
+  - get: $base_url/get
+    save: ping
+  - post: $base_url/post
+    body: { hello: world }
+    headers: { X-Test: "1" }
+    save: echo
+  - assert: $echo.status == 200
+  - assert: $echo.ok == true</code></pre>
+<p>Verbos: <code>get</code> / <code>post</code> / <code>put</code> / <code>patch</code> / <code>delete</code>. Valor guardado: <code>{ status, headers, body, ok }</code>. El legacy <code>api:</code> sigue funcionando — prefiere los verbos.</p>
+<p>UI + API en un archivo — cambia contexto con un bloque (no un <code>engine:</code> por paso):</p>
+<pre><code>engine: playwright
+steps:
+  - goto: $base_url
+  - with: http
+    steps:
+      - get: $api_base/get
+        save: ping
+      - assert: $ping.status == 200
+  - click: "#refresh"</code></pre>
+<p>Mis demos HTTP necesitan el stub local primero:</p>
+<pre><code>node stubs/echo-server.mjs
+# other terminal:
+natl run http_only.yaml
+natl run ui_http_block.yaml</code></pre>
+
+<h2 id="l7">Clase 7 — Flujo: if / for / repeat / parallel</h2>
+<pre><code>- if: $role == "admin"
+  then:
+    - click: "#admin"
+  else:
+    - click: "#user"
+
+- for: $item in $data
+  steps:
+    - log: $item.name
+
+- for: $i in range(1, 3)
+  steps:
+    - log: "i=$i"
+
+- repeat: 3
+  steps:
+    - click: "#next"   # sets $i each time
+
+- repeat:
+    until: $done == true
+  steps:
+    - click: "#poll"
+
+- parallel:
+    - get: $api/a
+      save: a
+    - get: $api/b
+      save: b</code></pre>
+<p><code>before_each</code> / <code>after_each</code> se ejecutan alrededor de <code>steps</code> en cada intento (incluidos retries).</p>
+<p>Expresiones: <code>== != &gt; &lt; &gt;= &lt;= contains matches and or not</code>. Builtins incluyen <code>now</code>, <code>today</code>, <code>random_*</code>, <code>len</code>, <code>trim</code>, <code>upper</code>, <code>lower</code>, <code>range</code>, y más — ver <a href="syntax.html#expressions">Sintaxis → Expresiones</a>.</p>
+
+<h2 id="l8">Clase 8 — Tags, retries y filtros CLI</h2>
+<pre><code>name: Checkout
+tags: [smoke, checkout]
+retries: 1</code></pre>
+<pre><code>natl run tests/ --tags smoke
+natl run tests/ --tags smoke,auth
+natl run tests/ --grep "Login"
+natl run tests/ --retries 2
+natl run suite.yaml --engine selenium
+natl run suite.yaml --headed</code></pre>
+<p><code>--tags</code> es OR. Combinado con <code>--grep</code> → AND. Cero coincidencias → exit 1.</p>
+<p>Los retries vuelven a ejecutar el escenario <em>entero</em> con un contexto de navegador nuevo. Gana el último intento; el JSON puede marcar <code>flaky: true</code>.</p>
+
+<h2 id="ps">Problem set</h2>
+<ol>
+  <li>Desde <code>examples/</code>, pon en verde <code>login.yaml</code>, <code>pom_login.yaml</code> y <code>data_driven.yaml</code>.</li>
+  <li><code>natl init</code> en una carpeta nueva. Apunta <code>base_url</code> a una página que te importe. Escribe un smoke de tres pasos.</li>
+  <li>Extrae selectores a <code>pages/</code> y llámalos con <code>do:</code>.</li>
+  <li>Añade un bloque <code>with: http</code> que compruebe un endpoint de health (usa el echo stub si lo necesitas).</li>
+  <li>Etiquétalo <code>smoke</code> y ejecuta con <code>--tags smoke</code>.</li>
+</ol>
+<p>Si te atasacas — <a href="troubleshooting.html">Troubleshooting</a>. Si necesitas cada campo — <a href="syntax.html">Sintaxis</a>.</p>
+<p class="muted">Este es el curso. Seguiré enseñando mientras el lenguaje crece. — Arslan</p>
