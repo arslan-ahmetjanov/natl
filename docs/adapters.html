@@ -17,14 +17,13 @@
           <img src="assets/img/natl-icon.svg" alt="" width="42" height="42" />
           <div class="brand-text">natl<span data-i18n="meta.tagline">Not Another Testing Language</span></div>
         </a>
-        <nav class="nav" aria-label="Docs">
+                        <nav class="nav" aria-label="Docs">
           <a href="index.html" data-i18n="nav.home">Home</a>
-          <a href="getting-started.html" data-i18n="nav.gettingStarted">Course</a>
-          <a href="syntax.html" data-i18n="nav.syntax">Syntax</a>
+          <a href="getting-started.html" data-i18n="nav.guide">Guide</a>
           <a href="troubleshooting.html" data-i18n="nav.troubleshooting">Troubleshooting</a>
           <a href="canon.html" data-i18n="nav.canon">Canon</a>
           <a href="architecture.html" data-i18n="nav.architecture">Architecture</a>
-          <a href="adapters.html" aria-current="page" data-i18n="nav.adapters">Adapters</a>
+          <a href="adapters.html" data-i18n="nav.adapters" aria-current="page">Adapters</a>
         </nav>
         <div class="controls">
           <select data-lang-select aria-label="Language">
@@ -42,25 +41,21 @@
 <h1>Adapters</h1>
 <p>The YAML is the contract. Adapters drive a browser — or skip it for HTTP.</p>
 <table>
-<thead><tr><th>engine</th><th>Package</th><th>When I pick it</th></tr></thead>
+<thead><tr><th>engine</th><th>Package</th><th>When</th></tr></thead>
 <tbody>
-<tr><td><code>playwright</code></td><td><code>@natl/adapter-playwright</code></td><td>Default. New projects. CI.</td></tr>
-<tr><td><code>selenium</code></td><td><code>@natl/adapter-selenium</code></td><td>Existing WebDriver / Grid</td></tr>
-<tr><td><code>cypress</code></td><td><code>@natl/adapter-cypress</code></td><td>Cypress-heavy teams (MVP bridge)</td></tr>
-<tr><td><code>http</code></td><td>built into <code>@natl/core</code></td><td>API-only scenarios</td></tr>
+<tr><td><code>playwright</code></td><td><code>@natl/adapter-playwright</code></td><td>Default</td></tr>
+<tr><td><code>selenium</code></td><td><code>@natl/adapter-selenium</code></td><td>WebDriver / Grid</td></tr>
+<tr><td><code>cypress</code></td><td><code>@natl/adapter-cypress</code></td><td>Cypress teams (MVP)</td></tr>
+<tr><td><code>http</code></td><td>built into <code>@natl/core</code></td><td>API-only</td></tr>
 </tbody>
 </table>
-<pre><code>engine: playwright
-browser: chromium
-headless: true</code></pre>
 <pre><code>natl run suite.yaml --engine selenium</code></pre>
-<p>UI + HTTP in one file → <code>with: http</code> (see the <a href="getting-started.html#l6">course, Lecture 6</a>).</p>
-<p class="muted">Browsers are an adapter capability — not a hard-coded matrix in the language.</p>
+<p>UI + HTTP → <code>with: http</code> in the <a href="getting-started.html#http">guide</a>.</p>
       </article>
     </main>
     <footer class="footer">
       <div class="shell">
-        <span data-i18n="footer.line">Built by Arslan Ahmetjanov · MIT License.</span>
+                        <span data-i18n="footer.line">Built by Arslan Ahmetjanov · MIT License.</span>
         · <a href="https://github.com/arslan-ahmetjanov/natl">GitHub</a>
         · <a href="https://www.npmjs.com/package/@natl/cli">npm</a>
       </div>

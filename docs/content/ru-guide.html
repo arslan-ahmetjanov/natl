@@ -1,0 +1,325 @@
+<h1>Гайд</h1>
+<p>Я <strong>Арслан</strong>. Весь NATL в одном месте — установка, первый зелёный прогон, затем каждый публичный кусок языка, блок за блоком.</p>
+<p class="muted">В первый раз читайте сверху вниз. Потом прыгайте по оглавлению.</p>
+
+<nav class="course-toc" aria-label="Содержание">
+  <h2>Содержание</h2>
+  <ol>
+    <li><a href="#install">Установка</a></li>
+    <li><a href="#first-run">Первый прогон</a></li>
+    <li><a href="#anatomy">Анатомия сценария</a></li>
+    <li><a href="#config">Конфиг проекта и env</a></li>
+    <li><a href="#ui">UI-шаги</a></li>
+    <li><a href="#assert">Assert</a></li>
+    <li><a href="#extract">Извлечение, set, log, screenshot</a></li>
+    <li><a href="#gestures">Жесты</a></li>
+    <li><a href="#vars">Vars, secrets, expressions</a></li>
+    <li><a href="#pom">Page objects</a></li>
+    <li><a href="#cases">Cases и data</a></li>
+    <li><a href="#http">HTTP</a></li>
+    <li><a href="#flow">Поток</a></li>
+    <li><a href="#cli">Tags, retries, CLI</a></li>
+    <li><a href="#sugar">Компактная форма и sugar</a></li>
+    <li><a href="#next">Что дальше</a></li>
+  </ol>
+</nav>
+
+<h2 id="install">Установка</h2>
+<p>Нужны Node.js <strong>18+</strong> и терминал.</p>
+<pre><code>npm install -g @natl/cli @natl/adapter-playwright
+npx playwright install chromium
+natl --version</code></pre>
+<p>Если <code>natl --version</code> печатает число — вы внутри. Если нет — <a href="troubleshooting.html">Сбои</a>.</p>
+<p>Свой пустой проект:</p>
+<pre><code>mkdir my-tests &amp;&amp; cd my-tests
+natl init
+natl run tests/</code></pre>
+
+<h2 id="first-run">Первый прогон</h2>
+<p>Клонируйте репозиторий и прогоните login из <code>examples/</code> (локальный HTML — без чужого сайта):</p>
+<pre><code>git clone https://github.com/arslan-ahmetjanov/natl.git
+cd natl/examples
+natl run login.yaml</code></pre>
+<p>Должен быть <code>✓ PASS</code>. Сломайте текст assert нарочно, запустите снова, прочитайте FAIL, почините — так учится раннер.</p>
+
+<h2 id="anatomy">Анатомия сценария</h2>
+<pre><code>name: Login smoke
+engine: playwright
+tags: [smoke]
+timeout: 15000
+retries: 0
+vars:
+  base_url: ./fixtures/shop.html
+  user: demo@test.com
+  pass: secret
+steps:
+  - goto: $base_url
+  - fill: "#email"
+    with: $user
+  - fill: "#password"
+    with: $pass
+  - click: "#login-btn"
+  - assert: ".welcome"
+    text: "Добро пожаловать"</code></pre>
+<p>Корневые поля:</p>
+<table>
+<thead><tr><th>Поле</th><th>Смысл</th></tr></thead>
+<tbody>
+<tr><td><code>name</code></td><td>Имя в отчёте и для <code>--grep</code></td></tr>
+<tr><td><code>tags</code></td><td>Метки для <code>--tags</code></td></tr>
+<tr><td><code>engine</code></td><td><code>playwright</code> | <code>selenium</code> | <code>cypress</code> | <code>http</code></td></tr>
+<tr><td><code>timeout</code></td><td>Таймаут шага по умолчанию (мс)</td></tr>
+<tr><td><code>retries</code></td><td>Доп. попытки всего сценария после FAIL</td></tr>
+<tr><td><code>vars</code></td><td>Переменные (<code>$name</code>)</td></tr>
+<tr><td><code>secrets</code></td><td>Как грузить секреты</td></tr>
+<tr><td><code>imports</code></td><td>Пути к page / shared YAML</td></tr>
+<tr><td><code>elements</code> / <code>actions</code></td><td>POM-локаторы и именованные потоки</td></tr>
+<tr><td><code>locator_strategy</code></td><td>Дефолт для строковых селекторов (<code>css</code> | <code>xpath</code>)</td></tr>
+<tr><td><code>cases</code></td><td>Строки data-driven</td></tr>
+<tr><td><code>data</code></td><td>Массив как <code>$data</code> для <code>for:</code></td></tr>
+<tr><td><code>before_each</code> / <code>after_each</code></td><td>Хуки вокруг <code>steps</code> на попытку</td></tr>
+<tr><td><code>steps</code></td><td>Основной список шагов</td></tr>
+</tbody>
+</table>
+<p>У шага также: <code>timeout</code>, <code>save</code>, <code>debug</code>. Смена engine внутри сценария — блок <code>with:</code>.</p>
+
+<h2 id="config">Конфиг проекта и env</h2>
+<pre><code>engine: playwright
+browser: chromium
+timeout: 15000
+base_url: https://staging.example.com
+headless: true
+viewport: { width: 1280, height: 720 }
+locator_strategy: css
+artifacts_dir: artifacts
+retries: 0
+trace: on-fail
+video: off
+soft_assert_screenshot: false</code></pre>
+<pre><code>natl run tests/ --env staging
+natl run tests/ --config config/prod.yaml</code></pre>
+<p><code>--env</code> грузит <code>config/&lt;name&gt;.yaml</code>. <code>--env</code> и <code>--config</code> взаимоисключающие.</p>
+<p><strong>Приоритет:</strong> CLI → YAML теста → env-профиль → base config → defaults.</p>
+
+<h2 id="ui">UI-шаги</h2>
+<table>
+<thead><tr><th>Глагол</th><th>Форма</th></tr></thead>
+<tbody>
+<tr><td><code>goto</code></td><td>URL, <code>file://</code> или относительный путь → локальный файл</td></tr>
+<tr><td><code>click</code> / <code>tap</code></td><td>Один шаг; предпочитаю <code>click:</code></td></tr>
+<tr><td><code>fill</code></td><td>локатор + <code>with:</code></td></tr>
+<tr><td><code>select</code></td><td>локатор + <code>with:</code> (value опции)</td></tr>
+<tr><td><code>check</code> / <code>uncheck</code></td><td>локатор</td></tr>
+<tr><td><code>wait</code></td><td>мс, или селектор + <code>visible</code> | <code>hidden</code> | <code>attached</code> | <code>detached</code></td></tr>
+</tbody>
+</table>
+<pre><code>- goto: $base_url
+- fill: "#email"
+  with: $user
+- select: "#country"
+  with: "KZ"
+- check: "#agree"
+- click: "#submit"
+- wait: 500
+- wait: ".modal hidden"</code></pre>
+<p><strong>Auto-wait:</strong> действия и assert ждут цель в пределах <code>timeout</code>. Обычно не нужен <code>wait: ".ok visible"</code> перед assert.</p>
+
+<h2 id="assert">Assert</h2>
+<pre><code>- assert: ".welcome"
+  text: "Hello"
+- assert: ".welcome"
+  contains: "Hell"
+- assert: $welcome
+  visible: true
+- assert: ".banner"
+  hidden: true
+- assert: ".price"
+  attr: class contains "sale"
+- assert: current_url contains "/app"
+- assert: $ping.status == 200
+- assert: ".price"
+  text: "$10"
+  soft: true
+- soft_assert: ".stock"
+  visible: true</code></pre>
+<p>Операторы в <code>attr:</code>: <code>==</code>, <code>!=</code>, <code>contains</code>, <code>matches</code>. Soft собирает ошибки; hard — fail-fast.</p>
+
+<h2 id="extract">Извлечение, set, log, screenshot</h2>
+<pre><code>- get_text: ".title"
+  save: title
+- get_attr: "a"
+  attr: href
+  save: href
+- set: $total = $price * $qty
+- log: "total=$total"
+- log: { message: "x", level: warn }
+- debug: true
+- screenshot:
+    file: artifacts/shot.png
+    full_page: true</code></pre>
+
+<h2 id="gestures">Жесты</h2>
+<p>Одни и те же шаги для desktop и mobile web — без <code>if: mobile</code>.</p>
+<pre><code>- scroll: "#footer"
+  into_view: true
+- swipe: "#carousel"
+  direction: left
+  distance: 200
+- long_press: "#card"
+  duration_ms: 700</code></pre>
+
+<h2 id="vars">Vars, secrets, expressions</h2>
+<table>
+<thead><tr><th>Синтаксис</th><th>Смысл</th></tr></thead>
+<tbody>
+<tr><td><code>$user</code></td><td>Переменная</td></tr>
+<tr><td><code>$order.id</code></td><td>Вложенное поле</td></tr>
+<tr><td><code>$env.KEY</code></td><td>Окружение / <code>.env</code></td></tr>
+<tr><td><code>$secret.KEY</code></td><td>То же; маскируется в логах</td></tr>
+<tr><td><code>${ENV:KEY}</code></td><td>Совместимость</td></tr>
+</tbody>
+</table>
+<pre><code>secrets:
+  env:
+    file: .env
+    encoding: utf-8
+
+vars:
+  user: $env.TEST_USER
+  pass: $secret.TEST_PASS</code></pre>
+<p>Операторы: <code>== != &gt; &lt; &gt;= &lt;= contains matches and or not</code>.</p>
+<p>Builtins: <code>now</code>, <code>today</code>, <code>random_int</code>, <code>random_string</code>, <code>random_uuid</code>, <code>random_email</code>, <code>len</code>, <code>contains</code>, <code>trim</code>, <code>upper</code>, <code>lower</code>, <code>replace</code>, <code>match</code>, <code>join</code>, <code>map</code>, <code>filter</code>, <code>range</code>.</p>
+<p>Runtime также подставляет <code>current_url</code>. Пример: <code>examples/env_login.yaml</code>.</p>
+
+<h2 id="pom">Page objects</h2>
+<pre><code># pages/login.yaml
+locator_strategy: css
+elements:
+  email: "#email"
+  title:
+    strategy: xpath
+    value: "//h1"
+actions:
+  login:
+    - fill: $email
+      with: $user
+    - fill: "#password"
+      with: $pass
+    - click: "#login-btn"
+
+# scenario
+imports:
+  - pages/login.yaml
+steps:
+  - goto: $base_url
+  - do: login.login
+    user: $user
+    pass: $pass
+  - include: login/login
+    vars: { user: $user }</code></pre>
+<p><code>do: page.action</code> — основной путь. <code>include:</code> — ниже уровнем. Соседние ключи у <code>do:</code> попадают в scope экшена.</p>
+<p>Page-файлы могут быть без <code>steps</code>. <code>natl run tests/</code> пропускает <code>pages/</code> и <code>config/</code>.</p>
+<p>Приоритет strategy: объект элемента → page → project → <code>css</code>.</p>
+
+<h2 id="cases">Cases и data</h2>
+<pre><code>cases:
+  - { name: user1, user: "a@test.com", pass: secret, expect: "Welcome, A" }
+  - { label: user2, user: "b@test.com", pass: secret, expect: "Welcome, B" }
+steps:
+  - fill: "#email"
+    with: $user
+  - assert: ".welcome"
+    text: $expect
+
+data:
+  - { name: one }
+  - { name: two }
+steps:
+  - for: $item in $data
+    steps:
+      - log: $item.name</code></pre>
+<p>Для простых таблиц — <code>cases:</code>; для вложенных циклов — <code>data:</code> + <code>for:</code>.</p>
+
+<h2 id="http">HTTP</h2>
+<pre><code>engine: http
+vars:
+  base_url: http://127.0.0.1:8765
+steps:
+  - get: $base_url/get
+    save: ping
+  - post: $base_url/post
+    headers: { X-Test: "1" }
+    body: { hello: world }
+    save: echo
+  - assert: $echo.status == 200</code></pre>
+<p>Также <code>put</code> / <code>patch</code> / <code>delete</code>. Форма ответа: <code>{ status, headers, body, ok }</code>. Legacy <code>api:</code> ещё работает.</p>
+<pre><code>engine: playwright
+steps:
+  - goto: $base_url
+  - with: http
+    steps:
+      - get: $api_base/get
+        save: ping
+      - assert: $ping.status == 200</code></pre>
+<pre><code>node stubs/echo-server.mjs
+natl run http_only.yaml
+natl run ui_http_block.yaml</code></pre>
+
+<h2 id="flow">Поток</h2>
+<pre><code>- if: $role == "admin"
+  then:
+    - click: "#admin"
+  else:
+    - click: "#user"
+
+- for: $i in range(1, 5)
+  steps:
+    - log: $i
+
+- repeat: 3
+  steps:
+    - click: "#next"
+
+- repeat:
+    until: $done == true
+  steps:
+    - click: "#poll"
+
+- parallel:
+  - get: $api/a
+    save: a
+  - get: $api/b
+    save: b</code></pre>
+<p><code>before_each</code> / <code>after_each</code> — вокруг <code>steps</code> на каждую попытку.</p>
+
+<h2 id="cli">Tags, retries, CLI</h2>
+<pre><code>name: Checkout
+tags: [smoke, checkout]
+retries: 1</code></pre>
+<pre><code>natl run tests/ --tags smoke,auth
+natl run tests/ --grep "Login"
+natl run tests/ --retries 2
+natl run tests/ --env staging
+natl run tests/ --headed
+natl run tests/ --engine selenium</code></pre>
+<p><code>--tags</code> — OR; с <code>--grep</code> — AND. Ноль совпадений → exit 1. Retries — весь сценарий заново, свежий контекст.</p>
+
+<h2 id="sugar">Компактная форма и sugar</h2>
+<p><strong>Primary</strong> (коммитьте это — валидный YAML):</p>
+<pre><code>- fill: "#email"
+  with: $user
+- assert: ".welcome"
+  text: "Hello"</code></pre>
+<p><strong>Runtime sugar</strong> (препроцессор; IDE может ругаться):</p>
+<pre><code>- fill: "#email" with: $user
+- assert: ".welcome" text: "Hello"</code></pre>
+<p>Схемы IDE: <code>@natl/core</code> → <code>yaml.schemas</code> в README CLI.</p>
+
+<h2 id="next">Что дальше</h2>
+<ul>
+  <li><a href="https://github.com/arslan-ahmetjanov/natl/tree/main/examples">examples/</a> — POM, cases, HTTP, жесты, soft assert</li>
+  <li><a href="troubleshooting.html">Сбои</a></li>
+  <li><a href="adapters.html">Адаптеры</a></li>
+  <li><a href="canon.html">Канон</a></li>
+</ul>
+<p class="muted">— Арслан</p>
