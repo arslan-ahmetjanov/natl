@@ -1,48 +1,47 @@
 <h1>Guide</h1>
-<p>I'm <strong>Arslan</strong>. This is the whole NATL guide in one place — install, first green run, then every public piece of the language, block by block.</p>
-<p class="muted">Read top to bottom the first time. Later, jump via the contents.</p>
+<p>This is the full NATL guide. Start with install, get a green run, then work through the language. Jump around later with the list below.</p>
 
 <nav class="course-toc" aria-label="Contents">
   <h2>Contents</h2>
   <ol>
     <li><a href="#install">Install</a></li>
     <li><a href="#first-run">First run</a></li>
-    <li><a href="#anatomy">Scenario anatomy</a></li>
-    <li><a href="#config">Project config &amp; env</a></li>
+    <li><a href="#anatomy">Scenario shape</a></li>
+    <li><a href="#config">Project config and env</a></li>
     <li><a href="#ui">UI steps</a></li>
     <li><a href="#assert">Assert</a></li>
-    <li><a href="#extract">Extract, set, log, screenshot</a></li>
-    <li><a href="#gestures">Gestures</a></li>
-    <li><a href="#vars">Vars, secrets, expressions</a></li>
+    <li><a href="#extract">Read values, set, log, screenshot</a></li>
+    <li><a href="#gestures">Scroll, swipe, long press</a></li>
+    <li><a href="#vars">Variables, secrets, expressions</a></li>
     <li><a href="#pom">Page objects</a></li>
-    <li><a href="#cases">Cases &amp; data</a></li>
+    <li><a href="#cases">Cases and data</a></li>
     <li><a href="#http">HTTP</a></li>
-    <li><a href="#flow">Flow</a></li>
+    <li><a href="#flow">if / for / repeat / parallel</a></li>
     <li><a href="#cli">Tags, retries, CLI</a></li>
-    <li><a href="#sugar">Compact form &amp; sugar</a></li>
-    <li><a href="#next">What next</a></li>
+    <li><a href="#sugar">How to write steps</a></li>
+    <li><a href="#next">Where to go next</a></li>
   </ol>
 </nav>
 
 <h2 id="install">Install</h2>
-<p>You need Node.js <strong>18+</strong> and a terminal.</p>
+<p>You need Node.js 18 or newer.</p>
 <pre><code>npm install -g @natl/cli @natl/adapter-playwright
 npx playwright install chromium
 natl --version</code></pre>
-<p>If <code>natl --version</code> prints a number, you're in. If not — <a href="troubleshooting.html">Troubleshooting</a>.</p>
-<p>Own empty project:</p>
+<p>If that prints a version, you are set. If not, see <a href="troubleshooting.html">Troubleshooting</a>.</p>
+<p>To start a project from scratch:</p>
 <pre><code>mkdir my-tests &amp;&amp; cd my-tests
 natl init
 natl run tests/</code></pre>
 
 <h2 id="first-run">First run</h2>
-<p>Clone the repo and run the login I keep under <code>examples/</code> (local HTML fixture — no flaky public site):</p>
+<p>There is a login example in the repo. It opens a local HTML file, so you do not need a live website.</p>
 <pre><code>git clone https://github.com/arslan-ahmetjanov/natl.git
 cd natl/examples
 natl run login.yaml</code></pre>
-<p>You should see <code>✓ PASS</code>. Break the assert text on purpose, run again, read the FAIL line, then fix it — that's how you learn the runner.</p>
+<p>You should see <code>PASS</code>. Change the assert text to something wrong, run again, read the error, then put it back. That is the fastest way to see how failures look.</p>
 
-<h2 id="anatomy">Scenario anatomy</h2>
+<h2 id="anatomy">Scenario shape</h2>
 <pre><code>name: Login smoke
 engine: playwright
 tags: [smoke]
@@ -61,30 +60,30 @@ steps:
   - click: "#login-btn"
   - assert: ".welcome"
     text: "Добро пожаловать"</code></pre>
-<p>Root fields I support:</p>
+<p>Fields at the top of a file:</p>
 <table>
-<thead><tr><th>Field</th><th>Meaning</th></tr></thead>
+<thead><tr><th>Field</th><th>What it does</th></tr></thead>
 <tbody>
-<tr><td><code>name</code></td><td>Display name (reports, <code>--grep</code>)</td></tr>
-<tr><td><code>tags</code></td><td>Labels for <code>--tags</code></td></tr>
-<tr><td><code>engine</code></td><td><code>playwright</code> | <code>selenium</code> | <code>cypress</code> | <code>http</code></td></tr>
-<tr><td><code>timeout</code></td><td>Default step timeout (ms)</td></tr>
-<tr><td><code>retries</code></td><td>Extra full-scenario attempts after failure</td></tr>
-<tr><td><code>vars</code></td><td>Variables (<code>$name</code>)</td></tr>
-<tr><td><code>secrets</code></td><td>How to load secrets</td></tr>
-<tr><td><code>imports</code></td><td>Page / shared YAML paths</td></tr>
-<tr><td><code>elements</code> / <code>actions</code></td><td>POM locators and named flows</td></tr>
-<tr><td><code>locator_strategy</code></td><td>Default for string selectors (<code>css</code> | <code>xpath</code>)</td></tr>
-<tr><td><code>cases</code></td><td>Data-driven rows</td></tr>
-<tr><td><code>data</code></td><td>Array as <code>$data</code> for <code>for:</code></td></tr>
-<tr><td><code>before_each</code> / <code>after_each</code></td><td>Hooks around <code>steps</code> each attempt</td></tr>
-<tr><td><code>steps</code></td><td>Main step list</td></tr>
+<tr><td><code>name</code></td><td>Shown in the report; used by <code>--grep</code></td></tr>
+<tr><td><code>tags</code></td><td>Used with <code>--tags</code></td></tr>
+<tr><td><code>engine</code></td><td><code>playwright</code>, <code>selenium</code>, <code>cypress</code>, or <code>http</code></td></tr>
+<tr><td><code>timeout</code></td><td>Default step timeout in milliseconds</td></tr>
+<tr><td><code>retries</code></td><td>How many extra full runs after a failure</td></tr>
+<tr><td><code>vars</code></td><td>Values you use as <code>$name</code></td></tr>
+<tr><td><code>secrets</code></td><td>Where to load secrets from</td></tr>
+<tr><td><code>imports</code></td><td>Other YAML files to pull in</td></tr>
+<tr><td><code>elements</code> / <code>actions</code></td><td>Page-object locators and named flows</td></tr>
+<tr><td><code>locator_strategy</code></td><td>Default for string selectors: <code>css</code> or <code>xpath</code></td></tr>
+<tr><td><code>cases</code></td><td>One run per row</td></tr>
+<tr><td><code>data</code></td><td>Array available as <code>$data</code> for <code>for:</code></td></tr>
+<tr><td><code>before_each</code> / <code>after_each</code></td><td>Run around <code>steps</code> on each attempt</td></tr>
+<tr><td><code>steps</code></td><td>The steps themselves</td></tr>
 </tbody>
 </table>
-<p>Per step you may also set <code>timeout</code>, <code>save</code>, <code>debug</code>. To switch engines mid-scenario, use a <code>with:</code> block — that is what the runtime honors.</p>
+<p>A single step can also set <code>timeout</code>, <code>save</code>, or <code>debug</code>. To change engine in the middle of a run, wrap steps in <code>with:</code>. A bare <code>engine:</code> on one step is not what switches context.</p>
 
-<h2 id="config">Project config &amp; env</h2>
-<p><code>natl.config.yaml</code> (nearest walking up from the test file):</p>
+<h2 id="config">Project config and env</h2>
+<p>Defaults live in <code>natl.config.yaml</code> next to your tests (NATL walks up from the file until it finds one):</p>
 <pre><code>engine: playwright
 browser: chromium
 timeout: 15000
@@ -97,22 +96,22 @@ retries: 0
 trace: on-fail
 video: off
 soft_assert_screenshot: false</code></pre>
-<p>Stands without copying URLs into every file:</p>
+<p>Different stands without editing every scenario:</p>
 <pre><code>natl run tests/ --env staging
 natl run tests/ --config config/prod.yaml</code></pre>
-<p><code>--env</code> loads <code>config/&lt;name&gt;.yaml</code>. <code>--env</code> and <code>--config</code> are mutually exclusive.</p>
-<p><strong>Merge priority:</strong> CLI → test YAML → env profile → base config → defaults.</p>
+<p><code>--env staging</code> loads <code>config/staging.yaml</code>. Do not pass both <code>--env</code> and <code>--config</code>.</p>
+<p>What wins, from strongest to weakest: CLI flags, then fields in the test file, then the env profile, then <code>natl.config.yaml</code>, then built-in defaults.</p>
 
 <h2 id="ui">UI steps</h2>
 <table>
-<thead><tr><th>Verb</th><th>Form</th></tr></thead>
+<thead><tr><th>Step</th><th>Notes</th></tr></thead>
 <tbody>
-<tr><td><code>goto</code></td><td>URL, <code>file://</code>, or relative path → local file</td></tr>
-<tr><td><code>click</code> / <code>tap</code></td><td>Same step; prefer <code>click:</code></td></tr>
-<tr><td><code>fill</code></td><td>locator + sibling <code>with:</code></td></tr>
-<tr><td><code>select</code></td><td>locator + <code>with:</code> (option value)</td></tr>
-<tr><td><code>check</code> / <code>uncheck</code></td><td>locator</td></tr>
-<tr><td><code>wait</code></td><td>ms, or selector + <code>visible</code> | <code>hidden</code> | <code>attached</code> | <code>detached</code></td></tr>
+<tr><td><code>goto</code></td><td>http(s) URL, <code>file://</code>, or a relative path to a local file</td></tr>
+<tr><td><code>click</code> / <code>tap</code></td><td>Same action. I write <code>click:</code></td></tr>
+<tr><td><code>fill</code></td><td>Locator, then <code>with:</code> for the value</td></tr>
+<tr><td><code>select</code></td><td>Locator and option value via <code>with:</code></td></tr>
+<tr><td><code>check</code> / <code>uncheck</code></td><td>Checkbox / radio</td></tr>
+<tr><td><code>wait</code></td><td>A delay in ms, or a selector with <code>visible</code>, <code>hidden</code>, <code>attached</code>, or <code>detached</code></td></tr>
 </tbody>
 </table>
 <pre><code>- goto: $base_url
@@ -124,11 +123,11 @@ natl run tests/ --config config/prod.yaml</code></pre>
 - click: "#submit"
 - wait: 500
 - wait: ".modal hidden"</code></pre>
-<p><strong>Auto-wait:</strong> actions and asserts wait for the target within <code>timeout</code>. You usually do not need <code>wait: ".ok visible"</code> before an assert.</p>
+<p>Clicks, fills, and asserts already wait for the target up to <code>timeout</code>. You rarely need <code>wait: ".ok visible"</code> right before an assert. Keep <code>wait:</code> for delays or states like <code>hidden</code>.</p>
 
 <h2 id="assert">Assert</h2>
 <pre><code>- assert: ".welcome"
-  text: "Hello"              # or is:
+  text: "Hello"              # is: works the same
 - assert: ".welcome"
   contains: "Hell"
 - assert: $welcome
@@ -143,11 +142,11 @@ natl run tests/ --config config/prod.yaml</code></pre>
 - assert: ".price"
   text: "$10"
   soft: true
-- soft_assert: ".stock"      # alias → soft: true
+- soft_assert: ".stock"      # same as soft: true
   visible: true</code></pre>
-<p>Attr operators: <code>==</code>, <code>!=</code>, <code>contains</code>, <code>matches</code>. Soft asserts collect failures and fail at the end; hard assert is fail-fast.</p>
+<p>For <code>attr:</code> you can use <code>==</code>, <code>!=</code>, <code>contains</code>, or <code>matches</code>. A hard assert stops the run. Soft ones keep going and fail the run at the end if any of them failed.</p>
 
-<h2 id="extract">Extract, set, log, screenshot</h2>
+<h2 id="extract">Read values, set, log, screenshot</h2>
 <pre><code>- get_text: ".title"
   save: title
 - get_attr: "a"
@@ -155,31 +154,31 @@ natl run tests/ --config config/prod.yaml</code></pre>
   save: href
 - set: $total = $price * $qty
 - log: "total=$total"
-- log: { message: "x", level: warn }   # info|debug|warn|error
+- log: { message: "x", level: warn }   # info, debug, warn, error
 - debug: true
 - screenshot:
     file: artifacts/shot.png
     full_page: true</code></pre>
 
-<h2 id="gestures">Gestures</h2>
-<p>Same steps for desktop and mobile web — no <code>if: mobile</code>.</p>
+<h2 id="gestures">Scroll, swipe, long press</h2>
+<p>These work on desktop and mobile web the same way. You do not branch on device type.</p>
 <pre><code>- scroll: "#footer"
   into_view: true            # or delta_x / delta_y
 - swipe: "#carousel"
-  direction: left            # left|right|up|down
+  direction: left            # left, right, up, down
   distance: 200
 - long_press: "#card"
   duration_ms: 700</code></pre>
 
-<h2 id="vars">Vars, secrets, expressions</h2>
+<h2 id="vars">Variables, secrets, expressions</h2>
 <table>
-<thead><tr><th>Syntax</th><th>Meaning</th></tr></thead>
+<thead><tr><th>Write</th><th>Meaning</th></tr></thead>
 <tbody>
-<tr><td><code>$user</code></td><td>Variable</td></tr>
+<tr><td><code>$user</code></td><td>A variable</td></tr>
 <tr><td><code>$order.id</code></td><td>Nested field</td></tr>
-<tr><td><code>$env.KEY</code></td><td>Environment / <code>.env</code> (missing → error)</td></tr>
-<tr><td><code>$secret.KEY</code></td><td>Same store; masked in logs</td></tr>
-<tr><td><code>${ENV:KEY}</code></td><td>Legacy compat</td></tr>
+<tr><td><code>$env.KEY</code></td><td>From the environment or <code>.env</code> (error if missing)</td></tr>
+<tr><td><code>$secret.KEY</code></td><td>Same source; hidden in logs</td></tr>
+<tr><td><code>${ENV:KEY}</code></td><td>Older spelling; still works</td></tr>
 </tbody>
 </table>
 <pre><code>secrets:
@@ -190,9 +189,9 @@ natl run tests/ --config config/prod.yaml</code></pre>
 vars:
   user: $env.TEST_USER
   pass: $secret.TEST_PASS</code></pre>
-<p>Operators: <code>== != &gt; &lt; &gt;= &lt;= contains matches and or not</code>.</p>
-<p>Builtins: <code>now</code>, <code>today</code>, <code>random_int</code>, <code>random_string</code>, <code>random_uuid</code>, <code>random_email</code>, <code>len</code>, <code>contains</code>, <code>trim</code>, <code>upper</code>, <code>lower</code>, <code>replace</code>, <code>match</code>, <code>join</code>, <code>map</code>, <code>filter</code>, <code>range</code>.</p>
-<p>Runtime also injects <code>current_url</code> for URL checks. See <code>examples/env_login.yaml</code>.</p>
+<p>Comparisons: <code>== != &gt; &lt; &gt;= &lt;= contains matches and or not</code>.</p>
+<p>Helpers: <code>now</code>, <code>today</code>, <code>random_int</code>, <code>random_string</code>, <code>random_uuid</code>, <code>random_email</code>, <code>len</code>, <code>contains</code>, <code>trim</code>, <code>upper</code>, <code>lower</code>, <code>replace</code>, <code>match</code>, <code>join</code>, <code>map</code>, <code>filter</code>, <code>range</code>.</p>
+<p><code>current_url</code> is available during URL checks. There is a working example in <code>examples/env_login.yaml</code>.</p>
 
 <h2 id="pom">Page objects</h2>
 <pre><code># pages/login.yaml
@@ -220,11 +219,11 @@ steps:
     pass: $pass
   - include: login/login
     vars: { user: $user }</code></pre>
-<p><code>do: page.action</code> is the happy path. <code>include:</code> is the lower-level form (file or whole-file reuse). Sibling keys on <code>do:</code> merge into the action scope.</p>
-<p>Page files may omit <code>steps</code>. <code>natl run tests/</code> skips <code>pages/</code> and <code>config/</code>.</p>
-<p>Strategy priority: element object → page <code>locator_strategy</code> → project → <code>css</code>.</p>
+<p>Use <code>do: page.action</code> in normal scenarios. <code>include:</code> is the lower-level form when you want a file path or to pull in a whole file. Extra keys next to <code>do:</code> become variables for that action.</p>
+<p>A page file can be only <code>elements</code> and <code>actions</code>, with no <code>steps</code>. When you run a folder, NATL skips <code>pages/</code> and <code>config/</code>.</p>
+<p>Locator strategy is chosen in this order: the element object, then the page file, then project config, then <code>css</code>.</p>
 
-<h2 id="cases">Cases &amp; data</h2>
+<h2 id="cases">Cases and data</h2>
 <pre><code>cases:
   - { name: user1, user: "a@test.com", pass: secret, expect: "Welcome, A" }
   - { label: user2, user: "b@test.com", pass: secret, expect: "Welcome, B" }
@@ -241,7 +240,7 @@ steps:
   - for: $item in $data
     steps:
       - log: $item.name</code></pre>
-<p>Prefer <code>cases:</code> for simple tables; <code>data:</code> + <code>for:</code> for nested / computed loops. Report suffix uses row <code>name</code> / <code>label</code>, else <code>[case N]</code>.</p>
+<p>For a table of inputs, use <code>cases:</code>. For loops over lists or <code>range</code>, use <code>data:</code> with <code>for:</code>. The report adds the row <code>name</code> or <code>label</code>, or <code>[case N]</code> if you omit both.</p>
 
 <h2 id="http">HTTP</h2>
 <pre><code>engine: http
@@ -259,8 +258,8 @@ steps:
   - delete: …
   - assert: $echo.status == 200
   - assert: $echo.ok == true</code></pre>
-<p>Saved shape: <code>{ status, headers, body, ok }</code>. Relative URLs resolve against <code>vars.base_url</code> when it is http(s). Legacy <code>api:</code> still works — prefer the verbs.</p>
-<p>UI + API in one file:</p>
+<p>What gets saved: <code>{ status, headers, body, ok }</code>. Relative URLs use <code>vars.base_url</code> when that value is an http(s) URL. The old <code>api:</code> form still parses; new files should use the verbs above.</p>
+<p>UI and HTTP in one scenario:</p>
 <pre><code>engine: playwright
 steps:
   - goto: $base_url
@@ -270,12 +269,12 @@ steps:
         save: ping
       - assert: $ping.status == 200
   - click: "#refresh"</code></pre>
-<p>My HTTP demos need the stub first:</p>
+<p>The HTTP examples in the repo expect a local stub:</p>
 <pre><code>node stubs/echo-server.mjs
 natl run http_only.yaml
 natl run ui_http_block.yaml</code></pre>
 
-<h2 id="flow">Flow</h2>
+<h2 id="flow">if / for / repeat / parallel</h2>
 <pre><code>- if: $role == "admin"
   then:
     - click: "#admin"
@@ -286,54 +285,53 @@ natl run ui_http_block.yaml</code></pre>
   steps:
     - log: $i
 
-- repeat: 3                 # or "3 times" / times: 3
+- repeat: 3                 # or "3 times", or times: 3
   steps:
-    - click: "#next"        # sets $i
+    - click: "#next"        # $i is set each time
 
 - repeat:
     until: $done == true
   steps:
-    - click: "#poll"        # max 1000 iterations
+    - click: "#poll"        # stops after 1000 iterations
 
-- parallel:                 # wait: all (default) | any
+- parallel:                 # wait: all by default, or any
   - get: $api/a
     save: a
   - get: $api/b
     save: b</code></pre>
-<p><code>before_each</code> / <code>after_each</code> run around <code>steps</code> on every attempt (including retries).</p>
+<p><code>before_each</code> and <code>after_each</code> run around <code>steps</code> on every attempt, including retries.</p>
 
 <h2 id="cli">Tags, retries, CLI</h2>
 <pre><code>name: Checkout
 tags: [smoke, checkout]
 retries: 1</code></pre>
-<pre><code>natl run tests/ --tags smoke,auth    # OR
-natl run tests/ --grep "Login"       # RegExp on name or path
+<pre><code>natl run tests/ --tags smoke,auth    # match any listed tag
+natl run tests/ --grep "Login"       # regex on name or path
 natl run tests/ --retries 2
 natl run tests/ --env staging
 natl run tests/ --headed
 natl run tests/ --engine selenium
 natl run tests/ --trace on-fail
 natl run tests/ --video off</code></pre>
-<p><code>--tags</code> and <code>--grep</code> combine with AND. Zero matches → exit 1. Retries re-run the whole scenario with a fresh browser context; last attempt wins.</p>
+<p>If you pass both <code>--tags</code> and <code>--grep</code>, a file must match both. No matches means exit code 1. Retries start the whole scenario again with a new browser context. The last attempt is the result that counts.</p>
 
-<h2 id="sugar">Compact form &amp; sugar</h2>
-<p><strong>Primary</strong> (commit this — valid YAML):</p>
+<h2 id="sugar">How to write steps</h2>
+<p>Prefer normal YAML with sibling keys. That is what editors and the schema expect:</p>
 <pre><code>- fill: "#email"
   with: $user
 - wait: ".dashboard visible"
 - assert: ".welcome"
   text: "Hello"</code></pre>
-<p><strong>Runtime sugar</strong> (preprocessor; IDEs may flag it):</p>
+<p>There is also a one-line form the runner accepts. Many editors will mark it as invalid YAML, so I would not commit it:</p>
 <pre><code>- fill: "#email" with: $user
 - assert: ".welcome" text: "Hello"
 - scroll: $footer into_view</code></pre>
-<p>IDE autocomplete: wire <code>@natl/core</code> schemas via <code>yaml.schemas</code> — see the CLI README.</p>
+<p>For autocomplete, point your YAML extension at the schemas in <code>@natl/core</code>. The CLI README shows the <code>yaml.schemas</code> setting.</p>
 
-<h2 id="next">What next</h2>
+<h2 id="next">Where to go next</h2>
 <ul>
   <li><a href="https://github.com/arslan-ahmetjanov/natl/tree/main/examples">examples/</a> — POM, cases, HTTP, gestures, soft assert</li>
-  <li><a href="troubleshooting.html">Troubleshooting</a> — when PASS refuses to show up</li>
-  <li><a href="adapters.html">Adapters</a> — Playwright / Selenium / Cypress / http</li>
-  <li><a href="canon.html">Canon</a> — the rules I refuse to break</li>
+  <li><a href="troubleshooting.html">Troubleshooting</a></li>
+  <li><a href="adapters.html">Adapters</a></li>
+  <li><a href="canon.html">Canon</a> — fixed design choices</li>
 </ul>
-<p class="muted">— Arslan</p>

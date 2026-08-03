@@ -24,8 +24,8 @@
             <span data-i18n="meta.tagline">Not Another Testing Language</span>
           </div>
         </a>
-                        <nav class="nav" aria-label="Docs">
-          <a href="index.html" aria-current="page">Home</a>
+                                <nav class="nav" aria-label="Docs">
+          <a href="index.html" data-i18n="nav.home" aria-current="page">Home</a>
           <a href="getting-started.html" data-i18n="nav.guide">Guide</a>
           <a href="troubleshooting.html" data-i18n="nav.troubleshooting">Troubleshooting</a>
           <a href="canon.html" data-i18n="nav.canon">Canon</a>
@@ -50,8 +50,7 @@
         <img class="lockup" src="assets/img/natl-lockup.svg" alt="NATL" />
         <h1 data-i18n="home.headline">This is NATL.</h1>
         <p class="lede" data-i18n="home.lede">
-          I'm Arslan. I built a short YAML runner for web UI and API — so you can write the test once and keep it when the stack moves.
-        </p>
+          A short YAML runner for web UI and API. Write the test once; keep it when the stack moves.</p>
         <div class="pill-row">
           <span class="pill"><strong>UI + API</strong></span>
           <span class="pill"><strong>Playwright</strong> · Selenium · Cypress</span>
@@ -59,31 +58,33 @@
         </div>
       </section>
       <div class="content" data-page-content>
-<p class="muted">Hi — I'm <strong>Arslan</strong>, and I built NATL because I was tired of rewriting the same smoke tests every time the stack changed.</p>
-<p>This is a short open-source YAML runner for <strong>web UI and API</strong>. You write one compact scenario. You run it locally or in CI. When the team swaps Playwright for something else, you change <code>engine:</code> — not the whole suite.</p>
-<p>If you're new here: open the <strong>guide</strong>. Start at Install. Canon can wait until you've seen a green <code>PASS</code>.</p>
+<p>NATL is a short open-source YAML runner for <strong>web UI and API</strong> tests. Write one compact scenario, run it locally or in CI, and keep it when the browser stack changes — swap <code>engine:</code> instead of rewriting the suite.</p>
+<p>New here? Open the <a href="getting-started.html">guide</a> and start at Install.</p>
 <div class="card-grid">
-  <a class="card" href="getting-started.html"><h3>Guide</h3><p>Install, first PASS, then every language block in one page.</p></a>
-  <a class="card" href="troubleshooting.html"><h3>Troubleshooting</h3><p>When it fails, start here before you blame YAML.</p></a>
-  <a class="card" href="adapters.html"><h3>Adapters</h3><p>Playwright by default. Selenium and Cypress when you need them.</p></a>
-  <a class="card" href="canon.html"><h3>Canon</h3><p>The rules I refuse to break while growing NATL.</p></a>
+  <a class="card" href="getting-started.html"><h3>Guide</h3><p>Install, first PASS, then the language block by block.</p></a>
+  <a class="card" href="troubleshooting.html"><h3>Troubleshooting</h3><p>Common failures and how to fix them.</p></a>
+  <a class="card" href="adapters.html"><h3>Adapters</h3><p>Playwright by default; Selenium and Cypress when you need them.</p></a>
+  <a class="card" href="canon.html"><h3>Canon</h3><p>Design choices that stay fixed.</p></a>
 </div>
-<h2>Install in one breath</h2>
+<h2>Install</h2>
 <pre><code>npm install -g @natl/cli @natl/adapter-playwright
 npx playwright install chromium
 natl --version</code></pre>
-<p class="muted">Then open the <a href="getting-started.html">guide</a>.</p>
 <ul>
   <li><a href="https://github.com/arslan-ahmetjanov/natl">GitHub</a></li>
   <li><a href="https://www.npmjs.com/package/@natl/cli">npm @natl/cli</a></li>
   <li><a href="https://github.com/arslan-ahmetjanov/natl/tree/main/examples">examples/</a></li>
 </ul>
+<div class="author-block">
+  <p><strong>Arslan Ahmetjanov</strong></p>
+  <p class="muted"><a href="https://telegram.me/arslan_ahmetjanov">Telegram</a></p>
+</div>
       </div>
     </main>
 
     <footer class="footer">
       <div class="shell">
-                        <span data-i18n="footer.line">Built by Arslan Ahmetjanov · MIT License.</span>
+                                <span data-i18n="footer.line">MIT License.</span>
         · <a href="https://github.com/arslan-ahmetjanov/natl">GitHub</a>
         · <a href="https://www.npmjs.com/package/@natl/cli">npm</a>
       </div>

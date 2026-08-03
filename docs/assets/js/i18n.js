@@ -5,10 +5,7 @@
   function detect() {
     const saved = localStorage.getItem(LANG_KEY);
     if (langs.includes(saved)) return saved;
-    const nav = (navigator.language || "en").toLowerCase();
-    if (nav.startsWith("ru")) return "ru";
-    if (nav.startsWith("zh")) return "zh";
-    if (nav.startsWith("es")) return "es";
+    // Docs default to English; other languages are opt-in via the switcher.
     return "en";
   }
 

@@ -254,6 +254,16 @@ html[data-theme="dark"] .hero img.lockup {
   text-decoration: none;
 }
 
+.author-block {
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+}
+
+.author-block p {
+  margin: 0.15rem 0;
+}
+
 .content h1,
 .content h2,
 .content h3 {

@@ -20,7 +20,7 @@ const map = {
   "adapters.html": "adapters",
 };
 
-const footer = `        <span data-i18n="footer.line">Built by Arslan Ahmetjanov · MIT License.</span>
+const footer = `        <span data-i18n="footer.line">MIT License.</span>
         · <a href="https://github.com/arslan-ahmetjanov/natl">GitHub</a>
         · <a href="https://www.npmjs.com/package/@natl/cli">npm</a>`;
 

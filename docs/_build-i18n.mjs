@@ -9,75 +9,100 @@ function load(name) {
 }
 
 const enHome = `
-<p class="muted">Hi — I'm <strong>Arslan</strong>, and I built NATL because I was tired of rewriting the same smoke tests every time the stack changed.</p>
-<p>This is a short open-source YAML runner for <strong>web UI and API</strong>. You write one compact scenario. You run it locally or in CI. When the team swaps Playwright for something else, you change <code>engine:</code> — not the whole suite.</p>
-<p>If you're new here: open the <strong>guide</strong>. Start at Install. Canon can wait until you've seen a green <code>PASS</code>.</p>
+<p>NATL is a short open-source YAML runner for <strong>web UI and API</strong> tests. Write one compact scenario, run it locally or in CI, and keep it when the browser stack changes — swap <code>engine:</code> instead of rewriting the suite.</p>
+<p>New here? Open the <a href="getting-started.html">guide</a> and start at Install.</p>
 <div class="card-grid">
-  <a class="card" href="getting-started.html"><h3>Guide</h3><p>Install, first PASS, then every language block in one page.</p></a>
-  <a class="card" href="troubleshooting.html"><h3>Troubleshooting</h3><p>When it fails, start here before you blame YAML.</p></a>
-  <a class="card" href="adapters.html"><h3>Adapters</h3><p>Playwright by default. Selenium and Cypress when you need them.</p></a>
-  <a class="card" href="canon.html"><h3>Canon</h3><p>The rules I refuse to break while growing NATL.</p></a>
+  <a class="card" href="getting-started.html"><h3>Guide</h3><p>Install, first PASS, then the language block by block.</p></a>
+  <a class="card" href="troubleshooting.html"><h3>Troubleshooting</h3><p>Common failures and how to fix them.</p></a>
+  <a class="card" href="adapters.html"><h3>Adapters</h3><p>Playwright by default; Selenium and Cypress when you need them.</p></a>
+  <a class="card" href="canon.html"><h3>Canon</h3><p>Design choices that stay fixed.</p></a>
 </div>
-<h2>Install in one breath</h2>
+<h2>Install</h2>
 <pre><code>npm install -g @natl/cli @natl/adapter-playwright
 npx playwright install chromium
 natl --version</code></pre>
-<p class="muted">Then open the <a href="getting-started.html">guide</a>.</p>
 <ul>
   <li><a href="https://github.com/arslan-ahmetjanov/natl">GitHub</a></li>
   <li><a href="https://www.npmjs.com/package/@natl/cli">npm @natl/cli</a></li>
   <li><a href="https://github.com/arslan-ahmetjanov/natl/tree/main/examples">examples/</a></li>
-</ul>`;
+</ul>
+<div class="author-block">
+  <p><strong>Arslan Ahmetjanov</strong></p>
+  <p class="muted"><a href="https://telegram.me/arslan_ahmetjanov">Telegram</a></p>
+</div>`;
 
 const ruHome = `
-<p class="muted">Привет — я <strong>Арслан</strong>, и я сделал NATL, потому что устал переписывать одни и те же smoke-тесты каждый раз, когда менялся стек.</p>
-<p>Короткий open-source YAML-раннер для <strong>web UI и API</strong>. Один компактный сценарий. Локально или в CI. Сменили Playwright — меняете <code>engine:</code>, а не весь сьют.</p>
-<p>Новичкам: откройте <strong>гайд</strong>. Начните с установки. Канон — после первого зелёного <code>PASS</code>.</p>
+<p>NATL — короткий open-source YAML-раннер для тестов <strong>web UI и API</strong>. Один компактный сценарий, локально или в CI. Сменился браузерный стек — меняете <code>engine:</code>, а не весь сьют.</p>
+<p>С нуля? Откройте <a href="getting-started.html">гайд</a> и начните с установки.</p>
 <div class="card-grid">
-  <a class="card" href="getting-started.html"><h3>Гайд</h3><p>Установка, первый PASS, затем все блоки языка на одной странице.</p></a>
-  <a class="card" href="troubleshooting.html"><h3>Сбои</h3><p>Когда FAIL — сюда, а не сразу винить YAML.</p></a>
-  <a class="card" href="adapters.html"><h3>Адаптеры</h3><p>Playwright по умолчанию. Selenium и Cypress — когда нужно.</p></a>
-  <a class="card" href="canon.html"><h3>Канон</h3><p>Правила, которые я не ломаю, пока ращу NATL.</p></a>
+  <a class="card" href="getting-started.html"><h3>Гайд</h3><p>Установка, первый PASS, затем язык по блокам.</p></a>
+  <a class="card" href="troubleshooting.html"><h3>Сбои</h3><p>Типичные ошибки и что с ними делать.</p></a>
+  <a class="card" href="adapters.html"><h3>Адаптеры</h3><p>Playwright по умолчанию; Selenium и Cypress при необходимости.</p></a>
+  <a class="card" href="canon.html"><h3>Канон</h3><p>Зафиксированные решения по дизайну.</p></a>
 </div>
-<h2>Установка одним дыханием</h2>
+<h2>Установка</h2>
 <pre><code>npm install -g @natl/cli @natl/adapter-playwright
 npx playwright install chromium
 natl --version</code></pre>
-<p class="muted">Потом — <a href="getting-started.html">гайд</a>.</p>`;
+<ul>
+  <li><a href="https://github.com/arslan-ahmetjanov/natl">GitHub</a></li>
+  <li><a href="https://www.npmjs.com/package/@natl/cli">npm @natl/cli</a></li>
+  <li><a href="https://github.com/arslan-ahmetjanov/natl/tree/main/examples">examples/</a></li>
+</ul>
+<div class="author-block">
+  <p><strong>Арслан Ахметжанов</strong></p>
+  <p class="muted"><a href="https://telegram.me/arslan_ahmetjanov">Telegram</a></p>
+</div>`;
 
 const zhHome = `
-<p class="muted">你好 — 我是 <strong>Arslan</strong>。我做 NATL，是因为每次技术栈一变，我就要重写同一批 smoke。</p>
-<p>这是一个简短的开源 YAML 运行器，面向 <strong>Web UI 与 API</strong>。写一份紧凑场景，本地或 CI 跑。换 Playwright 时改 <code>engine:</code>，不必整套重写。</p>
-<p>新人请打开<strong>指南</strong>，从安装开始。规范页留到第一次绿色 <code>PASS</code> 之后。</p>
+<p>NATL 是面向 <strong>Web UI 与 API</strong> 测试的短 YAML 开源运行器。写一份紧凑场景，本地或 CI 运行；浏览器栈变了，改 <code>engine:</code> 即可，不必整套重写。</p>
+<p>第一次用？打开<a href="getting-started.html">指南</a>，从安装开始。</p>
 <div class="card-grid">
-  <a class="card" href="getting-started.html"><h3>指南</h3><p>安装、首次 PASS、全部语言块在一页。</p></a>
-  <a class="card" href="troubleshooting.html"><h3>排错</h3><p>失败时先看这里。</p></a>
-  <a class="card" href="adapters.html"><h3>适配器</h3><p>默认 Playwright。</p></a>
-  <a class="card" href="canon.html"><h3>规范</h3><p>我拒绝打破的规则。</p></a>
+  <a class="card" href="getting-started.html"><h3>指南</h3><p>安装、首次 PASS，再按块看语言。</p></a>
+  <a class="card" href="troubleshooting.html"><h3>排错</h3><p>常见失败与处理办法。</p></a>
+  <a class="card" href="adapters.html"><h3>适配器</h3><p>默认 Playwright；需要时用 Selenium / Cypress。</p></a>
+  <a class="card" href="canon.html"><h3>规范</h3><p>固定下来的设计取舍。</p></a>
 </div>
+<h2>安装</h2>
 <pre><code>npm install -g @natl/cli @natl/adapter-playwright
 npx playwright install chromium
 natl --version</code></pre>
-<p class="muted">然后打开<a href="getting-started.html">指南</a>。</p>`;
+<ul>
+  <li><a href="https://github.com/arslan-ahmetjanov/natl">GitHub</a></li>
+  <li><a href="https://www.npmjs.com/package/@natl/cli">npm @natl/cli</a></li>
+  <li><a href="https://github.com/arslan-ahmetjanov/natl/tree/main/examples">examples/</a></li>
+</ul>
+<div class="author-block">
+  <p><strong>Arslan Ahmetjanov</strong></p>
+  <p class="muted"><a href="https://telegram.me/arslan_ahmetjanov">Telegram</a></p>
+</div>`;
 
 const esHome = `
-<p class="muted">Hola — soy <strong>Arslan</strong>. Creé NATL porque estaba harto de reescribir los mismos smokes cada vez que cambiaba el stack.</p>
-<p>Un runner YAML corto de código abierto para <strong>UI web y API</strong>. Un escenario compacto. Local o en CI. Si cambian Playwright, cambias <code>engine:</code>, no toda la suite.</p>
-<p>Si empiezas: abre la <strong>guía</strong>. Empieza por Instalar. El canon puede esperar al primer <code>PASS</code>.</p>
+<p>NATL es un runner YAML corto de código abierto para pruebas de <strong>UI web y API</strong>. Escribes un escenario compacto, lo corres local o en CI, y lo conservas cuando cambia el stack del navegador: cambias <code>engine:</code>, no toda la suite.</p>
+<p>¿Empiezas ahora? Abre la <a href="getting-started.html">guía</a> y empieza por Instalar.</p>
 <div class="card-grid">
-  <a class="card" href="getting-started.html"><h3>Guía</h3><p>Instalar, primer PASS, luego todo el lenguaje en una página.</p></a>
-  <a class="card" href="troubleshooting.html"><h3>Problemas</h3><p>Cuando falle, empieza aquí.</p></a>
-  <a class="card" href="adapters.html"><h3>Adaptadores</h3><p>Playwright por defecto.</p></a>
-  <a class="card" href="canon.html"><h3>Canon</h3><p>Las reglas que me niego a romper.</p></a>
+  <a class="card" href="getting-started.html"><h3>Guía</h3><p>Instalación, primer PASS y el lenguaje por bloques.</p></a>
+  <a class="card" href="troubleshooting.html"><h3>Problemas</h3><p>Fallos habituales y cómo resolverlos.</p></a>
+  <a class="card" href="adapters.html"><h3>Adaptadores</h3><p>Playwright por defecto; Selenium y Cypress si hace falta.</p></a>
+  <a class="card" href="canon.html"><h3>Canon</h3><p>Decisiones de diseño que se mantienen.</p></a>
 </div>
+<h2>Instalar</h2>
 <pre><code>npm install -g @natl/cli @natl/adapter-playwright
 npx playwright install chromium
 natl --version</code></pre>
-<p class="muted">Luego la <a href="getting-started.html">guía</a>.</p>`;
+<ul>
+  <li><a href="https://github.com/arslan-ahmetjanov/natl">GitHub</a></li>
+  <li><a href="https://www.npmjs.com/package/@natl/cli">npm @natl/cli</a></li>
+  <li><a href="https://github.com/arslan-ahmetjanov/natl/tree/main/examples">examples/</a></li>
+</ul>
+<div class="author-block">
+  <p><strong>Arslan Ahmetjanov</strong></p>
+  <p class="muted"><a href="https://telegram.me/arslan_ahmetjanov">Telegram</a></p>
+</div>`;
 
 const enTrouble = `
 <h1>Troubleshooting</h1>
-<p>When something breaks, I look here before I rewrite the scenario.</p>
+<p>Common failures and what to check first.</p>
 <h2><code>natl: command not found</code></h2>
 <pre><code>npm install -g @natl/cli @natl/adapter-playwright
 npm prefix -g
@@ -100,12 +125,11 @@ natl run http_only.yaml</code></pre>
 <h2>Wrong engine</h2>
 <pre><code>natl engines
 npm install -g @natl/adapter-playwright</code></pre>
-<p>Still stuck? <a href="https://github.com/arslan-ahmetjanov/natl/issues">GitHub issues</a>.</p>
-<p class="muted">— Arslan</p>`;
+<p>Still stuck? <a href="https://github.com/arslan-ahmetjanov/natl/issues">GitHub issues</a>.</p>`;
 
 const ruTrouble = `
 <h1>Сбои</h1>
-<p>Когда ломается — сначала сюда.</p>
+<p>Типичные сбои и что проверить в первую очередь.</p>
 <h2><code>natl: command not found</code></h2>
 <pre><code>npm install -g @natl/cli @natl/adapter-playwright
 npm prefix -g
@@ -124,12 +148,11 @@ natl --version</code></pre>
 <h2>HTTP зависает</h2>
 <pre><code>node stubs/echo-server.mjs
 natl run http_only.yaml</code></pre>
-<p><a href="https://github.com/arslan-ahmetjanov/natl/issues">GitHub issues</a>.</p>
-<p class="muted">— Арслан</p>`;
+<p><a href="https://github.com/arslan-ahmetjanov/natl/issues">GitHub issues</a>.</p>`;
 
 const zhTrouble = `
 <h1>排错</h1>
-<p>出问题时，我先看这里。</p>
+<p>常见失败与优先排查项。</p>
 <h2><code>natl: command not found</code></h2>
 <pre><code>npm install -g @natl/cli @natl/adapter-playwright
 npm prefix -g
@@ -147,12 +170,11 @@ natl --version</code></pre>
   with: $user</code></pre>
 <pre><code>node stubs/echo-server.mjs
 natl run http_only.yaml</code></pre>
-<p><a href="https://github.com/arslan-ahmetjanov/natl/issues">GitHub issues</a>。</p>
-<p class="muted">—— Arslan</p>`;
+<p><a href="https://github.com/arslan-ahmetjanov/natl/issues">GitHub issues</a>。</p>`;
 
 const esTrouble = `
 <h1>Problemas frecuentes</h1>
-<p>Cuando algo falla, miro aquí primero.</p>
+<p>Fallos habituales y qué revisar primero.</p>
 <h2><code>natl: command not found</code></h2>
 <pre><code>npm install -g @natl/cli @natl/adapter-playwright
 npm prefix -g
@@ -169,8 +191,7 @@ natl --version</code></pre>
   with: $user</code></pre>
 <pre><code>node stubs/echo-server.mjs
 natl run http_only.yaml</code></pre>
-<p><a href="https://github.com/arslan-ahmetjanov/natl/issues">GitHub issues</a>.</p>
-<p class="muted">— Arslan</p>`;
+<p><a href="https://github.com/arslan-ahmetjanov/natl/issues">GitHub issues</a>.</p>`;
 
 const enAdapters = `
 <h1>Adapters</h1>
@@ -281,8 +302,7 @@ const enCanon = `
 <tr><td>Honest ceiling</td><td>~90% of smokes; escape hatches for the rest</td></tr>
 <tr><td>Runner ≠ TMS</td><td>CLI runs tests — no dashboard product</td></tr>
 </tbody>
-</table>
-<p class="muted">— Arslan</p>`;
+</table>`;
 
 const ruCanon = `
 <h1>Канон</h1>
@@ -296,8 +316,7 @@ const ruCanon = `
 <tr><td>Честный потолок</td><td>~90% smokes; остальное — escape hatch</td></tr>
 <tr><td>Раннер ≠ TMS</td><td>CLI гоняет тесты — без дашборд-продукта</td></tr>
 </tbody>
-</table>
-<p class="muted">— Арслан</p>`;
+</table>`;
 
 const zhCanon = `
 <h1>规范</h1>
@@ -311,8 +330,7 @@ const zhCanon = `
 <tr><td>诚实的能力边界</td><td>~90% smoke；其余用逃生舱</td></tr>
 <tr><td>运行器 ≠ TMS</td><td>CLI 跑测试 — 不是仪表盘产品</td></tr>
 </tbody>
-</table>
-<p class="muted">—— Arslan</p>`;
+</table>`;
 
 const esCanon = `
 <h1>Canon</h1>
@@ -326,8 +344,7 @@ const esCanon = `
 <tr><td>Techo honesto</td><td>~90% de smokes; el resto, escape hatch</td></tr>
 <tr><td>Runner ≠ TMS</td><td>El CLI ejecuta tests — no un dashboard</td></tr>
 </tbody>
-</table>
-<p class="muted">— Arslan</p>`;
+</table>`;
 
 const locales = {
   en: pack(
@@ -342,10 +359,10 @@ const locales = {
       adapters: "Adapters",
     },
     { language: "Language", theme: "Theme", themeLight: "Light", themeDark: "Dark" },
-    { line: "Built by Arslan Ahmetjanov · MIT License." },
+    { line: "MIT License." },
     {
       headline: "This is NATL.",
-      lede: "I'm Arslan. I built a short YAML runner for web UI and API — so you can write the test once and keep it when the stack moves.",
+      lede: "A short YAML runner for web UI and API. Write the test once; keep it when the stack moves.",
     },
     {
       home: { title: "Home", html: enHome },
@@ -368,10 +385,10 @@ const locales = {
       adapters: "Адаптеры",
     },
     { language: "Язык", theme: "Тема", themeLight: "Светлая", themeDark: "Тёмная" },
-    { line: "Сделал Арслан Ахметжанов · лицензия MIT." },
+    { line: "Лицензия MIT." },
     {
       headline: "Это NATL.",
-      lede: "Я Арслан. Короткий YAML-раннер для web UI и API — чтобы написать тест один раз и не выкидывать его при смене стека.",
+      lede: "Короткий YAML-раннер для web UI и API. Пишете тест один раз — и не выкидываете его при смене стека.",
     },
     {
       home: { title: "Главная", html: ruHome },
@@ -394,10 +411,10 @@ const locales = {
       adapters: "适配器",
     },
     { language: "语言", theme: "主题", themeLight: "浅色", themeDark: "深色" },
-    { line: "作者 Arslan Ahmetjanov · MIT 许可。" },
+    { line: "MIT 许可。" },
     {
       headline: "这就是 NATL。",
-      lede: "我是 Arslan。短 YAML 运行器，面向 Web UI 与 API——写一次，栈变了也不必整套重来。",
+      lede: "短 YAML 运行器，面向 Web UI 与 API。写一次；栈变了也不必整套重来。",
     },
     {
       home: { title: "首页", html: zhHome },
@@ -420,10 +437,10 @@ const locales = {
       adapters: "Adaptadores",
     },
     { language: "Idioma", theme: "Tema", themeLight: "Claro", themeDark: "Oscuro" },
-    { line: "Hecho por Arslan Ahmetjanov · licencia MIT." },
+    { line: "Licencia MIT." },
     {
       headline: "Esto es NATL.",
-      lede: "Soy Arslan. Un runner YAML corto para UI web y API — escribes el test una vez y lo conservas cuando cambia el stack.",
+      lede: "Un runner YAML corto para UI web y API. Escribes el test una vez y lo conservas cuando cambia el stack.",
     },
     {
       home: { title: "Inicio", html: esHome },

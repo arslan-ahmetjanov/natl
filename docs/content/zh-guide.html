@@ -1,7 +1,5 @@
 <h1>指南</h1>
-<p>我是 <strong>Arslan</strong>。这是 NATL 的完整指南——安装、第一次绿色运行，然后逐块讲解语言的每个公开部分。</p>
-<p class="muted">第一次请从上到下阅读。之后可通过目录跳转。</p>
-
+<p>这是 NATL 的完整指南。先完成安装，跑通一次绿色运行，再逐步了解语言本身。之后可通过下方目录跳转。</p>
 <nav class="course-toc" aria-label="Contents">
   <h2>目录</h2>
   <ol>
@@ -11,36 +9,36 @@
     <li><a href="#config">项目配置与环境变量</a></li>
     <li><a href="#ui">UI 步骤</a></li>
     <li><a href="#assert">Assert</a></li>
-    <li><a href="#extract">Extract、set、log、screenshot</a></li>
-    <li><a href="#gestures">手势</a></li>
-    <li><a href="#vars">Vars、secrets、expressions</a></li>
+    <li><a href="#extract">读取值、set、log、screenshot</a></li>
+    <li><a href="#gestures">滚动、滑动、长按</a></li>
+    <li><a href="#vars">变量、secrets、表达式</a></li>
     <li><a href="#pom">Page objects</a></li>
     <li><a href="#cases">Cases 与 data</a></li>
     <li><a href="#http">HTTP</a></li>
-    <li><a href="#flow">Flow</a></li>
+    <li><a href="#flow">if / for / repeat / parallel</a></li>
     <li><a href="#cli">Tags、retries、CLI</a></li>
-    <li><a href="#sugar">紧凑写法与 sugar</a></li>
+    <li><a href="#sugar">如何编写步骤</a></li>
     <li><a href="#next">下一步</a></li>
   </ol>
 </nav>
 
 <h2 id="install">安装</h2>
-<p>你需要 Node.js <strong>18+</strong> 和一个终端。</p>
+<p>需要 Node.js 18 或更高版本。</p>
 <pre><code>npm install -g @natl/cli @natl/adapter-playwright
 npx playwright install chromium
 natl --version</code></pre>
-<p>如果 <code>natl --version</code> 输出版本号，说明安装成功。否则请看 <a href="troubleshooting.html">Troubleshooting</a>。</p>
-<p>创建自己的空项目：</p>
+<p>若输出版本号，说明安装成功。否则请参阅 <a href="troubleshooting.html">Troubleshooting</a>。</p>
+<p>从零开始创建项目：</p>
 <pre><code>mkdir my-tests &amp;&amp; cd my-tests
 natl init
 natl run tests/</code></pre>
 
 <h2 id="first-run">首次运行</h2>
-<p>克隆仓库并运行我放在 <code>examples/</code> 下的 login 示例（本地 HTML 夹具——不依赖不稳定的公网站点）：</p>
+<p>仓库中有一个 login 示例。它打开本地 HTML 文件，因此不需要在线网站。</p>
 <pre><code>git clone https://github.com/arslan-ahmetjanov/natl.git
 cd natl/examples
 natl run login.yaml</code></pre>
-<p>你应该看到 <code>✓ PASS</code>。故意改错 assert 文本，再运行一次，阅读 FAIL 行，然后修复——这就是学习 runner 的方式。</p>
+<p>应看到 <code>PASS</code>。将 assert 文本改成错误内容，再运行一次，阅读报错信息，然后改回。这是最快了解失败呈现方式的做法。</p>
 
 <h2 id="anatomy">场景结构</h2>
 <pre><code>name: Login smoke
@@ -61,30 +59,30 @@ steps:
   - click: "#login-btn"
   - assert: ".welcome"
     text: "Добро пожаловать"</code></pre>
-<p>我支持的根级字段：</p>
+<p>文件顶部的字段：</p>
 <table>
-<thead><tr><th>Field</th><th>Meaning</th></tr></thead>
+<thead><tr><th>字段</th><th>作用</th></tr></thead>
 <tbody>
-<tr><td><code>name</code></td><td>显示名称（报告、<code>--grep</code>）</td></tr>
-<tr><td><code>tags</code></td><td>用于 <code>--tags</code> 的标签</td></tr>
-<tr><td><code>engine</code></td><td><code>playwright</code> | <code>selenium</code> | <code>cypress</code> | <code>http</code></td></tr>
+<tr><td><code>name</code></td><td>显示在报告中；供 <code>--grep</code> 使用</td></tr>
+<tr><td><code>tags</code></td><td>与 <code>--tags</code> 配合使用</td></tr>
+<tr><td><code>engine</code></td><td><code>playwright</code>、<code>selenium</code>、<code>cypress</code> 或 <code>http</code></td></tr>
 <tr><td><code>timeout</code></td><td>默认步骤超时（毫秒）</td></tr>
-<tr><td><code>retries</code></td><td>失败后额外完整场景重试次数</td></tr>
-<tr><td><code>vars</code></td><td>变量（<code>$name</code>）</td></tr>
-<tr><td><code>secrets</code></td><td>密钥加载方式</td></tr>
-<tr><td><code>imports</code></td><td>Page / 共享 YAML 路径</td></tr>
-<tr><td><code>elements</code> / <code>actions</code></td><td>POM 定位器与命名流程</td></tr>
-<tr><td><code>locator_strategy</code></td><td>字符串选择器默认值（<code>css</code> | <code>xpath</code>）</td></tr>
-<tr><td><code>cases</code></td><td>数据驱动行</td></tr>
-<tr><td><code>data</code></td><td>作为 <code>$data</code> 供 <code>for:</code> 使用的数组</td></tr>
-<tr><td><code>before_each</code> / <code>after_each</code></td><td>每次尝试围绕 <code>steps</code> 的钩子</td></tr>
-<tr><td><code>steps</code></td><td>主步骤列表</td></tr>
+<tr><td><code>retries</code></td><td>失败后额外完整运行的次数</td></tr>
+<tr><td><code>vars</code></td><td>以 <code>$name</code> 形式使用的值</td></tr>
+<tr><td><code>secrets</code></td><td>secrets 的加载来源</td></tr>
+<tr><td><code>imports</code></td><td>要引入的其他 YAML 文件</td></tr>
+<tr><td><code>elements</code> / <code>actions</code></td><td>Page object 定位器与命名流程</td></tr>
+<tr><td><code>locator_strategy</code></td><td>字符串选择器的默认值：<code>css</code> 或 <code>xpath</code></td></tr>
+<tr><td><code>cases</code></td><td>每行数据对应一次运行</td></tr>
+<tr><td><code>data</code></td><td>数组，供 <code>for:</code> 以 <code>$data</code> 使用</td></tr>
+<tr><td><code>before_each</code> / <code>after_each</code></td><td>每次尝试时在 <code>steps</code> 前后执行</td></tr>
+<tr><td><code>steps</code></td><td>步骤本身</td></tr>
 </tbody>
 </table>
-<p>每个步骤还可设置 <code>timeout</code>、<code>save</code>、<code>debug</code>。要在场景中途切换引擎，使用 <code>with:</code> 块——这是 runtime 实际遵循的方式。</p>
+<p>单个步骤也可设置 <code>timeout</code>、<code>save</code> 或 <code>debug</code>。要在运行中途切换 engine，用 <code>with:</code> 包裹步骤。单步上的裸 <code>engine:</code> 不会切换上下文。</p>
 
 <h2 id="config">项目配置与环境变量</h2>
-<p><code>natl.config.yaml</code>（从测试文件向上查找最近的）：</p>
+<p>默认值位于测试旁的 <code>natl.config.yaml</code>（NATL 从当前文件向上查找，直到找到该文件）：</p>
 <pre><code>engine: playwright
 browser: chromium
 timeout: 15000
@@ -97,22 +95,22 @@ retries: 0
 trace: on-fail
 video: off
 soft_assert_screenshot: false</code></pre>
-<p>无需在每个文件中复制 URL：</p>
+<p>切换环境而无需修改每个场景：</p>
 <pre><code>natl run tests/ --env staging
 natl run tests/ --config config/prod.yaml</code></pre>
-<p><code>--env</code> 加载 <code>config/&lt;name&gt;.yaml</code>。<code>--env</code> 与 <code>--config</code> 互斥。</p>
-<p><strong>合并优先级：</strong> CLI → 测试 YAML → env 配置 → 基础 config → 默认值。</p>
+<p><code>--env staging</code> 会加载 <code>config/staging.yaml</code>。不要同时传入 <code>--env</code> 和 <code>--config</code>。</p>
+<p>优先级从强到弱：CLI 标志 → 测试文件中的字段 → 环境 profile → <code>natl.config.yaml</code> → 内置默认值。</p>
 
 <h2 id="ui">UI 步骤</h2>
 <table>
-<thead><tr><th>Verb</th><th>Form</th></tr></thead>
+<thead><tr><th>步骤</th><th>说明</th></tr></thead>
 <tbody>
-<tr><td><code>goto</code></td><td>URL、<code>file://</code> 或相对路径 → 本地文件</td></tr>
-<tr><td><code>click</code> / <code>tap</code></td><td>同一步骤；优先使用 <code>click:</code></td></tr>
-<tr><td><code>fill</code></td><td>locator + 同级 <code>with:</code></td></tr>
-<tr><td><code>select</code></td><td>locator + <code>with:</code>（选项值）</td></tr>
-<tr><td><code>check</code> / <code>uncheck</code></td><td>locator</td></tr>
-<tr><td><code>wait</code></td><td>毫秒，或选择器 + <code>visible</code> | <code>hidden</code> | <code>attached</code> | <code>detached</code></td></tr>
+<tr><td><code>goto</code></td><td>http(s) URL、<code>file://</code>，或指向本地文件的相对路径</td></tr>
+<tr><td><code>click</code> / <code>tap</code></td><td>同一操作。通常写 <code>click:</code></td></tr>
+<tr><td><code>fill</code></td><td>定位器，值通过 <code>with:</code> 传入</td></tr>
+<tr><td><code>select</code></td><td>定位器，选项值通过 <code>with:</code> 传入</td></tr>
+<tr><td><code>check</code> / <code>uncheck</code></td><td>复选框 / 单选框</td></tr>
+<tr><td><code>wait</code></td><td>毫秒延迟，或带 <code>visible</code>、<code>hidden</code>、<code>attached</code>、<code>detached</code> 的选择器</td></tr>
 </tbody>
 </table>
 <pre><code>- goto: $base_url
@@ -124,11 +122,11 @@ natl run tests/ --config config/prod.yaml</code></pre>
 - click: "#submit"
 - wait: 500
 - wait: ".modal hidden"</code></pre>
-<p><strong>自动等待：</strong> action 和 assert 会在 <code>timeout</code> 内等待目标元素。通常不需要在 assert 前加 <code>wait: ".ok visible"</code>。</p>
+<p><code>click</code>、<code>fill</code> 和 <code>assert</code> 已会在 <code>timeout</code> 内等待目标元素。assert 前很少需要 <code>wait: ".ok visible"</code>。将 <code>wait:</code> 用于延迟或 <code>hidden</code> 等状态。</p>
 
 <h2 id="assert">Assert</h2>
 <pre><code>- assert: ".welcome"
-  text: "Hello"              # or is:
+  text: "Hello"              # is: works the same
 - assert: ".welcome"
   contains: "Hell"
 - assert: $welcome
@@ -143,11 +141,11 @@ natl run tests/ --config config/prod.yaml</code></pre>
 - assert: ".price"
   text: "$10"
   soft: true
-- soft_assert: ".stock"      # alias → soft: true
+- soft_assert: ".stock"      # same as soft: true
   visible: true</code></pre>
-<p>属性运算符：<code>==</code>、<code>!=</code>、<code>contains</code>、<code>matches</code>。Soft assert 收集失败并在结束时失败；hard assert 是 fail-fast。</p>
+<p>对于 <code>attr:</code>，可使用 <code>==</code>、<code>!=</code>、<code>contains</code> 或 <code>matches</code>。硬 assert 会停止运行。软 assert 会继续执行，若有失败则在结束时标记整个运行为失败。</p>
 
-<h2 id="extract">Extract、set、log、screenshot</h2>
+<h2 id="extract">读取值、set、log、screenshot</h2>
 <pre><code>- get_text: ".title"
   save: title
 - get_attr: "a"
@@ -155,31 +153,31 @@ natl run tests/ --config config/prod.yaml</code></pre>
   save: href
 - set: $total = $price * $qty
 - log: "total=$total"
-- log: { message: "x", level: warn }   # info|debug|warn|error
+- log: { message: "x", level: warn }   # info, debug, warn, error
 - debug: true
 - screenshot:
     file: artifacts/shot.png
     full_page: true</code></pre>
 
-<h2 id="gestures">手势</h2>
-<p>桌面与移动 Web 使用相同步骤——无需 <code>if: mobile</code>。</p>
+<h2 id="gestures">滚动、滑动、长按</h2>
+<p>桌面端与移动 Web 用法相同。无需按设备类型分支。</p>
 <pre><code>- scroll: "#footer"
   into_view: true            # or delta_x / delta_y
 - swipe: "#carousel"
-  direction: left            # left|right|up|down
+  direction: left            # left, right, up, down
   distance: 200
 - long_press: "#card"
   duration_ms: 700</code></pre>
 
-<h2 id="vars">Vars、secrets、expressions</h2>
+<h2 id="vars">变量、secrets、表达式</h2>
 <table>
-<thead><tr><th>Syntax</th><th>Meaning</th></tr></thead>
+<thead><tr><th>写法</th><th>含义</th></tr></thead>
 <tbody>
 <tr><td><code>$user</code></td><td>变量</td></tr>
 <tr><td><code>$order.id</code></td><td>嵌套字段</td></tr>
-<tr><td><code>$env.KEY</code></td><td>环境变量 / <code>.env</code>（缺失 → 报错）</td></tr>
-<tr><td><code>$secret.KEY</code></td><td>同一存储；日志中掩码</td></tr>
-<tr><td><code>${ENV:KEY}</code></td><td>旧版兼容</td></tr>
+<tr><td><code>$env.KEY</code></td><td>来自环境或 <code>.env</code>（缺失时报错）</td></tr>
+<tr><td><code>$secret.KEY</code></td><td>同一来源；日志中隐藏</td></tr>
+<tr><td><code>${ENV:KEY}</code></td><td>旧写法；仍可用</td></tr>
 </tbody>
 </table>
 <pre><code>secrets:
@@ -190,9 +188,9 @@ natl run tests/ --config config/prod.yaml</code></pre>
 vars:
   user: $env.TEST_USER
   pass: $secret.TEST_PASS</code></pre>
-<p>运算符：<code>== != &gt; &lt; &gt;= &lt;= contains matches and or not</code>。</p>
-<p>内置函数：<code>now</code>、<code>today</code>、<code>random_int</code>、<code>random_string</code>、<code>random_uuid</code>、<code>random_email</code>、<code>len</code>、<code>contains</code>、<code>trim</code>、<code>upper</code>、<code>lower</code>、<code>replace</code>、<code>match</code>、<code>join</code>、<code>map</code>、<code>filter</code>、<code>range</code>。</p>
-<p>Runtime 还会注入 <code>current_url</code> 用于 URL 检查。参见 <code>examples/env_login.yaml</code>。</p>
+<p>比较：<code>== != &gt; &lt; &gt;= &lt;= contains matches and or not</code>。</p>
+<p>辅助函数：<code>now</code>、<code>today</code>、<code>random_int</code>、<code>random_string</code>、<code>random_uuid</code>、<code>random_email</code>、<code>len</code>、<code>contains</code>、<code>trim</code>、<code>upper</code>、<code>lower</code>、<code>replace</code>、<code>match</code>、<code>join</code>、<code>map</code>、<code>filter</code>、<code>range</code>。</p>
+<p>URL 检查期间可使用 <code>current_url</code>。<code>examples/env_login.yaml</code> 中有可用示例。</p>
 
 <h2 id="pom">Page objects</h2>
 <pre><code># pages/login.yaml
@@ -220,9 +218,9 @@ steps:
     pass: $pass
   - include: login/login
     vars: { user: $user }</code></pre>
-<p><code>do: page.action</code> 是推荐写法。<code>include:</code> 是底层形式（文件或整文件复用）。<code>do:</code> 上的同级键会合并到 action 作用域。</p>
-<p>Page 文件可以省略 <code>steps</code>。<code>natl run tests/</code> 会跳过 <code>pages/</code> 和 <code>config/</code>。</p>
-<p>策略优先级：element 对象 → page <code>locator_strategy</code> → 项目 → <code>css</code>。</p>
+<p>普通场景中使用 <code>do: page.action</code>。<code>include:</code> 是更低层的形式，用于指定文件路径或引入整个文件。<code>do:</code> 旁的额外键会成为该 action 的变量。</p>
+<p>Page 文件可以只含 <code>elements</code> 和 <code>actions</code>，不含 <code>steps</code>。运行文件夹时，NATL 会跳过 <code>pages/</code> 和 <code>config/</code>。</p>
+<p>定位器策略的优先级：元素对象 → page 文件 → 项目配置 → <code>css</code>。</p>
 
 <h2 id="cases">Cases 与 data</h2>
 <pre><code>cases:
@@ -241,7 +239,7 @@ steps:
   - for: $item in $data
     steps:
       - log: $item.name</code></pre>
-<p>简单表格优先用 <code>cases:</code>；嵌套/计算循环用 <code>data:</code> + <code>for:</code>。报告后缀使用行的 <code>name</code> / <code>label</code>，否则为 <code>[case N]</code>。</p>
+<p>表格化输入用 <code>cases:</code>。对列表或 <code>range</code> 循环用 <code>data:</code> 配合 <code>for:</code>。报告会附加行的 <code>name</code> 或 <code>label</code>；若两者都省略，则显示 <code>[case N]</code>。</p>
 
 <h2 id="http">HTTP</h2>
 <pre><code>engine: http
@@ -259,8 +257,8 @@ steps:
   - delete: …
   - assert: $echo.status == 200
   - assert: $echo.ok == true</code></pre>
-<p>保存结构：<code>{ status, headers, body, ok }</code>。当 <code>vars.base_url</code> 为 http(s) 时，相对 URL 相对它解析。旧版 <code>api:</code> 仍可用——优先使用动词形式。</p>
-<p>同一文件中的 UI + API：</p>
+<p>保存的内容：<code>{ status, headers, body, ok }</code>。相对 URL 在 <code>vars.base_url</code> 为 http(s) URL 时使用该值。旧的 <code>api:</code> 形式仍可解析；新文件应使用上述动词。</p>
+<p>同一场景中的 UI 与 HTTP：</p>
 <pre><code>engine: playwright
 steps:
   - goto: $base_url
@@ -270,12 +268,12 @@ steps:
         save: ping
       - assert: $ping.status == 200
   - click: "#refresh"</code></pre>
-<p>我的 HTTP 演示需要先启动 stub：</p>
+<p>仓库中的 HTTP 示例需要本地 stub：</p>
 <pre><code>node stubs/echo-server.mjs
 natl run http_only.yaml
 natl run ui_http_block.yaml</code></pre>
 
-<h2 id="flow">Flow</h2>
+<h2 id="flow">if / for / repeat / parallel</h2>
 <pre><code>- if: $role == "admin"
   then:
     - click: "#admin"
@@ -286,54 +284,53 @@ natl run ui_http_block.yaml</code></pre>
   steps:
     - log: $i
 
-- repeat: 3                 # or "3 times" / times: 3
+- repeat: 3                 # or "3 times", or times: 3
   steps:
-    - click: "#next"        # sets $i
+    - click: "#next"        # $i is set each time
 
 - repeat:
     until: $done == true
   steps:
-    - click: "#poll"        # max 1000 iterations
+    - click: "#poll"        # stops after 1000 iterations
 
-- parallel:                 # wait: all (default) | any
+- parallel:                 # wait: all by default, or any
   - get: $api/a
     save: a
   - get: $api/b
     save: b</code></pre>
-<p><code>before_each</code> / <code>after_each</code> 在每次尝试（含重试）围绕 <code>steps</code> 运行。</p>
+<p><code>before_each</code> 和 <code>after_each</code> 在每次尝试（含重试）时在 <code>steps</code> 前后运行。</p>
 
 <h2 id="cli">Tags、retries、CLI</h2>
 <pre><code>name: Checkout
 tags: [smoke, checkout]
 retries: 1</code></pre>
-<pre><code>natl run tests/ --tags smoke,auth    # OR
-natl run tests/ --grep "Login"       # RegExp on name or path
+<pre><code>natl run tests/ --tags smoke,auth    # match any listed tag
+natl run tests/ --grep "Login"       # regex on name or path
 natl run tests/ --retries 2
 natl run tests/ --env staging
 natl run tests/ --headed
 natl run tests/ --engine selenium
 natl run tests/ --trace on-fail
 natl run tests/ --video off</code></pre>
-<p><code>--tags</code> 与 <code>--grep</code> 以 AND 组合。零匹配 → 退出码 1。Retries 用全新 browser context 重跑整个场景；以最后一次尝试为准。</p>
+<p>若同时传入 <code>--tags</code> 和 <code>--grep</code>，文件须同时匹配两者。无匹配时退出码为 1。重试会开启新的浏览器上下文并完整重新运行场景。以最后一次尝试的结果为准。</p>
 
-<h2 id="sugar">紧凑写法与 sugar</h2>
-<p><strong>主要写法</strong>（提交这个——有效 YAML）：</p>
+<h2 id="sugar">如何编写步骤</h2>
+<p>优先使用带同级键的普通 YAML。编辑器和 schema 均按此格式设计：</p>
 <pre><code>- fill: "#email"
   with: $user
 - wait: ".dashboard visible"
 - assert: ".welcome"
   text: "Hello"</code></pre>
-<p><strong>Runtime sugar</strong>（预处理器；IDE 可能标记）：</p>
+<p>runner 也接受单行写法。许多编辑器会将其标为无效 YAML，因此不建议提交：</p>
 <pre><code>- fill: "#email" with: $user
 - assert: ".welcome" text: "Hello"
 - scroll: $footer into_view</code></pre>
-<p>IDE 自动补全：通过 <code>yaml.schemas</code> 接入 <code>@natl/core</code> schema——见 CLI README。</p>
+<p>如需自动补全，将 YAML 扩展指向 <code>@natl/core</code> 中的 schema。CLI README 中有 <code>yaml.schemas</code> 配置说明。</p>
 
 <h2 id="next">下一步</h2>
 <ul>
-  <li><a href="https://github.com/arslan-ahmetjanov/natl/tree/main/examples">examples/</a> — POM、cases、HTTP、手势、soft assert</li>
-  <li><a href="troubleshooting.html">Troubleshooting</a> — 当 PASS 迟迟不出现时</li>
-  <li><a href="adapters.html">Adapters</a> — Playwright / Selenium / Cypress / http</li>
-  <li><a href="canon.html">Canon</a> — 我绝不违背的规则</li>
+  <li><a href="https://github.com/arslan-ahmetjanov/natl/tree/main/examples">examples/</a> — POM、cases、HTTP、手势、软 assert</li>
+  <li><a href="troubleshooting.html">Troubleshooting</a></li>
+  <li><a href="adapters.html">Adapters</a></li>
+  <li><a href="canon.html">Canon</a> — 固定的设计选择</li>
 </ul>
-<p class="muted">—— Arslan</p>
