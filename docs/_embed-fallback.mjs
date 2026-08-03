@@ -5,6 +5,7 @@ const map = {
   "index.html": "home",
   "getting-started.html": "getting-started",
   "syntax.html": "syntax",
+  "troubleshooting.html": "troubleshooting",
   "canon.html": "canon",
   "architecture.html": "architecture",
   "adapters.html": "adapters",
@@ -13,6 +14,7 @@ const map = {
 for (const [file, page] of Object.entries(map)) {
   const path = `docs/${file}`;
   let html = readFileSync(path, "utf8");
+  if (!en.pages[page]) throw new Error("missing page " + page);
   const body = en.pages[page].html.trim();
 
   if (file === "index.html") {
@@ -28,5 +30,5 @@ for (const [file, page] of Object.entries(map)) {
   }
 
   writeFileSync(path, html);
-  console.log("patched", file);
+  console.log("patched", file, body.length);
 }

@@ -6,8 +6,9 @@
   },
   "nav": {
     "home": "Главная",
-    "gettingStarted": "Быстрый старт",
+    "gettingStarted": "Туториал",
     "syntax": "Синтаксис",
+    "troubleshooting": "Сбои",
     "canon": "Канон",
     "architecture": "Архитектура",
     "adapters": "Адаптеры"
@@ -19,36 +20,40 @@
     "themeDark": "Тёмная"
   },
   "footer": {
-    "line": "NATL — открытый проект под лицензией MIT."
+    "line": "Сделал Арслан Ахметжанов · лицензия MIT."
   },
   "home": {
-    "headline": "Короткие YAML-тесты для web UI и API",
-    "lede": "Open-source раннер: пишете компактный сценарий один раз, гоняете локально или в CI, меняете браузерный движок через adapter."
+    "headline": "Это NATL.",
+    "lede": "Я Арслан. Короткий YAML-раннер для web UI и API — чтобы написать тест один раз и не выкидывать его при смене стека."
   },
   "pages": {
     "home": {
       "title": "Главная",
-      "html": "\n<div class=\"card-grid\">\n  <a class=\"card\" href=\"getting-started.html\"><h3>Быстрый старт</h3><p>Установка CLI, каркас проекта, первый зелёный прогон.</p></a>\n  <a class=\"card\" href=\"syntax.html\"><h3>Синтаксис</h3><p>Compact YAML, POM, cases и HTTP-блоки.</p></a>\n  <a class=\"card\" href=\"adapters.html\"><h3>Адаптеры</h3><p>Playwright, Selenium, Cypress и встроенный HTTP.</p></a>\n  <a class=\"card\" href=\"canon.html\"><h3>Канон</h3><p>Принципы и словарь ~90%, который остаётся переносимым.</p></a>\n</div>\n<h2>Установка</h2>\n<pre><code>npm install -g @natl/cli @natl/adapter-playwright\nnpx playwright install chromium\nnatl --version</code></pre>\n<h2>Ссылки</h2>\n<ul>\n  <li><a href=\"https://github.com/arslan-ahmetjanov/natl\">Репозиторий на GitHub</a></li>\n  <li><a href=\"https://www.npmjs.com/package/@natl/cli\">npm @natl/cli</a></li>\n  <li><a href=\"https://github.com/arslan-ahmetjanov/natl/tree/main/examples\">Примеры</a></li>\n  <li><a href=\"https://github.com/arslan-ahmetjanov/natl/blob/main/CONTRIBUTING.md\">Contributing</a></li>\n</ul>"
+      "html": "\n<p class=\"muted\">Привет — я <strong>Арслан</strong>, и я сделал NATL, потому что устал переписывать одни и те же smoke-тесты каждый раз, когда менялся стек.</p>\n<p>Это короткий open-source YAML-раннер для <strong>web UI и API</strong>. Один компактный сценарий. Локально или в CI. Сменился Playwright на другой engine — меняете <code>engine:</code>, а не весь набор.</p>\n<p>Если вы здесь впервые: начните с туториала. Канон — потом, когда увидите первый зелёный <code>PASS</code>.</p>\n<div class=\"card-grid\">\n  <a class=\"card\" href=\"getting-started.html\"><h3>Туториал</h3><p>Установка, login, первый PASS. Входная дверь.</p></a>\n  <a class=\"card\" href=\"syntax.html\"><h3>Синтаксис</h3><p>Глаголы, которыми я пользуюсь каждый день.</p></a>\n  <a class=\"card\" href=\"troubleshooting.html\"><h3>Troubleshooting</h3><p>Когда падает — сюда, до того как винить YAML.</p></a>\n  <a class=\"card\" href=\"adapters.html\"><h3>Адаптеры</h3><p>Playwright по умолчанию. Selenium и Cypress — по нужде.</p></a>\n</div>\n<h2>Установка одним дыханием</h2>\n<pre><code>npm install -g @natl/cli @natl/adapter-playwright\nnpx playwright install chromium\nnatl --version</code></pre>\n<p class=\"muted\">Дальше — <a href=\"getting-started.html\">туториал</a>.</p>\n<ul>\n  <li><a href=\"https://github.com/arslan-ahmetjanov/natl\">GitHub</a></li>\n  <li><a href=\"https://www.npmjs.com/package/@natl/cli\">npm @natl/cli</a></li>\n  <li><a href=\"https://github.com/arslan-ahmetjanov/natl/tree/main/examples\">examples/</a></li>\n</ul>"
     },
     "getting-started": {
-      "title": "Быстрый старт",
-      "html": "\n<h1>Быстрый старт</h1>\n<h2>Требования</h2>\n<ul>\n<li>Node.js <strong>18+</strong></li>\n<li>npm</li>\n<li>Для UI — браузер adapter (по умолчанию Chromium / Playwright)</li>\n</ul>\n<pre><code>npm install -g @natl/cli @natl/adapter-playwright\nnpx playwright install chromium\nmkdir my-tests && cd my-tests\nnatl init\nnatl run tests/</code></pre>\n<p>HTTP-примеры: сначала <code>node stubs/echo-server.mjs</code>.</p>"
-    },
-    "adapters": {
-      "title": "Адаптеры",
-      "html": "\n<h1>Адаптеры</h1>\n<p>Сценарии остаются в YAML. UI-движки подключаются через <code>EngineAdapter</code>.</p>\n<table>\n<thead><tr><th>engine</th><th>Пакет</th><th>Заметки</th></tr></thead>\n<tbody>\n<tr><td><code>playwright</code></td><td><code>@natl/adapter-playwright</code></td><td>По умолчанию</td></tr>\n<tr><td><code>selenium</code></td><td><code>@natl/adapter-selenium</code></td><td>Chrome / Firefox / Edge</td></tr>\n<tr><td><code>cypress</code></td><td><code>@natl/adapter-cypress</code></td><td>MVP command-bridge</td></tr>\n<tr><td><code>http</code></td><td>built into <code>@natl/core</code></td><td>Только API</td></tr>\n</tbody>\n</table>\n<pre><code>engine: playwright\nbrowser: chromium\nheadless: true</code></pre>\n<pre><code>natl run suite.yaml --engine selenium</code></pre>\n<h2>UI + HTTP</h2>\n<pre><code>engine: playwright\nsteps:\n  - goto: $base_url\n  - with: http\n    steps:\n      - get: $api_base/get\n        save: ping\n      - assert: $ping.status == 200</code></pre>"
-    },
-    "architecture": {
-      "title": "Архитектура",
-      "html": "\n<h1>Архитектура</h1>\n<p>NATL отделяет <strong>что тестировать</strong> (YAML + POM) от <strong>как управлять браузером</strong> (<code>EngineAdapter</code> v2).</p>\n<ul>\n<li><strong>core</strong> — язык, выражения, HTTP, reporters</li>\n<li><strong>adapters</strong> — Playwright / Selenium / Cypress</li>\n<li><strong>cli</strong> — загрузка adapter по <code>engine:</code></li>\n</ul>"
-    },
-    "canon": {
-      "title": "Канон",
-      "html": "\n<h1>Канон языка</h1>\n<p>Короткий fullstack YAML для web UI и API в одном файле.</p>\n<ul>\n<li>Максимально короткий язык</li>\n<li>Один steps — много контекстов</li>\n<li>Портируемость через adapter</li>\n<li>Честный потолок</li>\n<li>Раннер, не TMS</li>\n</ul>"
+      "title": "Туториал",
+      "html": "\n<h1>Туториал</h1>\n<p>Через несколько минут вы поставите NATL, прогоните login, который я уже написал, и увидите <code>PASS</code>. Ради этого и страница.</p>\n<p class=\"muted\">Я объясняю так, как хотел бы, чтобы объяснили мне — коротко и по делу.</p>\n<h2>0. Что нужно</h2>\n<ul>\n  <li>Node.js <strong>18+</strong></li>\n  <li>Терминал</li>\n  <li>Минут десять</li>\n</ul>\n<h2>1. Установка</h2>\n<pre><code>npm install -g @natl/cli @natl/adapter-playwright\nnpx playwright install chromium\nnatl --version</code></pre>\n<p>Видите версию — вы внутри. Нет — <a href=\"troubleshooting.html\">Troubleshooting</a>.</p>\n<h2>2. Первый зелёный прогон</h2>\n<pre><code>git clone https://github.com/arslan-ahmetjanov/natl.git\ncd natl/examples\nnatl run login.yaml</code></pre>\n<p>Локальный HTML-fixture, без чужого продакшена. Должны увидеть <code>✓ PASS</code>.</p>\n<h2>3. Читаем сценарий вместе</h2>\n<pre><code>name: Login smoke\nengine: playwright\nvars:\n  base_url: ./fixtures/shop.html\n  user: demo@test.com\n  pass: secret\nsteps:\n  - goto: $base_url\n  - fill: \"#email\"\n    with: $user\n  - click: \"#login-btn\"\n  - assert: \".welcome\"\n    text: \"Добро пожаловать\"</code></pre>\n<p>Имя, engine, переменные, шаги. <code>$user</code> — из <code>vars</code>. Селекторы — обычный CSS.</p>\n<h2>4. Сломайте специально</h2>\n<p>Поменяйте текст assert на неверный, снова <code>natl run login.yaml</code>, прочитайте <code>FAIL</code> с файлом и строкой — и почините. Так учат мышцы.</p>\n<h2>5. Свой проект</h2>\n<pre><code>mkdir my-tests && cd my-tests\nnatl init\nnatl run tests/</code></pre>\n<h2>6. Дальше</h2>\n<ul>\n  <li><a href=\"syntax.html\">Синтаксис</a></li>\n  <li><a href=\"troubleshooting.html\">Troubleshooting</a></li>\n  <li><a href=\"https://github.com/arslan-ahmetjanov/natl/tree/main/examples\">examples/</a></li>\n</ul>\n<p class=\"muted\">— Арслан</p>"
     },
     "syntax": {
       "title": "Синтаксис",
-      "html": "\n<h1>Синтаксис</h1>\n<p>Предпочитайте <strong>compact</strong>-форму шагов.</p>\n<pre><code>steps:\n  - goto: $base_url\n  - fill: \"#email\"\n    with: $user\n  - click: \"#login-btn\"\n  - assert: \".welcome\"\n    text: \"Hello\"</code></pre>\n<h2>POM</h2>\n<pre><code>imports:\n  - pages/login.yaml\nsteps:\n  - do: login.login\n    user: $user\n    pass: $pass</code></pre>\n<h2>Cases</h2>\n<pre><code>cases:\n  - { name: a, user: a@test.com, expect: \"Welcome A\" }\nsteps:\n  - fill: \"#email\"\n    with: $user\n  - assert: \".welcome\"\n    text: $expect</code></pre>\n<h2>HTTP</h2>\n<pre><code>engine: http\nsteps:\n  - get: $api_base/get\n    save: ping\n  - assert: $ping.status == 200</code></pre>"
+      "html": "\n<h1>Синтаксис</h1>\n<p>Я делал NATL так, чтобы smoke помещался на один экран. Вот словарь, которым пользуюсь сам.</p>\n<h2>Анатомия файла</h2>\n<pre><code>name: Checkout smoke\nengine: playwright\ntags: [smoke]\nvars:\n  base_url: https://example.com\nsteps:\n  - goto: $base_url\n  - click: \"#buy\"\n  - assert: \".ok\"\n    visible: true</code></pre>\n<h2>Шпаргалка — UI</h2>\n<table>\n<thead><tr><th>Шаг</th><th>Смысл</th></tr></thead>\n<tbody>\n<tr><td><code>goto</code></td><td>Открыть URL или локальный файл</td></tr>\n<tr><td><code>fill</code> + <code>with</code></td><td>Ввод в поле</td></tr>\n<tr><td><code>click</code> / <code>tap</code></td><td>Одно и то же</td></tr>\n<tr><td><code>assert</code></td><td>Проверка текста, видимости, URL…</td></tr>\n<tr><td><code>wait</code></td><td>Только особые случаи — auto-wait уже ждёт появления</td></tr>\n</tbody>\n</table>\n<h2>Переменные</h2>\n<p><code>$name</code> из <code>vars</code>. Секреты: <code>$env.KEY</code> / <code>$secret.KEY</code>. Реальные пароли — в <code>.env</code>, не в git.</p>\n<h2>POM</h2>\n<pre><code>imports:\n  - pages/login.yaml\nsteps:\n  - do: login.login\n    user: $user\n    pass: $pass</code></pre>\n<h2>cases и HTTP</h2>\n<pre><code>cases:\n  - { name: a, user: a@test.com, expect: \"Welcome A\" }\nsteps:\n  - fill: \"#email\"\n    with: $user\n  - assert: \".welcome\"\n    text: $expect</code></pre>\n<pre><code>- with: http\n  steps:\n    - get: $api_base/get\n      save: ping\n    - assert: $ping.status == 200</code></pre>"
+    },
+    "troubleshooting": {
+      "title": "Сбои",
+      "html": "\n<h1>Troubleshooting</h1>\n<p>Когда ломается — сначала сюда, потом уже переписывать сценарий.</p>\n<h2><code>natl: command not found</code></h2>\n<pre><code>npm install -g @natl/cli @natl/adapter-playwright\nnpm prefix -g\nnatl --version</code></pre>\n<h2>Ошибки Chromium / browser</h2>\n<pre><code>npx playwright install chromium\nnpx playwright install --with-deps chromium</code></pre>\n<h2>FAIL / элемент не найден</h2>\n<ul>\n  <li>Селектор ещё актуален?</li>\n  <li>Лучше стабильный <code>#id</code>, чем хрупкая цепочка</li>\n  <li>Смотрите screenshot в <code>artifacts/</code></li>\n</ul>\n<h2>Отступы YAML</h2>\n<pre><code>- fill: \"#email\"\n  with: $user</code></pre>\n<h2>HTTP-примеры</h2>\n<pre><code>node stubs/echo-server.mjs\nnatl run http_only.yaml</code></pre>\n<h2>Всё ещё плохо?</h2>\n<p>Issue на <a href=\"https://github.com/arslan-ahmetjanov/natl/issues\">GitHub</a> с строкой FAIL и ОС — я читаю.</p>\n<p class=\"muted\">— Арслан</p>"
+    },
+    "adapters": {
+      "title": "Адаптеры",
+      "html": "\n<h1>Адаптеры</h1>\n<p>YAML — контракт. Adapter — как мы водим браузер (или обходимся HTTP).</p>\n<p>По умолчанию я беру Playwright. Selenium и Cypress — когда так уже живёт команда.</p>\n<table>\n<thead><tr><th>engine</th><th>Пакет</th><th>Когда</th></tr></thead>\n<tbody>\n<tr><td><code>playwright</code></td><td><code>@natl/adapter-playwright</code></td><td>Дефолт, новые проекты, CI</td></tr>\n<tr><td><code>selenium</code></td><td><code>@natl/adapter-selenium</code></td><td>WebDriver / Grid</td></tr>\n<tr><td><code>cypress</code></td><td><code>@natl/adapter-cypress</code></td><td>Команды на Cypress (MVP)</td></tr>\n<tr><td><code>http</code></td><td><code>@natl/core</code></td><td>Только API</td></tr>\n</tbody>\n</table>\n<pre><code>natl run suite.yaml --engine selenium</code></pre>\n<pre><code>- with: http\n  steps:\n    - get: $api_base/get\n      save: ping</code></pre>"
+    },
+    "architecture": {
+      "title": "Архитектура",
+      "html": "\n<h1>Архитектура</h1>\n<p>Как я рисую это на доске:</p>\n<ul>\n  <li><strong>Вы пишете YAML</strong> — что тестировать</li>\n  <li><strong>@natl/core</strong> — парсинг, шаги, HTTP</li>\n  <li><strong>@natl/cli</strong> — команда <code>natl</code></li>\n  <li><strong>adapters</strong> — клики и assert в реальном браузере</li>\n</ul>\n<pre><code>YAML → CLI → core → adapter-playwright\n                ↘ http</code></pre>\n<p>Поэтому смена engine для типичных сценариев — правка конфига. Крайности бывают — об этом честно в <a href=\"canon.html\">каноне</a>.</p>"
+    },
+    "canon": {
+      "title": "Канон",
+      "html": "\n<h1>Канон</h1>\n<p>Не слоганы. Правила, которые я не ломаю, пока ращу NATL.</p>\n<table>\n<thead><tr><th>Верю</th><th>Значит</th></tr></thead>\n<tbody>\n<tr><td>Тесты должны быть короткими</td><td>Compact YAML + <code>do:</code></td></tr>\n<tr><td>UI и API рядом</td><td>Один steps, <code>with: http</code></td></tr>\n<tr><td>Стенды меняются чаще сценариев</td><td><code>--env</code>, vars, cases</td></tr>\n<tr><td>Движки приходят и уходят</td><td>Портируемость через adapters</td></tr>\n<tr><td>Честность важнее маркетинга</td><td>Большинство smoke переносится; хвост — escape hatch</td></tr>\n<tr><td>Раннер ≠ TMS</td><td>В CLI нет дашборда</td></tr>\n</tbody>\n</table>\n<p>Новый глагол? Вопрос один: <em>нужен ли он короткому fullstack smoke встроенным ~90%?</em></p>\n<p class=\"muted\">— Арслан</p>"
     }
   }
 }

@@ -19,8 +19,9 @@
         </a>
         <nav class="nav" aria-label="Docs">
           <a href="index.html" data-i18n="nav.home">Home</a>
-          <a href="getting-started.html" data-i18n="nav.gettingStarted">Getting started</a>
+          <a href="getting-started.html" data-i18n="nav.gettingStarted">Tutorial</a>
           <a href="syntax.html" data-i18n="nav.syntax">Syntax</a>
+          <a href="troubleshooting.html" data-i18n="nav.troubleshooting">Troubleshooting</a>
           <a href="canon.html" data-i18n="nav.canon">Canon</a>
           <a href="architecture.html" aria-current="page" data-i18n="nav.architecture">Architecture</a>
           <a href="adapters.html" data-i18n="nav.adapters">Adapters</a>
@@ -39,24 +40,22 @@
     <main class="shell">
       <article class="content" data-page-content>
 <h1>Architecture</h1>
-<p>NATL separates <strong>what to test</strong> (compact YAML + POM) from <strong>how to drive the browser</strong> (<code>EngineAdapter</code> v2).</p>
+<p>Here's the mental model I use when I explain NATL on a whiteboard:</p>
 <ul>
-<li><strong>core</strong> — language, expressions, HTTP helpers, reporters</li>
-<li><strong>adapters</strong> — Playwright / Selenium / Cypress packages</li>
-<li><strong>cli</strong> — loads adapters at runtime via <code>engine:</code></li>
+  <li><strong>You write YAML</strong> — what to test</li>
+  <li><strong>@natl/core</strong> — parses it, runs steps, talks HTTP</li>
+  <li><strong>@natl/cli</strong> — the <code>natl</code> command you type</li>
+  <li><strong>adapters</strong> — how clicks and asserts hit a real browser</li>
 </ul>
-<pre><code>core/
-adapter-playwright/
-adapter-selenium/
-adapter-cypress/
-cli/
-examples/
-docs/</code></pre>
+<pre><code>YAML  →  CLI  →  core  →  adapter-playwright (or selenium / cypress)
+                     ↘  http (built-in)</code></pre>
+<p>That's why swapping engines is a config change for typical flows. Edge cases will always exist — I try to be honest about that in the <a href="canon.html">canon</a>.</p>
+<p class="muted">Monorepo: <code>core/</code>, <code>adapter-*</code>, <code>cli/</code>, <code>examples/</code>, <code>docs/</code>.</p>
       </article>
     </main>
     <footer class="footer">
       <div class="shell">
-        <span data-i18n="footer.line">NATL is open source under the MIT License.</span>
+        <span data-i18n="footer.line">Built by Arslan Ahmetjanov · MIT License.</span>
         · <a href="https://github.com/arslan-ahmetjanov/natl">GitHub</a>
         · <a href="https://www.npmjs.com/package/@natl/cli">npm</a>
       </div>

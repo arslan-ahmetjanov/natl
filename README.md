@@ -6,7 +6,7 @@
 
 **Not Another Testing Language** — a short, open-source YAML runner for **web UI and API** tests.
 
-Write one compact scenario (optional POM). Run it locally or in CI. Swap the browser engine with an adapter (`playwright` → `selenium` / `cypress`) without rewriting typical flows. Mix UI and HTTP in the same file.
+I'm **Arslan**. I built NATL so you can write one compact scenario (optional POM), run it locally or in CI, and keep it when the stack moves — swap `engine:` (`playwright` → `selenium` / `cypress`) without rewriting typical flows. Mix UI and HTTP in the same file.
 
 [![npm @natl/cli](https://img.shields.io/npm/v/@natl/cli.svg)](https://www.npmjs.com/package/@natl/cli)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
@@ -41,7 +41,8 @@ Or try the demos in [`examples/`](./examples/).
 
 ## Documentation
 
-Site (EN / RU / 中文 / ES, light & dark): **https://arslan-ahmetjanov.github.io/natl/**
+Site (EN / RU / 中文 / ES · light & dark): **https://arslan-ahmetjanov.github.io/natl/**  
+Start with the [tutorial](https://arslan-ahmetjanov.github.io/natl/getting-started.html) — written in first person by the author.
 
 ## Packages
 

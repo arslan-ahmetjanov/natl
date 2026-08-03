@@ -26,8 +26,9 @@
         </a>
         <nav class="nav" aria-label="Docs">
           <a href="index.html" aria-current="page" data-i18n="nav.home">Home</a>
-          <a href="getting-started.html" data-i18n="nav.gettingStarted">Getting started</a>
+          <a href="getting-started.html" data-i18n="nav.gettingStarted">Tutorial</a>
           <a href="syntax.html" data-i18n="nav.syntax">Syntax</a>
+          <a href="troubleshooting.html" data-i18n="nav.troubleshooting">Troubleshooting</a>
           <a href="canon.html" data-i18n="nav.canon">Canon</a>
           <a href="architecture.html" data-i18n="nav.architecture">Architecture</a>
           <a href="adapters.html" data-i18n="nav.adapters">Adapters</a>
@@ -48,9 +49,9 @@
     <main class="shell">
       <section class="hero">
         <img class="lockup" src="assets/img/natl-lockup.svg" alt="NATL" />
-        <h1 data-i18n="home.headline">Short YAML tests for web UI and API</h1>
+        <h1 data-i18n="home.headline">This is NATL.</h1>
         <p class="lede" data-i18n="home.lede">
-          Open-source runner: write compact scenarios once, run locally or in CI, swap browser engines through adapters.
+          I'm Arslan. I built a short YAML runner for web UI and API — so you can write the test once and keep it when the stack moves.
         </p>
         <div class="pill-row">
           <span class="pill"><strong>UI + API</strong></span>
@@ -59,33 +60,34 @@
         </div>
       </section>
       <div class="content" data-page-content>
+<p class="muted">Hi — I'm <strong>Arslan</strong>, and I built NATL because I was tired of rewriting the same smoke tests every time the stack changed.</p>
+<p>This is a short open-source YAML runner for <strong>web UI and API</strong>. You write one compact scenario. You run it locally or in CI. When the team swaps Playwright for something else, you change <code>engine:</code> — not the whole suite.</p>
+<p>If you're new here: start with the tutorial. Don't skim the canon first. Canon is for after you've seen a green <code>PASS</code>.</p>
 <div class="card-grid">
-  <a class="card" href="getting-started.html"><h3>Getting started</h3><p>Install the CLI, scaffold a project, get a green run.</p></a>
-  <a class="card" href="syntax.html"><h3>Syntax</h3><p>Compact YAML steps, POM, cases, and HTTP blocks.</p></a>
-  <a class="card" href="adapters.html"><h3>Adapters</h3><p>Playwright, Selenium, Cypress, and built-in HTTP.</p></a>
-  <a class="card" href="canon.html"><h3>Canon</h3><p>Principles and the ~90% vocabulary that stays portable.</p></a>
+  <a class="card" href="getting-started.html"><h3>Tutorial</h3><p>Install, run a login, celebrate the first PASS. This is the front door.</p></a>
+  <a class="card" href="syntax.html"><h3>Syntax</h3><p>The verbs I use every day — with examples, not theory.</p></a>
+  <a class="card" href="troubleshooting.html"><h3>Troubleshooting</h3><p>When it fails (and it will), start here before you blame YAML.</p></a>
+  <a class="card" href="adapters.html"><h3>Adapters</h3><p>Playwright by default. Selenium and Cypress when you need them.</p></a>
 </div>
-<h2>Install</h2>
+<h2>Install in one breath</h2>
 <pre><code>npm install -g @natl/cli @natl/adapter-playwright
 npx playwright install chromium
 natl --version</code></pre>
+<p class="muted">Then go to the <a href="getting-started.html">tutorial</a>. I'll meet you there.</p>
 <h2>Links</h2>
 <ul>
-  <li><a href="https://github.com/arslan-ahmetjanov/natl">GitHub repository</a></li>
+  <li><a href="https://github.com/arslan-ahmetjanov/natl">GitHub</a></li>
   <li><a href="https://www.npmjs.com/package/@natl/cli">npm @natl/cli</a></li>
-  <li><a href="https://github.com/arslan-ahmetjanov/natl/tree/main/examples">Examples</a></li>
-  <li><a href="https://github.com/arslan-ahmetjanov/natl/blob/main/CONTRIBUTING.md">Contributing</a></li>
+  <li><a href="https://github.com/arslan-ahmetjanov/natl/tree/main/examples">examples/</a> — real scenarios I keep in the repo</li>
 </ul>
       </div>
     </main>
 
     <footer class="footer">
       <div class="shell">
-        <span data-i18n="footer.line">NATL is open source under the MIT License.</span>
-        ·
-        <a href="https://github.com/arslan-ahmetjanov/natl">GitHub</a>
-        ·
-        <a href="https://www.npmjs.com/package/@natl/cli">npm</a>
+        <span data-i18n="footer.line">Built by Arslan Ahmetjanov · MIT License.</span>
+        · <a href="https://github.com/arslan-ahmetjanov/natl">GitHub</a>
+        · <a href="https://www.npmjs.com/package/@natl/cli">npm</a>
       </div>
     </footer>
 

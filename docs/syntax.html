@@ -19,8 +19,9 @@
         </a>
         <nav class="nav" aria-label="Docs">
           <a href="index.html" data-i18n="nav.home">Home</a>
-          <a href="getting-started.html" data-i18n="nav.gettingStarted">Getting started</a>
+          <a href="getting-started.html" data-i18n="nav.gettingStarted">Tutorial</a>
           <a href="syntax.html" aria-current="page" data-i18n="nav.syntax">Syntax</a>
+          <a href="troubleshooting.html" data-i18n="nav.troubleshooting">Troubleshooting</a>
           <a href="canon.html" data-i18n="nav.canon">Canon</a>
           <a href="architecture.html" data-i18n="nav.architecture">Architecture</a>
           <a href="adapters.html" data-i18n="nav.adapters">Adapters</a>
@@ -39,40 +40,75 @@
     <main class="shell">
       <article class="content" data-page-content>
 <h1>Syntax</h1>
-<p>Prefer <strong>compact</strong> steps.</p>
-<pre><code>steps:
+<p>I designed NATL so a smoke test fits on one screen. Here's the vocabulary I actually use.</p>
+
+<h2>Anatomy of a file</h2>
+<pre><code>name: Checkout smoke
+engine: playwright
+tags: [smoke]
+timeout: 15000
+vars:
+  base_url: https://example.com
+steps:
   - goto: $base_url
-  - fill: "#email"
-    with: $user
-  - click: "#login-btn"
-  - assert: ".welcome"
-    text: "Hello"</code></pre>
-<h2>POM</h2>
+  - click: "#buy"
+  - assert: ".ok"
+    visible: true</code></pre>
+
+<h2>Cheat sheet — UI</h2>
+<table>
+<thead><tr><th>Step</th><th>What I mean by it</th></tr></thead>
+<tbody>
+<tr><td><code>goto</code></td><td>Open a URL or local file</td></tr>
+<tr><td><code>fill</code> + <code>with</code></td><td>Type into an input</td></tr>
+<tr><td><code>click</code> / <code>tap</code></td><td>Same action — pick the word you like</td></tr>
+<tr><td><code>select</code> / <code>check</code></td><td>Forms</td></tr>
+<tr><td><code>assert</code></td><td>Check text, visibility, URL, …</td></tr>
+<tr><td><code>wait</code></td><td>Only for special cases — auto-wait already covers “become visible”</td></tr>
+<tr><td><code>log</code></td><td>Print something helpful</td></tr>
+</tbody>
+</table>
+
+<h2>Variables</h2>
+<p><code>$name</code> from <code>vars</code>. Secrets from the environment: <code>$env.KEY</code> / <code>$secret.KEY</code>. Don't commit real passwords — use <code>.env</code>.</p>
+
+<h2>POM without ceremony</h2>
+<p>Put selectors in a page file, call them with <code>do:</code>:</p>
 <pre><code>imports:
   - pages/login.yaml
 steps:
+  - goto: $base_url
   - do: login.login
     user: $user
     pass: $pass</code></pre>
-<h2>Cases</h2>
+<p>See <code>examples/pom_login.yaml</code> in the repo.</p>
+
+<h2>Data-driven with cases</h2>
 <pre><code>cases:
   - { name: a, user: a@test.com, expect: "Welcome A" }
+  - { name: b, user: b@test.com, expect: "Welcome B" }
 steps:
   - fill: "#email"
     with: $user
   - assert: ".welcome"
     text: $expect</code></pre>
-<h2>HTTP</h2>
-<pre><code>engine: http
-steps:
-  - get: $api_base/get
-    save: ping
-  - assert: $ping.status == 200</code></pre>
+
+<h2>HTTP next to UI</h2>
+<pre><code>steps:
+  - do: login.login
+    user: $user
+    pass: $pass
+  - with: http
+    steps:
+      - get: $api_base/get
+        save: ping
+      - assert: $ping.status == 200</code></pre>
+<p class="muted">Fuller notes live in the package READMEs — this page is the map I want in your head.</p>
       </article>
     </main>
     <footer class="footer">
       <div class="shell">
-        <span data-i18n="footer.line">NATL is open source under the MIT License.</span>
+        <span data-i18n="footer.line">Built by Arslan Ahmetjanov · MIT License.</span>
         · <a href="https://github.com/arslan-ahmetjanov/natl">GitHub</a>
         · <a href="https://www.npmjs.com/package/@natl/cli">npm</a>
       </div>

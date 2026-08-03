@@ -6,8 +6,9 @@
   },
   "nav": {
     "home": "首页",
-    "gettingStarted": "快速开始",
+    "gettingStarted": "教程",
     "syntax": "语法",
+    "troubleshooting": "排错",
     "canon": "规范",
     "architecture": "架构",
     "adapters": "适配器"
@@ -19,36 +20,40 @@
     "themeDark": "深色"
   },
   "footer": {
-    "line": "NATL 是 MIT 许可的开源项目。"
+    "line": "作者 Arslan Ahmetjanov · MIT 许可。"
   },
   "home": {
-    "headline": "面向 Web UI 与 API 的短 YAML 测试",
-    "lede": "开源运行器：一次编写紧凑场景，本地或 CI 执行，通过适配器切换浏览器引擎。"
+    "headline": "这就是 NATL。",
+    "lede": "我是 Arslan。短 YAML 运行器，面向 Web UI 与 API——写一次，栈变了也不必整套重来。"
   },
   "pages": {
     "home": {
       "title": "首页",
-      "html": "\n<div class=\"card-grid\">\n  <a class=\"card\" href=\"getting-started.html\"><h3>快速开始</h3><p>安装 CLI，初始化项目，跑通第一次测试。</p></a>\n  <a class=\"card\" href=\"syntax.html\"><h3>语法</h3><p>紧凑 YAML、POM、cases 与 HTTP 块。</p></a>\n  <a class=\"card\" href=\"adapters.html\"><h3>适配器</h3><p>Playwright、Selenium、Cypress 与内置 HTTP。</p></a>\n  <a class=\"card\" href=\"canon.html\"><h3>规范</h3><p>原则与约 90% 可移植词汇。</p></a>\n</div>\n<h2>安装</h2>\n<pre><code>npm install -g @natl/cli @natl/adapter-playwright\nnpx playwright install chromium\nnatl --version</code></pre>"
+      "html": "\n<p class=\"muted\">你好 — 我是 <strong>Arslan</strong>。我做 NATL，是因为每次技术栈一变，我就要重写同一批 smoke。</p>\n<p>这是一个简短的开源 YAML 运行器，面向 <strong>Web UI 与 API</strong>。写一次紧凑场景；本地或 CI 执行；换引擎时改 <code>engine:</code>，而不是整套用例。</p>\n<p>如果你是第一次来：先做教程。规范（Canon）等你看到绿色的 <code>PASS</code> 再读。</p>\n<div class=\"card-grid\">\n  <a class=\"card\" href=\"getting-started.html\"><h3>教程</h3><p>安装、登录场景、第一次 PASS。</p></a>\n  <a class=\"card\" href=\"syntax.html\"><h3>语法</h3><p>我每天用的动词与例子。</p></a>\n  <a class=\"card\" href=\"troubleshooting.html\"><h3>排错</h3><p>失败时先看这里。</p></a>\n  <a class=\"card\" href=\"adapters.html\"><h3>适配器</h3><p>默认 Playwright。</p></a>\n</div>\n<pre><code>npm install -g @natl/cli @natl/adapter-playwright\nnpx playwright install chromium\nnatl --version</code></pre>"
     },
     "getting-started": {
-      "title": "快速开始",
-      "html": "\n<h1>快速开始</h1>\n<ul><li>Node.js <strong>18+</strong></li><li>npm</li><li>UI 需要浏览器（默认 Playwright Chromium）</li></ul>\n<pre><code>npm install -g @natl/cli @natl/adapter-playwright\nnpx playwright install chromium\nmkdir my-tests && cd my-tests\nnatl init\nnatl run tests/</code></pre>"
-    },
-    "adapters": {
-      "title": "适配器",
-      "html": "\n<h1>适配器</h1>\n<p>场景保持 YAML；UI 引擎通过 <code>EngineAdapter</code> 接入。</p>\n<table>\n<thead><tr><th>engine</th><th>包</th><th>说明</th></tr></thead>\n<tbody>\n<tr><td><code>playwright</code></td><td><code>@natl/adapter-playwright</code></td><td>默认</td></tr>\n<tr><td><code>selenium</code></td><td><code>@natl/adapter-selenium</code></td><td>WebDriver</td></tr>\n<tr><td><code>cypress</code></td><td><code>@natl/adapter-cypress</code></td><td>MVP</td></tr>\n<tr><td><code>http</code></td><td><code>@natl/core</code></td><td>仅 API</td></tr>\n</tbody></table>"
-    },
-    "architecture": {
-      "title": "架构",
-      "html": "\n<h1>架构</h1>\n<p>NATL 将<strong>测什么</strong>（YAML + POM）与<strong>如何驱动浏览器</strong>（EngineAdapter v2）分离。</p>\n<ul><li><strong>core</strong></li><li><strong>adapters</strong></li><li><strong>cli</strong></li></ul>"
-    },
-    "canon": {
-      "title": "规范",
-      "html": "\n<h1>语言规范</h1>\n<ul><li>尽量简短</li><li>同一 steps，多种上下文</li><li>通过适配器保持可移植</li><li>诚实的能力边界</li><li>运行器，不是 TMS</li></ul>"
+      "title": "教程",
+      "html": "\n<h1>教程</h1>\n<p>几分钟内：安装 NATL，跑我写好的 login，看到 <code>PASS</code>。</p>\n<pre><code>npm install -g @natl/cli @natl/adapter-playwright\nnpx playwright install chromium\ngit clone https://github.com/arslan-ahmetjanov/natl.git\ncd natl/examples\nnatl run login.yaml</code></pre>\n<p>这是本地 HTML fixture，不是别人的生产站。然后故意改错 assert，再跑一次，读懂 <code>FAIL</code>。</p>\n<pre><code>mkdir my-tests && cd my-tests\nnatl init\nnatl run tests/</code></pre>\n<p class=\"muted\">— Arslan</p>"
     },
     "syntax": {
       "title": "语法",
-      "html": "\n<h1>语法</h1>\n<p>优先使用<strong>紧凑</strong>步骤写法。</p>\n<pre><code>steps:\n  - goto: $base_url\n  - fill: \"#email\"\n    with: $user\n  - click: \"#login-btn\"\n  - assert: \".welcome\"\n    text: \"Hello\"</code></pre>\n<h2>POM</h2>\n<pre><code>imports:\n  - pages/login.yaml\nsteps:\n  - do: login.login\n    user: $user\n    pass: $pass</code></pre>\n<h2>Cases</h2>\n<pre><code>cases:\n  - { name: a, user: a@test.com, expect: \"Welcome A\" }\nsteps:\n  - fill: \"#email\"\n    with: $user\n  - assert: \".welcome\"\n    text: $expect</code></pre>\n<h2>HTTP</h2>\n<pre><code>engine: http\nsteps:\n  - get: $api_base/get\n    save: ping\n  - assert: $ping.status == 200</code></pre>"
+      "html": "\n<h1>语法</h1>\n<p>我希望 smoke 能放进一屏。</p>\n<pre><code>steps:\n  - goto: $base_url\n  - fill: \"#email\"\n    with: $user\n  - click: \"#login-btn\"\n  - assert: \".welcome\"\n    text: \"Hello\"</code></pre>\n<table>\n<thead><tr><th>步骤</th><th>含义</th></tr></thead>\n<tbody>\n<tr><td><code>goto</code></td><td>打开页面</td></tr>\n<tr><td><code>fill</code> + <code>with</code></td><td>输入</td></tr>\n<tr><td><code>click</code> / <code>tap</code></td><td>点击</td></tr>\n<tr><td><code>assert</code></td><td>断言</td></tr>\n<tr><td><code>do:</code></td><td>调用页面动作（POM）</td></tr>\n</tbody>\n</table>\n<pre><code>- with: http\n  steps:\n    - get: $api_base/get\n      save: ping</code></pre>"
+    },
+    "troubleshooting": {
+      "title": "排错",
+      "html": "\n<h1>排错</h1>\n<p><code>natl: command not found</code> → 检查全局 npm bin 是否在 PATH。</p>\n<pre><code>npx playwright install chromium</code></pre>\n<p>断言失败 → 检查选择器与 <code>artifacts/</code> 截图。</p>\n<p>HTTP 示例 → 先运行 <code>node stubs/echo-server.mjs</code>。</p>\n<p>仍有问题？在 <a href=\"https://github.com/arslan-ahmetjanov/natl/issues\">GitHub Issues</a> 留言，附上 FAIL 行。</p>\n<p class=\"muted\">— Arslan</p>"
+    },
+    "adapters": {
+      "title": "适配器",
+      "html": "\n<h1>适配器</h1>\n<p>YAML 是契约；适配器负责驱动浏览器。</p>\n<table>\n<thead><tr><th>engine</th><th>包</th><th>何时用</th></tr></thead>\n<tbody>\n<tr><td><code>playwright</code></td><td><code>@natl/adapter-playwright</code></td><td>默认</td></tr>\n<tr><td><code>selenium</code></td><td><code>@natl/adapter-selenium</code></td><td>已有 WebDriver</td></tr>\n<tr><td><code>cypress</code></td><td><code>@natl/adapter-cypress</code></td><td>Cypress 团队（MVP）</td></tr>\n<tr><td><code>http</code></td><td><code>@natl/core</code></td><td>仅 API</td></tr>\n</tbody>\n</table>"
+    },
+    "architecture": {
+      "title": "架构",
+      "html": "\n<h1>架构</h1>\n<p>YAML → CLI → core → adapter（或内置 http）。</p>\n<p>典型流程换引擎只需改配置；边角情况我在<a href=\"canon.html\">规范</a>里说得很直白。</p>"
+    },
+    "canon": {
+      "title": "规范",
+      "html": "\n<h1>规范</h1>\n<p>短；UI+API 一起；用 config/env/cases 而不是满屏 <code>if</code>；用适配器保持可移植；诚实的能力边界；运行器不是 TMS。</p>\n<p class=\"muted\">— Arslan</p>"
     }
   }
 }

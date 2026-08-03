@@ -19,8 +19,9 @@
         </a>
         <nav class="nav" aria-label="Docs">
           <a href="index.html" data-i18n="nav.home">Home</a>
-          <a href="getting-started.html" data-i18n="nav.gettingStarted">Getting started</a>
+          <a href="getting-started.html" data-i18n="nav.gettingStarted">Tutorial</a>
           <a href="syntax.html" data-i18n="nav.syntax">Syntax</a>
+          <a href="troubleshooting.html" data-i18n="nav.troubleshooting">Troubleshooting</a>
           <a href="canon.html" aria-current="page" data-i18n="nav.canon">Canon</a>
           <a href="architecture.html" data-i18n="nav.architecture">Architecture</a>
           <a href="adapters.html" data-i18n="nav.adapters">Adapters</a>
@@ -38,26 +39,26 @@
     </header>
     <main class="shell">
       <article class="content" data-page-content>
-<h1>Language canon</h1>
-<p>Short fullstack YAML for web UI and API in one scenario file.</p>
+<h1>Canon</h1>
+<p>These aren't slogans. They're the rules I refuse to break while growing NATL.</p>
 <table>
-<thead><tr><th>Principle</th><th>Consequence</th></tr></thead>
+<thead><tr><th>I believe</th><th>So I build</th></tr></thead>
 <tbody>
-<tr><td>Maximally short</td><td>Compact steps; POM via <code>do:</code></td></tr>
-<tr><td>Fullstack</td><td>UI + HTTP in one steps list</td></tr>
-<tr><td>One scenario, many contexts</td><td>config / <code>--env</code> / vars / cases</td></tr>
-<tr><td>Portable via adapter</td><td>Typical flows survive <code>engine:</code> changes</td></tr>
-<tr><td>Honest ceiling</td><td>Most smoke ports; engine-specific tails are escape hatches</td></tr>
-<tr><td>Runner ≠ TMS</td><td>No dashboard in the CLI</td></tr>
+<tr><td>Tests should be short</td><td>Compact YAML + <code>do:</code> for POM</td></tr>
+<tr><td>UI and API belong together</td><td>One steps list, <code>with: http</code></td></tr>
+<tr><td>Stands change more than flows</td><td><code>--env</code>, vars, cases — not <code>if: mobile</code> in every file</td></tr>
+<tr><td>Engines come and go</td><td>Portability via adapters</td></tr>
+<tr><td>Honesty beats marketing</td><td>~most smoke ports; escape hatches for the weird tail</td></tr>
+<tr><td>A runner is not a TMS</td><td>No dashboard in the CLI</td></tr>
 </tbody>
 </table>
-<h2>~90% UI verbs</h2>
-<p><code>goto</code>, <code>click</code>/<code>tap</code>, <code>fill</code>, <code>assert</code>, <code>wait</code>, gestures, plus <code>do</code> / <code>cases</code>.</p>
+<p>If you propose a new verb, I ask one question: <em>does a short fullstack smoke need this in the built-in ~90%?</em> If not, it waits.</p>
+<p class="muted">— Arslan</p>
       </article>
     </main>
     <footer class="footer">
       <div class="shell">
-        <span data-i18n="footer.line">NATL is open source under the MIT License.</span>
+        <span data-i18n="footer.line">Built by Arslan Ahmetjanov · MIT License.</span>
         · <a href="https://github.com/arslan-ahmetjanov/natl">GitHub</a>
         · <a href="https://www.npmjs.com/package/@natl/cli">npm</a>
       </div>
