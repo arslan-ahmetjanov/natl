@@ -30,6 +30,10 @@ coverage/
 *.swp
 *~
 
+# local-only (not published)
+AGENTS.md
+course/
+
 # logs
 npm-debug.log*
 pnpm-debug.log*
