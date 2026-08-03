@@ -1,0 +1,54 @@
+{
+  "meta": {
+    "htmlLang": "ru",
+    "title": "NATL",
+    "tagline": "Not Another Testing Language"
+  },
+  "nav": {
+    "home": "Главная",
+    "gettingStarted": "Быстрый старт",
+    "syntax": "Синтаксис",
+    "canon": "Канон",
+    "architecture": "Архитектура",
+    "adapters": "Адаптеры"
+  },
+  "ui": {
+    "language": "Язык",
+    "theme": "Тема",
+    "themeLight": "Светлая",
+    "themeDark": "Тёмная"
+  },
+  "footer": {
+    "line": "NATL — открытый проект под лицензией MIT."
+  },
+  "home": {
+    "headline": "Короткие YAML-тесты для web UI и API",
+    "lede": "Open-source раннер: пишете компактный сценарий один раз, гоняете локально или в CI, меняете браузерный движок через adapter."
+  },
+  "pages": {
+    "home": {
+      "title": "Главная",
+      "html": "\n<div class=\"card-grid\">\n  <a class=\"card\" href=\"getting-started.html\"><h3>Быстрый старт</h3><p>Установка CLI, каркас проекта, первый зелёный прогон.</p></a>\n  <a class=\"card\" href=\"syntax.html\"><h3>Синтаксис</h3><p>Compact YAML, POM, cases и HTTP-блоки.</p></a>\n  <a class=\"card\" href=\"adapters.html\"><h3>Адаптеры</h3><p>Playwright, Selenium, Cypress и встроенный HTTP.</p></a>\n  <a class=\"card\" href=\"canon.html\"><h3>Канон</h3><p>Принципы и словарь ~90%, который остаётся переносимым.</p></a>\n</div>\n<h2>Установка</h2>\n<pre><code>npm install -g @natl/cli @natl/adapter-playwright\nnpx playwright install chromium\nnatl --version</code></pre>\n<h2>Ссылки</h2>\n<ul>\n  <li><a href=\"https://github.com/arslan-ahmetjanov/natl\">Репозиторий на GitHub</a></li>\n  <li><a href=\"https://www.npmjs.com/package/@natl/cli\">npm @natl/cli</a></li>\n  <li><a href=\"https://github.com/arslan-ahmetjanov/natl/tree/main/examples\">Примеры</a></li>\n  <li><a href=\"https://github.com/arslan-ahmetjanov/natl/blob/main/CONTRIBUTING.md\">Contributing</a></li>\n</ul>"
+    },
+    "getting-started": {
+      "title": "Быстрый старт",
+      "html": "\n<h1>Быстрый старт</h1>\n<h2>Требования</h2>\n<ul>\n<li>Node.js <strong>18+</strong></li>\n<li>npm</li>\n<li>Для UI — браузер adapter (по умолчанию Chromium / Playwright)</li>\n</ul>\n<pre><code>npm install -g @natl/cli @natl/adapter-playwright\nnpx playwright install chromium\nmkdir my-tests && cd my-tests\nnatl init\nnatl run tests/</code></pre>\n<p>HTTP-примеры: сначала <code>node stubs/echo-server.mjs</code>.</p>"
+    },
+    "adapters": {
+      "title": "Адаптеры",
+      "html": "\n<h1>Адаптеры</h1>\n<p>Сценарии остаются в YAML. UI-движки подключаются через <code>EngineAdapter</code>.</p>\n<table>\n<thead><tr><th>engine</th><th>Пакет</th><th>Заметки</th></tr></thead>\n<tbody>\n<tr><td><code>playwright</code></td><td><code>@natl/adapter-playwright</code></td><td>По умолчанию</td></tr>\n<tr><td><code>selenium</code></td><td><code>@natl/adapter-selenium</code></td><td>Chrome / Firefox / Edge</td></tr>\n<tr><td><code>cypress</code></td><td><code>@natl/adapter-cypress</code></td><td>MVP command-bridge</td></tr>\n<tr><td><code>http</code></td><td>built into <code>@natl/core</code></td><td>Только API</td></tr>\n</tbody>\n</table>\n<pre><code>engine: playwright\nbrowser: chromium\nheadless: true</code></pre>\n<pre><code>natl run suite.yaml --engine selenium</code></pre>\n<h2>UI + HTTP</h2>\n<pre><code>engine: playwright\nsteps:\n  - goto: $base_url\n  - with: http\n    steps:\n      - get: $api_base/get\n        save: ping\n      - assert: $ping.status == 200</code></pre>"
+    },
+    "architecture": {
+      "title": "Архитектура",
+      "html": "\n<h1>Архитектура</h1>\n<p>NATL отделяет <strong>что тестировать</strong> (YAML + POM) от <strong>как управлять браузером</strong> (<code>EngineAdapter</code> v2).</p>\n<ul>\n<li><strong>core</strong> — язык, выражения, HTTP, reporters</li>\n<li><strong>adapters</strong> — Playwright / Selenium / Cypress</li>\n<li><strong>cli</strong> — загрузка adapter по <code>engine:</code></li>\n</ul>"
+    },
+    "canon": {
+      "title": "Канон",
+      "html": "\n<h1>Канон языка</h1>\n<p>Короткий fullstack YAML для web UI и API в одном файле.</p>\n<ul>\n<li>Максимально короткий язык</li>\n<li>Один steps — много контекстов</li>\n<li>Портируемость через adapter</li>\n<li>Честный потолок</li>\n<li>Раннер, не TMS</li>\n</ul>"
+    },
+    "syntax": {
+      "title": "Синтаксис",
+      "html": "\n<h1>Синтаксис</h1>\n<p>Предпочитайте <strong>compact</strong>-форму шагов.</p>\n<pre><code>steps:\n  - goto: $base_url\n  - fill: \"#email\"\n    with: $user\n  - click: \"#login-btn\"\n  - assert: \".welcome\"\n    text: \"Hello\"</code></pre>\n<h2>POM</h2>\n<pre><code>imports:\n  - pages/login.yaml\nsteps:\n  - do: login.login\n    user: $user\n    pass: $pass</code></pre>\n<h2>Cases</h2>\n<pre><code>cases:\n  - { name: a, user: a@test.com, expect: \"Welcome A\" }\nsteps:\n  - fill: \"#email\"\n    with: $user\n  - assert: \".welcome\"\n    text: $expect</code></pre>\n<h2>HTTP</h2>\n<pre><code>engine: http\nsteps:\n  - get: $api_base/get\n    save: ping\n  - assert: $ping.status == 200</code></pre>"
+    }
+  }
+}

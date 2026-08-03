@@ -1,0 +1,54 @@
+{
+  "meta": {
+    "htmlLang": "zh-CN",
+    "title": "NATL",
+    "tagline": "Not Another Testing Language"
+  },
+  "nav": {
+    "home": "首页",
+    "gettingStarted": "快速开始",
+    "syntax": "语法",
+    "canon": "规范",
+    "architecture": "架构",
+    "adapters": "适配器"
+  },
+  "ui": {
+    "language": "语言",
+    "theme": "主题",
+    "themeLight": "浅色",
+    "themeDark": "深色"
+  },
+  "footer": {
+    "line": "NATL 是 MIT 许可的开源项目。"
+  },
+  "home": {
+    "headline": "面向 Web UI 与 API 的短 YAML 测试",
+    "lede": "开源运行器：一次编写紧凑场景，本地或 CI 执行，通过适配器切换浏览器引擎。"
+  },
+  "pages": {
+    "home": {
+      "title": "首页",
+      "html": "\n<div class=\"card-grid\">\n  <a class=\"card\" href=\"getting-started.html\"><h3>快速开始</h3><p>安装 CLI，初始化项目，跑通第一次测试。</p></a>\n  <a class=\"card\" href=\"syntax.html\"><h3>语法</h3><p>紧凑 YAML、POM、cases 与 HTTP 块。</p></a>\n  <a class=\"card\" href=\"adapters.html\"><h3>适配器</h3><p>Playwright、Selenium、Cypress 与内置 HTTP。</p></a>\n  <a class=\"card\" href=\"canon.html\"><h3>规范</h3><p>原则与约 90% 可移植词汇。</p></a>\n</div>\n<h2>安装</h2>\n<pre><code>npm install -g @natl/cli @natl/adapter-playwright\nnpx playwright install chromium\nnatl --version</code></pre>"
+    },
+    "getting-started": {
+      "title": "快速开始",
+      "html": "\n<h1>快速开始</h1>\n<ul><li>Node.js <strong>18+</strong></li><li>npm</li><li>UI 需要浏览器（默认 Playwright Chromium）</li></ul>\n<pre><code>npm install -g @natl/cli @natl/adapter-playwright\nnpx playwright install chromium\nmkdir my-tests && cd my-tests\nnatl init\nnatl run tests/</code></pre>"
+    },
+    "adapters": {
+      "title": "适配器",
+      "html": "\n<h1>适配器</h1>\n<p>场景保持 YAML；UI 引擎通过 <code>EngineAdapter</code> 接入。</p>\n<table>\n<thead><tr><th>engine</th><th>包</th><th>说明</th></tr></thead>\n<tbody>\n<tr><td><code>playwright</code></td><td><code>@natl/adapter-playwright</code></td><td>默认</td></tr>\n<tr><td><code>selenium</code></td><td><code>@natl/adapter-selenium</code></td><td>WebDriver</td></tr>\n<tr><td><code>cypress</code></td><td><code>@natl/adapter-cypress</code></td><td>MVP</td></tr>\n<tr><td><code>http</code></td><td><code>@natl/core</code></td><td>仅 API</td></tr>\n</tbody></table>"
+    },
+    "architecture": {
+      "title": "架构",
+      "html": "\n<h1>架构</h1>\n<p>NATL 将<strong>测什么</strong>（YAML + POM）与<strong>如何驱动浏览器</strong>（EngineAdapter v2）分离。</p>\n<ul><li><strong>core</strong></li><li><strong>adapters</strong></li><li><strong>cli</strong></li></ul>"
+    },
+    "canon": {
+      "title": "规范",
+      "html": "\n<h1>语言规范</h1>\n<ul><li>尽量简短</li><li>同一 steps，多种上下文</li><li>通过适配器保持可移植</li><li>诚实的能力边界</li><li>运行器，不是 TMS</li></ul>"
+    },
+    "syntax": {
+      "title": "语法",
+      "html": "\n<h1>语法</h1>\n<p>优先使用<strong>紧凑</strong>步骤写法。</p>\n<pre><code>steps:\n  - goto: $base_url\n  - fill: \"#email\"\n    with: $user\n  - click: \"#login-btn\"\n  - assert: \".welcome\"\n    text: \"Hello\"</code></pre>\n<h2>POM</h2>\n<pre><code>imports:\n  - pages/login.yaml\nsteps:\n  - do: login.login\n    user: $user\n    pass: $pass</code></pre>\n<h2>Cases</h2>\n<pre><code>cases:\n  - { name: a, user: a@test.com, expect: \"Welcome A\" }\nsteps:\n  - fill: \"#email\"\n    with: $user\n  - assert: \".welcome\"\n    text: $expect</code></pre>\n<h2>HTTP</h2>\n<pre><code>engine: http\nsteps:\n  - get: $api_base/get\n    save: ping\n  - assert: $ping.status == 200</code></pre>"
+    }
+  }
+}

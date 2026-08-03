@@ -1,0 +1,54 @@
+{
+  "meta": {
+    "htmlLang": "es",
+    "title": "NATL",
+    "tagline": "Not Another Testing Language"
+  },
+  "nav": {
+    "home": "Inicio",
+    "gettingStarted": "Primeros pasos",
+    "syntax": "Sintaxis",
+    "canon": "Canon",
+    "architecture": "Arquitectura",
+    "adapters": "Adaptadores"
+  },
+  "ui": {
+    "language": "Idioma",
+    "theme": "Tema",
+    "themeLight": "Claro",
+    "themeDark": "Oscuro"
+  },
+  "footer": {
+    "line": "NATL es open source bajo licencia MIT."
+  },
+  "home": {
+    "headline": "Pruebas YAML cortas para UI web y API",
+    "lede": "Runner open source: escribe escenarios compactos una vez, ejecútalos localmente o en CI y cambia el motor del navegador con adaptadores."
+  },
+  "pages": {
+    "home": {
+      "title": "Inicio",
+      "html": "\n<div class=\"card-grid\">\n  <a class=\"card\" href=\"getting-started.html\"><h3>Primeros pasos</h3><p>Instala el CLI, crea un proyecto y consigue un PASS.</p></a>\n  <a class=\"card\" href=\"syntax.html\"><h3>Sintaxis</h3><p>YAML compacto, POM, cases y bloques HTTP.</p></a>\n  <a class=\"card\" href=\"adapters.html\"><h3>Adaptadores</h3><p>Playwright, Selenium, Cypress y HTTP integrado.</p></a>\n  <a class=\"card\" href=\"canon.html\"><h3>Canon</h3><p>Principios y vocabulario portable (~90%).</p></a>\n</div>\n<h2>Instalación</h2>\n<pre><code>npm install -g @natl/cli @natl/adapter-playwright\nnpx playwright install chromium\nnatl --version</code></pre>"
+    },
+    "getting-started": {
+      "title": "Primeros pasos",
+      "html": "\n<h1>Primeros pasos</h1>\n<ul><li>Node.js <strong>18+</strong></li><li>npm</li><li>Para UI: navegador del adaptador (Chromium/Playwright)</li></ul>\n<pre><code>npm install -g @natl/cli @natl/adapter-playwright\nnpx playwright install chromium\nmkdir my-tests && cd my-tests\nnatl init\nnatl run tests/</code></pre>"
+    },
+    "adapters": {
+      "title": "Adaptadores",
+      "html": "\n<h1>Adaptadores</h1>\n<p>Los escenarios permanecen en YAML. Los motores UI usan <code>EngineAdapter</code>.</p>\n<table>\n<thead><tr><th>engine</th><th>Paquete</th><th>Notas</th></tr></thead>\n<tbody>\n<tr><td><code>playwright</code></td><td><code>@natl/adapter-playwright</code></td><td>Por defecto</td></tr>\n<tr><td><code>selenium</code></td><td><code>@natl/adapter-selenium</code></td><td>WebDriver</td></tr>\n<tr><td><code>cypress</code></td><td><code>@natl/adapter-cypress</code></td><td>MVP</td></tr>\n<tr><td><code>http</code></td><td><code>@natl/core</code></td><td>Solo API</td></tr>\n</tbody></table>"
+    },
+    "architecture": {
+      "title": "Arquitectura",
+      "html": "\n<h1>Arquitectura</h1>\n<p>NATL separa <strong>qué probar</strong> de <strong>cómo controlar el navegador</strong>.</p>\n<ul><li><strong>core</strong></li><li><strong>adapters</strong></li><li><strong>cli</strong></li></ul>"
+    },
+    "canon": {
+      "title": "Canon",
+      "html": "\n<h1>Canon del lenguaje</h1>\n<ul><li>Lenguaje corto</li><li>Un steps, muchos contextos</li><li>Portabilidad vía adaptador</li><li>Techo honesto</li><li>Runner, no TMS</li></ul>"
+    },
+    "syntax": {
+      "title": "Sintaxis",
+      "html": "\n<h1>Sintaxis</h1>\n<p>Prefiere pasos en forma <strong>compact</strong>.</p>\n<pre><code>steps:\n  - goto: $base_url\n  - fill: \"#email\"\n    with: $user\n  - click: \"#login-btn\"\n  - assert: \".welcome\"\n    text: \"Hello\"</code></pre>\n<h2>POM</h2>\n<pre><code>imports:\n  - pages/login.yaml\nsteps:\n  - do: login.login\n    user: $user\n    pass: $pass</code></pre>\n<h2>Cases</h2>\n<pre><code>cases:\n  - { name: a, user: a@test.com, expect: \"Welcome A\" }\nsteps:\n  - fill: \"#email\"\n    with: $user\n  - assert: \".welcome\"\n    text: $expect</code></pre>\n<h2>HTTP</h2>\n<pre><code>engine: http\nsteps:\n  - get: $api_base/get\n    save: ping\n  - assert: $ping.status == 200</code></pre>"
+    }
+  }
+}

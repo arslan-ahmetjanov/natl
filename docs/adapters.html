@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>NATL</title>
+    <link rel="icon" href="assets/img/natl-icon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/site.css" />
+  </head>
+  <body data-page="adapters">
+    <header class="topbar">
+      <div class="shell topbar-inner">
+        <a class="brand" href="index.html">
+          <img src="assets/img/natl-icon.svg" alt="" width="42" height="42" />
+          <div class="brand-text">natl<span data-i18n="meta.tagline">Not Another Testing Language</span></div>
+        </a>
+        <nav class="nav" aria-label="Docs">
+          <a href="index.html" data-i18n="nav.home">Home</a>
+          <a href="getting-started.html" data-i18n="nav.gettingStarted">Getting started</a>
+          <a href="syntax.html" data-i18n="nav.syntax">Syntax</a>
+          <a href="canon.html" data-i18n="nav.canon">Canon</a>
+          <a href="architecture.html" data-i18n="nav.architecture">Architecture</a>
+          <a href="adapters.html" aria-current="page" data-i18n="nav.adapters">Adapters</a>
+        </nav>
+        <div class="controls">
+          <select data-lang-select aria-label="Language">
+            <option value="en">English</option>
+            <option value="ru">Русский</option>
+            <option value="zh">中文</option>
+            <option value="es">Español</option>
+          </select>
+          <button type="button" data-theme-toggle data-light="Light" data-dark="Dark">Dark</button>
+        </div>
+      </div>
+    </header>
+    <main class="shell">
+      <article class="content" data-i18n-html="pages.adapters.html"></article>
+    </main>
+    <footer class="footer">
+      <div class="shell">
+        <span data-i18n="footer.line">NATL is open source under the MIT License.</span>
+        · <a href="https://github.com/arslan-ahmetjanov/natl">GitHub</a>
+        · <a href="https://www.npmjs.com/package/@natl/cli">npm</a>
+      </div>
+    </footer>
+    <script src="assets/js/theme.js"></script>
+    <script src="assets/js/i18n.js"></script>
+    <script src="assets/js/app.js"></script>
+  </body>
+</html>

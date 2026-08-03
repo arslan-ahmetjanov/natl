@@ -41,15 +41,7 @@ Or try the demos in [`examples/`](./examples/).
 
 ## Documentation
 
-Full docs (GitHub Pages): **https://arslan-ahmetjanov.github.io/natl/**
-
-| Guide | |
-|-------|--|
-| [Getting started](https://arslan-ahmetjanov.github.io/natl/getting-started) | Install, init, first PASS |
-| [Syntax](https://arslan-ahmetjanov.github.io/natl/syntax) | Language surface |
-| [Canon](https://arslan-ahmetjanov.github.io/natl/canon) | Principles and ~90% vocabulary |
-| [Architecture](https://arslan-ahmetjanov.github.io/natl/architecture) | Core, adapters, CLI |
-| [Adapters](https://arslan-ahmetjanov.github.io/natl/adapters) | Playwright, Selenium, Cypress, HTTP |
+Site (EN / RU / 中文 / ES, light & dark): **https://arslan-ahmetjanov.github.io/natl/**
 
 ## Packages
 
