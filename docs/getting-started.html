@@ -37,7 +37,38 @@
       </div>
     </header>
     <main class="shell">
-      <article class="content" data-i18n-html="pages.getting-started.html"></article>
+      <article class="content" data-page-content>
+<h1>Getting started</h1>
+<h2>Requirements</h2>
+<ul>
+  <li>Node.js <strong>18+</strong></li>
+  <li>npm (or a compatible client)</li>
+  <li>For UI tests: a browser for your adapter (Chromium via Playwright by default)</li>
+</ul>
+<h2>Install</h2>
+<pre><code>npm install -g @natl/cli @natl/adapter-playwright
+npx playwright install chromium
+natl --version</code></pre>
+<h2>Scaffold a project</h2>
+<pre><code>mkdir my-tests && cd my-tests
+natl init
+natl run tests/</code></pre>
+<p><code>natl init</code> creates <code>natl.config.yaml</code>, <code>tests/example.yaml</code>, <code>.env.example</code>, <code>.gitignore</code>, and a short README.</p>
+<h2>Try examples</h2>
+<pre><code>git clone https://github.com/arslan-ahmetjanov/natl.git
+cd natl/examples
+natl run login.yaml</code></pre>
+<p>HTTP demos need the local stub:</p>
+<pre><code>node stubs/echo-server.mjs
+natl run http_only.yaml
+natl run ui_http_block.yaml</code></pre>
+<h2>Useful commands</h2>
+<pre><code>natl run tests/
+natl run tests/ --tags smoke
+natl run tests/ --retries 2
+natl validate tests/
+natl engines</code></pre>
+      </article>
     </main>
     <footer class="footer">
       <div class="shell">

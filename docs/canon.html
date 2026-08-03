@@ -37,7 +37,23 @@
       </div>
     </header>
     <main class="shell">
-      <article class="content" data-i18n-html="pages.canon.html"></article>
+      <article class="content" data-page-content>
+<h1>Language canon</h1>
+<p>Short fullstack YAML for web UI and API in one scenario file.</p>
+<table>
+<thead><tr><th>Principle</th><th>Consequence</th></tr></thead>
+<tbody>
+<tr><td>Maximally short</td><td>Compact steps; POM via <code>do:</code></td></tr>
+<tr><td>Fullstack</td><td>UI + HTTP in one steps list</td></tr>
+<tr><td>One scenario, many contexts</td><td>config / <code>--env</code> / vars / cases</td></tr>
+<tr><td>Portable via adapter</td><td>Typical flows survive <code>engine:</code> changes</td></tr>
+<tr><td>Honest ceiling</td><td>Most smoke ports; engine-specific tails are escape hatches</td></tr>
+<tr><td>Runner ≠ TMS</td><td>No dashboard in the CLI</td></tr>
+</tbody>
+</table>
+<h2>~90% UI verbs</h2>
+<p><code>goto</code>, <code>click</code>/<code>tap</code>, <code>fill</code>, <code>assert</code>, <code>wait</code>, gestures, plus <code>do</code> / <code>cases</code>.</p>
+      </article>
     </main>
     <footer class="footer">
       <div class="shell">

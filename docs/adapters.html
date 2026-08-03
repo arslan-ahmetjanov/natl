@@ -37,7 +37,32 @@
       </div>
     </header>
     <main class="shell">
-      <article class="content" data-i18n-html="pages.adapters.html"></article>
+      <article class="content" data-page-content>
+<h1>Adapters</h1>
+<p>NATL scenarios stay in YAML. UI engines plug in via <code>EngineAdapter</code>.</p>
+<table>
+<thead><tr><th>engine</th><th>Package</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td><code>playwright</code></td><td><code>@natl/adapter-playwright</code></td><td>Default. Chromium / Firefox / WebKit</td></tr>
+<tr><td><code>selenium</code></td><td><code>@natl/adapter-selenium</code></td><td>Chrome / Firefox / Edge</td></tr>
+<tr><td><code>cypress</code></td><td><code>@natl/adapter-cypress</code></td><td>MVP command-bridge</td></tr>
+<tr><td><code>http</code></td><td>built into <code>@natl/core</code></td><td>API only</td></tr>
+</tbody>
+</table>
+<pre><code>engine: playwright
+browser: chromium
+headless: true</code></pre>
+<pre><code>natl run suite.yaml --engine selenium</code></pre>
+<h2>UI + HTTP</h2>
+<pre><code>engine: playwright
+steps:
+  - goto: $base_url
+  - with: http
+    steps:
+      - get: $api_base/get
+        save: ping
+      - assert: $ping.status == 200</code></pre>
+      </article>
     </main>
     <footer class="footer">
       <div class="shell">

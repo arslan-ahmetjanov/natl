@@ -37,7 +37,22 @@
       </div>
     </header>
     <main class="shell">
-      <article class="content" data-i18n-html="pages.architecture.html"></article>
+      <article class="content" data-page-content>
+<h1>Architecture</h1>
+<p>NATL separates <strong>what to test</strong> (compact YAML + POM) from <strong>how to drive the browser</strong> (<code>EngineAdapter</code> v2).</p>
+<ul>
+<li><strong>core</strong> — language, expressions, HTTP helpers, reporters</li>
+<li><strong>adapters</strong> — Playwright / Selenium / Cypress packages</li>
+<li><strong>cli</strong> — loads adapters at runtime via <code>engine:</code></li>
+</ul>
+<pre><code>core/
+adapter-playwright/
+adapter-selenium/
+adapter-cypress/
+cli/
+examples/
+docs/</code></pre>
+      </article>
     </main>
     <footer class="footer">
       <div class="shell">

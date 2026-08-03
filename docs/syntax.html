@@ -37,7 +37,38 @@
       </div>
     </header>
     <main class="shell">
-      <article class="content" data-i18n-html="pages.syntax.html"></article>
+      <article class="content" data-page-content>
+<h1>Syntax</h1>
+<p>Prefer <strong>compact</strong> steps.</p>
+<pre><code>steps:
+  - goto: $base_url
+  - fill: "#email"
+    with: $user
+  - click: "#login-btn"
+  - assert: ".welcome"
+    text: "Hello"</code></pre>
+<h2>POM</h2>
+<pre><code>imports:
+  - pages/login.yaml
+steps:
+  - do: login.login
+    user: $user
+    pass: $pass</code></pre>
+<h2>Cases</h2>
+<pre><code>cases:
+  - { name: a, user: a@test.com, expect: "Welcome A" }
+steps:
+  - fill: "#email"
+    with: $user
+  - assert: ".welcome"
+    text: $expect</code></pre>
+<h2>HTTP</h2>
+<pre><code>engine: http
+steps:
+  - get: $api_base/get
+    save: ping
+  - assert: $ping.status == 200</code></pre>
+      </article>
     </main>
     <footer class="footer">
       <div class="shell">
