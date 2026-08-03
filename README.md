@@ -1,12 +1,12 @@
 <p align="center">
-  <img src="brand/natl-lockup.png" alt="NATL — Not Another Testing Language" width="360" />
+  <img src="brand/natl-lockup.png" alt="NATL — YAML test runner" width="360" />
 </p>
 
 # NATL
 
-**Not Another Testing Language** — a short, open-source YAML runner for **web UI and API** tests.
+**Not Another Testing Language** — a short, open-source **test runner**: YAML scenarios for **web UI and API**.
 
-NATL is a short open-source YAML runner for **web UI and API** tests. Write one compact scenario (optional POM), run it locally or in CI, and keep it when the stack moves — swap `engine:` (`playwright` → `selenium` / `cypress`) without rewriting typical flows. Mix UI and HTTP in the same file.
+Write one compact scenario (optional POM). Run it locally or in CI. Keep it when the stack moves — swap `engine:` (`playwright` → `selenium` / `cypress`) without rewriting typical flows. Mix UI and HTTP in the same file.
 
 [![npm @natl/cli](https://img.shields.io/npm/v/@natl/cli.svg)](https://www.npmjs.com/package/@natl/cli)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
