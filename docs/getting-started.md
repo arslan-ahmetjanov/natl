@@ -1,3 +1,8 @@
+﻿---
+layout: default
+title: getting started
+---
+
 # Getting started
 
 ## Requirements
@@ -37,7 +42,7 @@ natl run login.yaml
 HTTP demos need the local stub:
 
 ```bash
-node stubs/echo-server.mjs   # terminal 1 — http://127.0.0.1:8765
+node stubs/echo-server.mjs   # terminal 1 вЂ” http://127.0.0.1:8765
 natl run http_only.yaml      # terminal 2
 natl run ui_http_block.yaml
 ```
@@ -53,7 +58,7 @@ natl validate tests/
 natl engines
 ```
 
-On failure NATL prints `FAIL file:line step — reason`, saves a screenshot under `artifacts/` (unless `--no-screenshot`), and can write Playwright trace/video.
+On failure NATL prints `FAIL file:line step вЂ” reason`, saves a screenshot under `artifacts/` (unless `--no-screenshot`), and can write Playwright trace/video.
 
 ## IDE autocomplete
 
@@ -77,6 +82,6 @@ Install the [YAML](https://marketplace.visualstudio.com/items?itemName=redhat.vs
 
 ## Next
 
-- [Syntax](syntax.md) — compact steps, POM, cases, HTTP blocks  
-- [Adapters](adapters.md) — engines and browsers  
-- [Canon](canon.md) — what belongs in the language
+- [Syntax](syntax.md) вЂ” compact steps, POM, cases, HTTP blocks  
+- [Adapters](adapters.md) вЂ” engines and browsers  
+- [Canon](canon.md) вЂ” what belongs in the language

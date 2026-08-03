@@ -1,9 +1,14 @@
 title: NATL
 description: Short open-source YAML runner for web UI and API tests
-remote_theme: pages-themes/primer@v0.2.0
-plugins:
-  - jekyll-remote-theme
+theme: jekyll-theme-primer
+url: https://arslan-ahmetjanov.github.io
+baseurl: /natl
 markdown: kramdown
+plugins:
+  - jekyll-relative-links
+relative_links:
+  enabled: true
+  collections: true
 defaults:
   - scope:
       path: ""

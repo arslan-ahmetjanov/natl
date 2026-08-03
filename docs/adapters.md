@@ -1,3 +1,8 @@
+﻿---
+layout: default
+title: adapters
+---
+
 # Adapters
 
 NATL scenarios stay in YAML. **UI engines** plug in via `EngineAdapter`. Pick an engine with `engine:` in the scenario / `natl.config.yaml`, or `--engine` on the CLI.
@@ -31,7 +36,7 @@ npx cypress install
 ```yaml
 # natl.config.yaml
 engine: playwright
-browser: chromium          # opaque to core — validated by the adapter
+browser: chromium          # opaque to core вЂ” validated by the adapter
 headless: true
 timeout: 15000
 trace: on-fail             # Playwright

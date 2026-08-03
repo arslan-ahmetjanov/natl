@@ -1,3 +1,8 @@
+﻿---
+layout: default
+title: NATL
+---
+
 # NATL documentation
 
 **NATL** (*Not Another Testing Language*) is an open-source, short YAML runner for **web UI and API** tests.

@@ -1,6 +1,11 @@
+﻿---
+layout: default
+title: syntax
+---
+
 # NATL syntax
 
-NATL is a **short YAML language for web UI + API**. Prefer **compact** steps (what you type by hand). Scenarios are meant to stay stable when you change stand (`--env`), data (`vars` / `cases`), or UI `engine:` / adapter — browser features follow the adapter, not a hard-coded list in the language.
+NATL is a **short YAML language for web UI + API**. Prefer **compact** steps (what you type by hand). Scenarios are meant to stay stable when you change stand (`--env`), data (`vars` / `cases`), or UI `engine:` / adapter вЂ” browser features follow the adapter, not a hard-coded list in the language.
 
 **Language canon** (principles, ~90% vocabulary, out-of-scope): [canon.md](canon.md).
 
@@ -36,7 +41,7 @@ retries: 1
 natl run tests/ --retries 2
 ```
 
-**Merge priority for `retries`:** CLI `--retries` → test YAML `retries:` → `natl.config` `retries:` → `0`.
+**Merge priority for `retries`:** CLI `--retries` в†’ test YAML `retries:` в†’ `natl.config` `retries:` в†’ `0`.
 
 Failure screenshots / traces / videos use an `-attempt-N` suffix when more than one attempt is configured.
 
@@ -79,7 +84,7 @@ Use one test suite against different stands without copying `base_url` into ever
 
 ```text
 natl.config.yaml       # shared defaults
-config/staging.yaml    # overrides (base_url, headless, …)
+config/staging.yaml    # overrides (base_url, headless, вЂ¦)
 config/prod.yaml
 ```
 
@@ -88,26 +93,26 @@ natl run tests/ --env staging
 natl run tests/ --config config/prod.yaml
 ```
 
-`--env <name>` loads `config/<name>.yaml` (or `.yml`) next to the project root (directory of the nearest `natl.config.*`, else cwd). Missing profile → error exit. `--env` and `--config` are mutually exclusive. Without either flag, behavior matches a plain `natl.config` load.
+`--env <name>` loads `config/<name>.yaml` (or `.yml`) next to the project root (directory of the nearest `natl.config.*`, else cwd). Missing profile в†’ error exit. `--env` and `--config` are mutually exclusive. Without either flag, behavior matches a plain `natl.config` load.
 
-**Merge priority:** CLI flags (`--engine`, `--headed`, `--retries`, `--trace`, `--video`) → fields in the test YAML → env profile → base project config → built-in defaults.
+**Merge priority:** CLI flags (`--engine`, `--headed`, `--retries`, `--trace`, `--video`) в†’ fields in the test YAML в†’ env profile в†’ base project config в†’ built-in defaults.
 
 ## Actions
 
 - `goto`, `click` (primary; `tap` is an alias of the same step), `fill`, `select`, `check`, `uncheck`
-- `wait` — explicit only: `hidden` / `attached` / `detached` / `N ms`, or a non-default state. Prefer auto-wait on actions and asserts for “become visible”.
+- `wait` вЂ” explicit only: `hidden` / `attached` / `detached` / `N ms`, or a non-default state. Prefer auto-wait on actions and asserts for вЂњbecome visibleвЂќ.
 - `screenshot`
-- `assert` — primary checks (text / contains / visible / hidden / attr / current_url / expression)
-- `get_text` / `get_attr` — save into a var (rare; prefer assert on the locator)
-- `scroll` / `swipe` / `long_press` — web gestures (desktop + mobile web; same scenario)
-- `with: <engine>` — multi-engine block (e.g. `with: http`)
-- `get` / `post` / `put` / `patch` / `delete` — HTTP (prefer over `api:`)
-- `api` (GET/POST/…) — **compat**; prefer HTTP verbs + `with: http`
+- `assert` вЂ” primary checks (text / contains / visible / hidden / attr / current_url / expression)
+- `get_text` / `get_attr` вЂ” save into a var (rare; prefer assert on the locator)
+- `scroll` / `swipe` / `long_press` вЂ” web gestures (desktop + mobile web; same scenario)
+- `with: <engine>` вЂ” multi-engine block (e.g. `with: http`)
+- `get` / `post` / `put` / `patch` / `delete` вЂ” HTTP (prefer over `api:`)
+- `api` (GET/POST/вЂ¦) вЂ” **compat**; prefer HTTP verbs + `with: http`
 - `set`, `log`, `debug`
 
 ### Gestures (desktop + mobile web)
 
-Same steps for any viewport — no `if: mobile`. Target first; options as siblings.
+Same steps for any viewport вЂ” no `if: mobile`. Target first; options as siblings.
 
 ```yaml
 - scroll: "#footer"
@@ -146,8 +151,8 @@ One rhythm: target + check. Soft is a modifier, not a separate main verb.
   text: "$10"
 ```
 
-`text:` / `is:` — exact match on element text (no `get_text` + `save` needed).  
-`contains:` — substring.  
+`text:` / `is:` вЂ” exact match on element text (no `get_text` + `save` needed).  
+`contains:` вЂ” substring.  
 `$el` / POM element vars work as the assert target.  
 `soft_assert:` is an alias for `assert` + `soft: true`; prefer the modifier form in new scenarios.
 
@@ -155,7 +160,7 @@ Use `get_text` / `get_attr` only when you need the value in a later expression o
 
 ### Auto-wait
 
-Locator **actions** (`click` / `tap`, `fill`, …) and **asserts** (`text` / `contains` / `visible` / …) wait for the target within the step/scenario `timeout`. You do not need:
+Locator **actions** (`click` / `tap`, `fill`, вЂ¦) and **asserts** (`text` / `contains` / `visible` / вЂ¦) wait for the target within the step/scenario `timeout`. You do not need:
 
 ```yaml
 - click: "#login-btn"
@@ -181,12 +186,12 @@ Prefer **`click:`** for desktop and mobile web. **`tap:`** is the same step (nor
 ## Flow
 
 - `if` / `then` / `else`
-- `for: $x in ...` / `range(a,b)` — complex loops over `data:` or expressions
-- `cases:` — tabular rows; each row runs `steps` with fields in scope (preferred for simple tables)
+- `for: $x in ...` / `range(a,b)` вЂ” complex loops over `data:` or expressions
+- `cases:` вЂ” tabular rows; each row runs `steps` with fields in scope (preferred for simple tables)
 - `repeat: N times` / `until:`
 - `parallel` (Promise.all)
-- `do: page.action` — call a POM named action (happy path)
-- `include` — insert a file or `page/action` steps (lower-level / whole-file reuse)
+- `do: page.action` вЂ” call a POM named action (happy path)
+- `include` вЂ” insert a file or `page/action` steps (lower-level / whole-file reuse)
 
 ### `cases:` (data-driven)
 
@@ -225,7 +230,7 @@ steps:
     pass: $test_pass
 ```
 
-`do: page.action` resolves against imported pages (`LoginPage` → page id `login`).  
+`do: page.action` resolves against imported pages (`LoginPage` в†’ page id `login`).  
 `do: login` works when the action name is unique across imports.  
 Sibling keys (and optional `vars:`) merge into the action scope for that call.  
 Use `include: login/login` with `vars:` when you need the older path-style call or to pull in a whole YAML file.
@@ -240,15 +245,15 @@ locator_strategy: css   # default for string elements & inline selectors
 
 # pages/login.yaml
 elements:
-  email: "#email"                 # → css
+  email: "#email"                 # в†’ css
   legacy_title:                   # escape hatch
     strategy: xpath
     value: "//h1"
 ```
 
-Web strategies today: **`css`**, **`xpath`**. The string is opaque to core — adapters validate. Playwright supports `css` and `xpath`; unknown strategy → clear error.
+Web strategies today: **`css`**, **`xpath`**. The string is opaque to core вЂ” adapters validate. Playwright supports `css` and `xpath`; unknown strategy в†’ clear error.
 
-Priority for an element: object `strategy` → page `locator_strategy` → project `locator_strategy` → `css`.
+Priority for an element: object `strategy` в†’ page `locator_strategy` в†’ project `locator_strategy` в†’ `css`.
 
 ### Multi-engine blocks (`with:`)
 
@@ -288,11 +293,11 @@ steps:
 
 Verbs: `get` / `post` / `put` / `patch` / `delete` (+ `headers`, `body`, `save`, `timeout`).  
 Saved value is `{ status, headers, body, ok }`. Relative URLs resolve against `vars.base_url` when it is an `http(s)` URL.  
-`api:` still works (compat) but new features go to `http` / these verbs — not a growing `api:` dialect.
+`api:` still works (compat) but new features go to `http` / these verbs вЂ” not a growing `api:` dialect.
 
 ## Compact step syntax (primary)
 
-**Primary** (what you write and what JSON Schema validates) is compact steps as **valid YAML** — sibling keys or a single string value:
+**Primary** (what you write and what JSON Schema validates) is compact steps as **valid YAML** вЂ” sibling keys or a single string value:
 
 ```yaml
 - fill: "#email"
@@ -305,12 +310,12 @@ Saved value is `{ status, headers, body, ok }`. Relative URLs resolve against `v
 - assert: ".price"
   text: "$10"
   soft: true
-# alias — prefer soft: true on assert
+# alias вЂ” prefer soft: true on assert
 - soft_assert: ".stock"
   visible: true
 ```
 
-**Advanced:** nested objects (`fill: { locator: "#email", with: $user }`, `wait: { selector, state }`, …) — still valid, for tooling / expansion.
+**Advanced:** nested objects (`fill: { locator: "#email", with: $user }`, `wait: { selector, state }`, вЂ¦) вЂ” still valid, for tooling / expansion.
 
 **Runtime sugar:** same-line secondary keys that are *not* valid YAML still run via the preprocessor:
 
@@ -322,11 +327,11 @@ Saved value is `{ status, headers, body, ok }`. Relative URLs resolve against `v
 
 IDE / `yaml.schemas` will flag those one-liners as YAML errors; prefer the primary sibling/string form in checked-in scenarios.
 
-Soft asserts do not stop the scenario. All soft failures are logged; after the last step the run fails with a summary (exit ≠ 0). Hard `assert` remains fail-fast. Optional screenshots per soft fail: CLI `--soft-assert-screenshot` or `soft_assert_screenshot: true` in `natl.config.yaml`.
+Soft asserts do not stop the scenario. All soft failures are logged; after the last step the run fails with a summary (exit в‰  0). Hard `assert` remains fail-fast. Optional screenshots per soft fail: CLI `--soft-assert-screenshot` or `soft_assert_screenshot: true` in `natl.config.yaml`.
 
 ## IDE schemas
 
-JSON Schema files live in `@natl/core` (`schemas/natl.config.schema.json`, `schemas/natl.test.schema.json`). The test schema covers **compact primary**. Wire them via the YAML extension `yaml.schemas` setting — see the [@natl/cli](../../cli/README.md) README section **IDE autocomplete**.
+JSON Schema files live in `@natl/core` (`schemas/natl.config.schema.json`, `schemas/natl.test.schema.json`). The test schema covers **compact primary**. Wire them via the YAML extension `yaml.schemas` setting вЂ” see the [@natl/cli](../../cli/README.md) README section **IDE autocomplete**.
 
 ## Expressions
 
