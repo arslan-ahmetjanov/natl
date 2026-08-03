@@ -1,0 +1,7 @@
+packages:
+  - '.'
+allowBuilds:
+  cypress: set this to true or false
+  esbuild: set this to true or false
+minimumReleaseAgeExclude:
+  - '@natl/core@0.1.1'

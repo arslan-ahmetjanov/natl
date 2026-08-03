@@ -1,0 +1,7 @@
+engine: playwright
+timeout: 15000
+base_url: https://example.com
+headless: true
+artifacts_dir: artifacts
+trace: on-fail
+video: off

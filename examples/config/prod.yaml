@@ -1,0 +1,2 @@
+# Prod-like stand — different base_url for --env prod demos
+base_url: https://example.com

@@ -1,0 +1,20 @@
+name: POM login test
+engine: playwright
+timeout: 10000
+
+imports:
+  - pages/login.yaml
+
+vars:
+  base_url: ./fixtures/shop.html
+  test_user: pom@test.com
+  test_pass: secret
+
+steps:
+  - goto: $base_url
+  - do: login.login
+    user: $test_user
+    pass: $test_pass
+  - assert: ".welcome"
+    visible: true
+  - log: "POM login succeeded"

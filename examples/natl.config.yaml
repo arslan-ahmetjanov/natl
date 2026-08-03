@@ -1,0 +1,12 @@
+# Project defaults for examples (task 03).
+# Walk-up from any scenario in this folder finds this file.
+# Env overlays: config/staging.yaml, config/prod.yaml (task 09).
+
+engine: playwright
+timeout: 15000
+# Used when the scenario omits vars.base_url and no --env/--config is passed
+base_url: ./fixtures/shop.html
+headless: true
+artifacts_dir: artifacts
+trace: on-fail
+video: off

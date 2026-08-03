@@ -1,0 +1,41 @@
+# Copy into your project as `.github/workflows/natl.yml`.
+# Requires tests under `tests/` (e.g. after `natl init`).
+
+name: NATL
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - run: npm i -g @natl/cli @natl/adapter-playwright
+      - run: npx playwright install --with-deps chromium
+      - run: natl run tests/ --reporter junit --output artifacts/junit.xml
+        env:
+          # optional: map GitHub secrets into $env.* / ${ENV:…} for scenarios
+          TEST_USER: ${{ secrets.TEST_USER }}
+          TEST_PASS: ${{ secrets.TEST_PASS }}
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: natl-artifacts
+          path: artifacts/
+
+      # optional: publish test results from artifacts/junit.xml
+      # - uses: dorny/test-reporter@v1
+      #   if: always()
+      #   with:
+      #     name: NATL
+      #     path: artifacts/junit.xml
+      #     reporter: java-junit

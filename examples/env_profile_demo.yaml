@@ -1,0 +1,9 @@
+# Uses vars.base_url from natl.config / env profile (no local vars.base_url).
+name: Env profile demo
+tags: [demo, env]
+steps:
+  - goto: $base_url
+  - assert: "#email"
+    visible: true
+  - assert: "#login h1"
+    text: "Login"

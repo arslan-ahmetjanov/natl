@@ -1,0 +1,68 @@
+{
+  "name": "@natl/cli",
+  "version": "0.1.4",
+  "description": "NATL CLI — run and validate YAML test scenarios",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "natl": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "templates",
+    "brand",
+    "LICENSE",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "natl",
+    "cli",
+    "testing",
+    "yaml",
+    "e2e"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "start": "node --import tsx src/index.ts",
+    "test": "node -e \"console.log('no cli unit tests')\"",
+    "prepublishOnly": "pnpm build"
+  },
+  "dependencies": {
+    "@natl/core": "^0.1.1"
+  },
+  "optionalDependencies": {
+    "@natl/adapter-playwright": "^0.1.1",
+    "@natl/adapter-selenium": "^0.1.1",
+    "@natl/adapter-cypress": "^0.1.1"
+  },
+  "devDependencies": {
+    "@natl/adapter-playwright": "^0.1.1",
+    "@types/node": "^22.10.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arslan-ahmetjanov/natl.git",
+    "directory": "cli"
+  },
+  "homepage": "https://arslan-ahmetjanov.github.io/natl/",
+  "bugs": {
+    "url": "https://github.com/arslan-ahmetjanov/natl/issues"
+  }
+}

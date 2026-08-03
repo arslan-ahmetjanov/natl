@@ -1,0 +1,24 @@
+name: Locator strategy demo
+engine: playwright
+timeout: 10000
+tags:
+  - smoke
+
+imports:
+  - pages/login.yaml
+
+vars:
+  base_url: ./fixtures/shop.html
+  test_user: loc@test.com
+  test_pass: secret
+
+steps:
+  - goto: $base_url
+  - assert: $login_heading
+    visible: true
+  - do: login.login
+    user: $test_user
+    pass: $test_pass
+  - assert: ".welcome"
+    visible: true
+  - log: "locator strategy demo ok"

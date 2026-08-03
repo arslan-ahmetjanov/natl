@@ -1,0 +1,9 @@
+name: Example.com smoke
+# engine / timeout / base_url come from natl.config.yaml
+
+steps:
+  - goto: $base_url
+  - wait: "h1" visible
+  - assert: "h1" text: "Example Domain"
+  - assert: current_url contains "example.com"
+  - log: "example.com is reachable"

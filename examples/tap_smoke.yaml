@@ -1,0 +1,18 @@
+name: Tap alias smoke
+engine: playwright
+timeout: 10000
+tags: [smoke]
+
+vars:
+  base_url: ./fixtures/shop.html
+
+steps:
+  - goto: $base_url
+  - fill: "#email"
+    with: demo@test.com
+  - fill: "#password"
+    with: secret
+  - tap: "#login-btn"
+  - assert: ".welcome"
+    text: "Добро пожаловать"
+  - log: "tap alias OK"

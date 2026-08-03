@@ -1,0 +1,47 @@
+name: E2E-тест покупки товара
+engine: playwright
+timeout: 15000
+tags: [regression, shop]
+
+vars:
+  base_url: ./fixtures/shop.html
+  user_email: shopper@test.com
+  user_pass: secret
+  product_name: "Смартфон X"
+  product_price: 100
+
+steps:
+  - goto: $base_url
+  - fill: "#email"
+    with: $user_email
+  - fill: "#password"
+    with: $user_pass
+  - click: "#login-btn"
+  - assert: ".welcome"
+    text: "Добро пожаловать"
+
+  - fill: "#search"
+    with: $product_name
+  - click: "#search-btn"
+  - click: ".product .add-to-cart"
+  - assert: ".cart-count"
+    text: "1"
+
+  - click: "#cart-link"
+  - set: $expected = $product_price * 1.2
+  - assert: ".total-price"
+    text: $expected
+
+  - click: "#checkout-btn"
+  - fill: "#address"
+    with: "Москва, ул. Ленина, 1"
+  - fill: "#phone"
+    with: "+7 (999) 123-45-67"
+  - click: "#submit-order"
+
+  - assert: ".order-number"
+    visible: true
+  - get_text: ".order-number"
+    save: order_id
+  - log: "Тест успешно завершён, заказ #$order_id"
+  - screenshot: "screenshots/test_complete.png"

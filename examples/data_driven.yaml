@@ -1,0 +1,21 @@
+name: Data-driven login
+engine: playwright
+timeout: 10000
+
+vars:
+  base_url: ./fixtures/shop.html
+
+cases:
+  - { name: user1, user: "user1@test.com", pass: "secret", expect: "Добро пожаловать, User1" }
+  - { name: user2, user: "user2@test.com", pass: "secret", expect: "Добро пожаловать, User2" }
+
+steps:
+  - goto: $base_url
+  - fill: "#email"
+    with: $user
+  - fill: "#password"
+    with: $pass
+  - click: "#login-btn"
+  - assert: ".welcome"
+    text: $expect
+  - log: "Case OK: $user"

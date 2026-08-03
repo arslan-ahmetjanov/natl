@@ -1,0 +1,2 @@
+# Staging stand — overrides base_url from natl.config.yaml
+base_url: ./fixtures/shop.html

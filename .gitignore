@@ -1,0 +1,36 @@
+# secrets / auth
+token.md
+.npmrc
+**/.npmrc
+*.tgz
+
+# deps & build
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+*.tsbuildinfo
+
+# env & local
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+
+# test / run artifacts
+artifacts/
+**/artifacts/
+coverage/
+.nyc_output/
+
+# editors / OS
+.idea/
+.cursor/
+*.swp
+*~
+
+# logs
+npm-debug.log*
+pnpm-debug.log*
+yarn-error.log*

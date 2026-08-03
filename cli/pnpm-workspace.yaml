@@ -1,0 +1,17 @@
+packages:
+  - "."
+
+allowBuilds:
+  cypress: set this to true or false
+  esbuild: true
+  playwright: true
+
+minimumReleaseAgeExclude:
+  - '@natl/core@0.1.0'
+  - '@natl/adapter-playwright@0.1.0'
+  - '@natl/adapter-cypress@0.1.1'
+  - '@natl/adapter-selenium@0.1.1'
+
+overrides:
+  '@natl/adapter-playwright': link:../adapter-playwright
+  '@natl/core': link:../core

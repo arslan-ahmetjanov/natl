@@ -1,0 +1,31 @@
+name: UI + HTTP block
+engine: playwright
+timeout: 15000
+tags:
+  - smoke
+
+imports:
+  - pages/login.yaml
+
+vars:
+  base_url: ./fixtures/shop.html
+  # Start first: node stubs/echo-server.mjs
+  api_base: http://127.0.0.1:8765
+  test_user: mixed@test.com
+  test_pass: secret
+
+steps:
+  - goto: $base_url
+  - do: login.login
+    user: $test_user
+    pass: $test_pass
+  - assert: ".welcome"
+    visible: true
+
+  - with: http
+    steps:
+      - get: $api_base/get
+        save: ping
+      - assert: $ping.status == 200
+
+  - log: "UI + HTTP block ok"

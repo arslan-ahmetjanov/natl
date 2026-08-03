@@ -1,0 +1,62 @@
+{
+  "name": "@natl/core",
+  "version": "0.1.4",
+  "description": "NATL language core: YAML parser, expressions, interpreter, EngineAdapter contract",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./schemas/*": "./schemas/*"
+  },
+  "files": [
+    "dist",
+    "schemas",
+    "brand",
+    "LICENSE",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "natl",
+    "testing",
+    "yaml",
+    "automation",
+    "e2e"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --import tsx --test src/parser.test.ts src/config.test.ts src/reporter.test.ts src/filter.test.ts src/interpreter.test.ts src/schema.test.ts src/locator.test.ts",
+    "prepublishOnly": "pnpm build"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "yaml": "^2.7.0",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "ajv": "^8.20.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arslan-ahmetjanov/natl.git",
+    "directory": "core"
+  },
+  "homepage": "https://arslan-ahmetjanov.github.io/natl/",
+  "bugs": {
+    "url": "https://github.com/arslan-ahmetjanov/natl/issues"
+  }
+}

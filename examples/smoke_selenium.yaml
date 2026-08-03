@@ -1,0 +1,11 @@
+name: Example.com smoke (Selenium)
+engine: selenium
+timeout: 30000
+tags: [smoke, selenium]
+
+steps:
+  - goto: https://example.com
+  - assert: "h1"
+    text: "Example Domain"
+  - assert: current_url contains "example.com"
+  - log: "example.com is reachable via selenium"
