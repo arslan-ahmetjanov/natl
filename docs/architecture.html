@@ -17,7 +17,7 @@
           <img src="assets/img/natl-icon.svg" alt="" width="42" height="42" />
           <div class="brand-text">natl<span data-i18n="meta.tagline">YAML test runner</span></div>
         </a>
-                                                                <nav class="nav" aria-label="Docs">
+                                                                                <nav class="nav" aria-label="Docs">
           <a href="index.html" data-i18n="nav.home">Home</a>
           <a href="getting-started.html" data-i18n="nav.guide">Guide</a>
           <a href="troubleshooting.html" data-i18n="nav.troubleshooting">Troubleshooting</a>
@@ -43,7 +43,7 @@
 
 <h2>Packages</h2>
 <div class="mermaid-wrap">
-<pre class="mermaid">
+<div class="mermaid" data-mermaid>
 flowchart LR
   YAML["YAML scenarios"] --> CLI["@natl/cli"]
   CLI --> Core["@natl/core"]
@@ -52,7 +52,7 @@ flowchart LR
   Adapters --> PW["Playwright"]
   Adapters --> SE["Selenium"]
   Adapters --> CY["Cypress"]
-</pre>
+</div>
 </div>
 <ul>
   <li><strong>@natl/cli</strong> — finds files, loads config, filters tags, loads the adapter</li>
@@ -63,7 +63,7 @@ flowchart LR
 
 <h2>Run path</h2>
 <div class="mermaid-wrap">
-<pre class="mermaid">
+<div class="mermaid" data-mermaid>
 flowchart TB
   Run["natl run"] --> Config["Config + YAML"]
   Config --> Parse["Parse + interpolate"]
@@ -71,14 +71,14 @@ flowchart TB
   Interp --> Choice{"engine"}
   Choice -->|"playwright / selenium / cypress"| UI["UI adapter"]
   Choice -->|"http"| Fetch["HTTP fetch"]
-</pre>
+</div>
 </div>
 <p>Browsers and driver details stay in the adapter. Core passes opaque options like <code>browser</code> and <code>viewport</code> from <code>natl.config.yaml</code>. More design rules: <a href="canon.html">Canon</a>.</p>
       </article>
     </main>
     <footer class="footer">
       <div class="shell">
-                                                                <span data-i18n="footer.line">MIT License.</span>
+                                                                                <span data-i18n="footer.line">MIT License.</span>
         · <a href="https://github.com/arslan-ahmetjanov/natl">GitHub</a>
         · <a href="https://www.npmjs.com/package/@natl/cli">npm</a>
       </div>

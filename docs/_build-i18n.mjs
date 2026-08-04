@@ -256,7 +256,7 @@ const enArch = `
 
 <h2>Packages</h2>
 <div class="mermaid-wrap">
-<pre class="mermaid">
+<div class="mermaid" data-mermaid>
 flowchart LR
   YAML["YAML scenarios"] --> CLI["@natl/cli"]
   CLI --> Core["@natl/core"]
@@ -265,7 +265,7 @@ flowchart LR
   Adapters --> PW["Playwright"]
   Adapters --> SE["Selenium"]
   Adapters --> CY["Cypress"]
-</pre>
+</div>
 </div>
 <ul>
   <li><strong>@natl/cli</strong> — finds files, loads config, filters tags, loads the adapter</li>
@@ -276,7 +276,7 @@ flowchart LR
 
 <h2>Run path</h2>
 <div class="mermaid-wrap">
-<pre class="mermaid">
+<div class="mermaid" data-mermaid>
 flowchart TB
   Run["natl run"] --> Config["Config + YAML"]
   Config --> Parse["Parse + interpolate"]
@@ -284,7 +284,7 @@ flowchart TB
   Interp --> Choice{"engine"}
   Choice -->|"playwright / selenium / cypress"| UI["UI adapter"]
   Choice -->|"http"| Fetch["HTTP fetch"]
-</pre>
+</div>
 </div>
 <p>Browsers and driver details stay in the adapter. Core passes opaque options like <code>browser</code> and <code>viewport</code> from <code>natl.config.yaml</code>. More design rules: <a href="canon.html">Canon</a>.</p>`;
 
@@ -294,7 +294,7 @@ const ruArch = `
 
 <h2>Пакеты</h2>
 <div class="mermaid-wrap">
-<pre class="mermaid">
+<div class="mermaid" data-mermaid>
 flowchart LR
   YAML["YAML-сценарии"] --> CLI["@natl/cli"]
   CLI --> Core["@natl/core"]
@@ -303,7 +303,7 @@ flowchart LR
   Adapters --> PW["Playwright"]
   Adapters --> SE["Selenium"]
   Adapters --> CY["Cypress"]
-</pre>
+</div>
 </div>
 <ul>
   <li><strong>@natl/cli</strong> — файлы, конфиг, фильтры, загрузка адаптера</li>
@@ -314,7 +314,7 @@ flowchart LR
 
 <h2>Путь прогона</h2>
 <div class="mermaid-wrap">
-<pre class="mermaid">
+<div class="mermaid" data-mermaid>
 flowchart TB
   Run["natl run"] --> Config["Конфиг + YAML"]
   Config --> Parse["Парс + интерполяция"]
@@ -322,7 +322,7 @@ flowchart TB
   Interp --> Choice{"engine"}
   Choice -->|"playwright / selenium / cypress"| UI["UI-адаптер"]
   Choice -->|"http"| Fetch["HTTP fetch"]
-</pre>
+</div>
 </div>
 <p>Браузеры и драйвер — зона адаптера. Core передаёт непрозрачные опции вроде <code>browser</code> и <code>viewport</code> из <code>natl.config.yaml</code>. Правила дизайна: <a href="canon.html">Канон</a>.</p>`;
 
@@ -332,7 +332,7 @@ const zhArch = `
 
 <h2>包</h2>
 <div class="mermaid-wrap">
-<pre class="mermaid">
+<div class="mermaid" data-mermaid>
 flowchart LR
   YAML["YAML 场景"] --> CLI["@natl/cli"]
   CLI --> Core["@natl/core"]
@@ -341,7 +341,7 @@ flowchart LR
   Adapters --> PW["Playwright"]
   Adapters --> SE["Selenium"]
   Adapters --> CY["Cypress"]
-</pre>
+</div>
 </div>
 <ul>
   <li><strong>@natl/cli</strong> — 找文件、加载配置、过滤标签、加载适配器</li>
@@ -352,7 +352,7 @@ flowchart LR
 
 <h2>运行路径</h2>
 <div class="mermaid-wrap">
-<pre class="mermaid">
+<div class="mermaid" data-mermaid>
 flowchart TB
   Run["natl run"] --> Config["配置 + YAML"]
   Config --> Parse["解析 + 插值"]
@@ -360,7 +360,7 @@ flowchart TB
   Interp --> Choice{"engine"}
   Choice -->|"playwright / selenium / cypress"| UI["UI 适配器"]
   Choice -->|"http"| Fetch["HTTP fetch"]
-</pre>
+</div>
 </div>
 <p>浏览器与驱动细节留在适配器。core 从 <code>natl.config.yaml</code> 传入不透明选项（如 <code>browser</code>、<code>viewport</code>）。设计规则见<a href="canon.html">规范</a>。</p>`;
 
@@ -370,7 +370,7 @@ const esArch = `
 
 <h2>Paquetes</h2>
 <div class="mermaid-wrap">
-<pre class="mermaid">
+<div class="mermaid" data-mermaid>
 flowchart LR
   YAML["Escenarios YAML"] --> CLI["@natl/cli"]
   CLI --> Core["@natl/core"]
@@ -379,7 +379,7 @@ flowchart LR
   Adapters --> PW["Playwright"]
   Adapters --> SE["Selenium"]
   Adapters --> CY["Cypress"]
-</pre>
+</div>
 </div>
 <ul>
   <li><strong>@natl/cli</strong> — archivos, config, filtros, carga del adaptador</li>
@@ -390,7 +390,7 @@ flowchart LR
 
 <h2>Camino de ejecución</h2>
 <div class="mermaid-wrap">
-<pre class="mermaid">
+<div class="mermaid" data-mermaid>
 flowchart TB
   Run["natl run"] --> Config["Config + YAML"]
   Config --> Parse["Parseo + interpolación"]
@@ -398,7 +398,7 @@ flowchart TB
   Interp --> Choice{"engine"}
   Choice -->|"playwright / selenium / cypress"| UI["Adaptador UI"]
   Choice -->|"http"| Fetch["HTTP fetch"]
-</pre>
+</div>
 </div>
 <p>Navegadores y drivers quedan en el adaptador. Core pasa opciones opacas como <code>browser</code> y <code>viewport</code> desde <code>natl.config.yaml</code>. Reglas de diseño: <a href="canon.html">Canon</a>.</p>`;
 

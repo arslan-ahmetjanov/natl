@@ -274,23 +274,44 @@ html[data-theme="dark"] .hero img.lockup {
   overflow-x: auto;
 }
 
+.mermaid-wrap .mermaid,
 .mermaid-wrap pre.mermaid,
+.content .mermaid-wrap .mermaid,
 .content .mermaid-wrap pre.mermaid {
   margin: 0;
-  padding: 0.5rem 0;
-  background: transparent;
-  border: none;
+  padding: 0.35rem 0;
+  background: transparent !important;
+  border: none !important;
   color: var(--text);
   text-align: center;
   overflow: visible;
   font-family: var(--font-sans);
   font-size: 0.9rem;
   line-height: 1.4;
+  white-space: normal;
+}
+
+.mermaid-wrap .mermaid-pending {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  white-space: pre-wrap;
+  text-align: left;
+}
+
+.mermaid-wrap .mermaid-error {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  white-space: pre-wrap;
+  text-align: left;
 }
 
 .mermaid-wrap svg {
   max-width: 100%;
   height: auto;
+  display: block;
+  margin: 0 auto;
 }
 
 .content h1,

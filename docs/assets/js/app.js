@@ -4,10 +4,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     await window.NATLI18n?.init();
   } catch (err) {
     console.error(err);
-    const main = document.querySelector("[data-i18n-html]");
+    const main =
+      document.querySelector("[data-page-content]") ||
+      document.querySelector("[data-i18n-html]");
     if (main) {
       main.innerHTML =
         "<p>Failed to load translations. Check <code>docs/i18n/*.json</code>.</p>";
     }
+  }
+  try {
+    await window.NATLMermaid?.render();
+  } catch (err) {
+    console.error(err);
   }
 });
