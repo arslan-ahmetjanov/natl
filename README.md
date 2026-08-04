@@ -8,7 +8,7 @@
 
 Write one compact scenario (optional POM). Run it locally or in CI. Keep it when the stack moves — swap `engine:` (`playwright` → `selenium` / `cypress`) without rewriting typical flows. Mix UI and HTTP in the same file.
 
-[![npm v0.1.4](./brand/badges/npm.svg)](https://www.npmjs.com/package/@natl/cli)
+[![npm v0.1.5](./brand/badges/npm.svg)](https://www.npmjs.com/package/@natl/cli)
 [![License: MIT](./brand/badges/license.svg)](./LICENSE)
 [![Docs](./brand/badges/docs.svg)](https://arslan-ahmetjanov.github.io/natl/)
 

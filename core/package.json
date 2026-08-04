@@ -1,6 +1,6 @@
 {
   "name": "@natl/core",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "NATL language core: YAML parser, expressions, interpreter, EngineAdapter contract",
   "license": "MIT",
   "type": "module",

@@ -1,6 +1,6 @@
 {
   "name": "@natl/adapter-selenium",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Official Selenium WebDriver engine adapter for NATL",
   "license": "MIT",
   "type": "module",
@@ -36,13 +36,13 @@
     "prepublishOnly": "pnpm build"
   },
   "peerDependencies": {
-    "@natl/core": "^0.1.1"
+    "@natl/core": "^0.1.5"
   },
   "dependencies": {
     "selenium-webdriver": "^4.28.0"
   },
   "devDependencies": {
-    "@natl/core": "^0.1.1",
+    "@natl/core": "^0.1.5",
     "@types/node": "^22.10.5",
     "@types/selenium-webdriver": "^4.1.27",
     "tsx": "^4.19.2",
