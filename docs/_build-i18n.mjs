@@ -252,43 +252,155 @@ const esAdapters = `
 
 const enArch = `
 <h1>Architecture</h1>
+<p>NATL separates <strong>what to test</strong> (YAML scenarios) from <strong>how the browser is driven</strong> (adapters). Typical UI flows stay portable when you change <code>engine:</code>.</p>
+
+<h2>Packages</h2>
+<div class="mermaid-wrap">
+<pre class="mermaid">
+flowchart LR
+  YAML["YAML scenarios"] --> CLI["@natl/cli"]
+  CLI --> Core["@natl/core"]
+  Core --> Adapters["UI adapters"]
+  Core --> HTTP["built-in http"]
+  Adapters --> PW["Playwright"]
+  Adapters --> SE["Selenium"]
+  Adapters --> CY["Cypress"]
+</pre>
+</div>
 <ul>
-  <li><strong>You write YAML</strong></li>
-  <li><strong>@natl/cli</strong> — files, config, filters</li>
-  <li><strong>@natl/core</strong> — parse, interpolate, interpret</li>
-  <li><strong>Adapter</strong> — Playwright / Selenium / Cypress — or built-in <code>http</code></li>
+  <li><strong>@natl/cli</strong> — finds files, loads config, filters tags, loads the adapter</li>
+  <li><strong>@natl/core</strong> — parse, interpolate, interpret; no browser dependency</li>
+  <li><strong>Adapters</strong> — Playwright / Selenium / Cypress as separate packages</li>
+  <li><strong>http</strong> — built into core for API-only or <code>with: http</code> blocks</li>
 </ul>
-<p>Typical flows stay portable when you change <code>engine:</code>. Details live in the <a href="canon.html">canon</a>.</p>`;
+
+<h2>Run path</h2>
+<div class="mermaid-wrap">
+<pre class="mermaid">
+flowchart TB
+  Run["natl run"] --> Config["Config + YAML"]
+  Config --> Parse["Parse + interpolate"]
+  Parse --> Interp["Interpreter"]
+  Interp --> Choice{"engine"}
+  Choice -->|"playwright / selenium / cypress"| UI["UI adapter"]
+  Choice -->|"http"| Fetch["HTTP fetch"]
+</pre>
+</div>
+<p>Browsers and driver details stay in the adapter. Core passes opaque options like <code>browser</code> and <code>viewport</code> from <code>natl.config.yaml</code>. More design rules: <a href="canon.html">Canon</a>.</p>`;
 
 const ruArch = `
 <h1>Архитектура</h1>
+<p>NATL разделяет <strong>что тестировать</strong> (YAML-сценарии) и <strong>как водить браузер</strong> (адаптеры). Типичные UI-потоки остаются портативными при смене <code>engine:</code>.</p>
+
+<h2>Пакеты</h2>
+<div class="mermaid-wrap">
+<pre class="mermaid">
+flowchart LR
+  YAML["YAML-сценарии"] --> CLI["@natl/cli"]
+  CLI --> Core["@natl/core"]
+  Core --> Adapters["UI-адаптеры"]
+  Core --> HTTP["встроенный http"]
+  Adapters --> PW["Playwright"]
+  Adapters --> SE["Selenium"]
+  Adapters --> CY["Cypress"]
+</pre>
+</div>
 <ul>
-  <li><strong>Вы пишете YAML</strong></li>
-  <li><strong>@natl/cli</strong> — файлы, конфиг, фильтры</li>
-  <li><strong>@natl/core</strong> — парсер, интерполяция, интерпретатор</li>
-  <li><strong>Adapter</strong> — Playwright / Selenium / Cypress — или <code>http</code></li>
+  <li><strong>@natl/cli</strong> — файлы, конфиг, фильтры, загрузка адаптера</li>
+  <li><strong>@natl/core</strong> — парсер, интерполяция, интерпретатор; без зависимости от браузера</li>
+  <li><strong>Адаптеры</strong> — Playwright / Selenium / Cypress отдельными пакетами</li>
+  <li><strong>http</strong> — в core для API-only или блоков <code>with: http</code></li>
 </ul>
-<p>Типичные потоки портативны при смене <code>engine:</code>. Детали — в <a href="canon.html">каноне</a>.</p>`;
+
+<h2>Путь прогона</h2>
+<div class="mermaid-wrap">
+<pre class="mermaid">
+flowchart TB
+  Run["natl run"] --> Config["Конфиг + YAML"]
+  Config --> Parse["Парс + интерполяция"]
+  Parse --> Interp["Интерпретатор"]
+  Interp --> Choice{"engine"}
+  Choice -->|"playwright / selenium / cypress"| UI["UI-адаптер"]
+  Choice -->|"http"| Fetch["HTTP fetch"]
+</pre>
+</div>
+<p>Браузеры и драйвер — зона адаптера. Core передаёт непрозрачные опции вроде <code>browser</code> и <code>viewport</code> из <code>natl.config.yaml</code>. Правила дизайна: <a href="canon.html">Канон</a>.</p>`;
 
 const zhArch = `
 <h1>架构</h1>
+<p>NATL 把<strong>测什么</strong>（YAML 场景）和<strong>如何驱动浏览器</strong>（适配器）分开。更换 <code>engine:</code> 时，典型 UI 流程仍可移植。</p>
+
+<h2>包</h2>
+<div class="mermaid-wrap">
+<pre class="mermaid">
+flowchart LR
+  YAML["YAML 场景"] --> CLI["@natl/cli"]
+  CLI --> Core["@natl/core"]
+  Core --> Adapters["UI 适配器"]
+  Core --> HTTP["内置 http"]
+  Adapters --> PW["Playwright"]
+  Adapters --> SE["Selenium"]
+  Adapters --> CY["Cypress"]
+</pre>
+</div>
 <ul>
-  <li><strong>你写 YAML</strong></li>
-  <li><strong>@natl/cli</strong> — 文件、配置、过滤</li>
-  <li><strong>@natl/core</strong> — 解析、插值、解释执行</li>
-  <li><strong>适配器</strong> — Playwright / Selenium / Cypress — 或内置 <code>http</code></li>
+  <li><strong>@natl/cli</strong> — 找文件、加载配置、过滤标签、加载适配器</li>
+  <li><strong>@natl/core</strong> — 解析、插值、解释执行；不依赖浏览器</li>
+  <li><strong>适配器</strong> — Playwright / Selenium / Cypress 为独立包</li>
+  <li><strong>http</strong> — 内置于 core，用于纯 API 或 <code>with: http</code></li>
 </ul>
-<p>换 <code>engine:</code> 时典型流程仍可移植。详见<a href="canon.html">规范</a>。</p>`;
+
+<h2>运行路径</h2>
+<div class="mermaid-wrap">
+<pre class="mermaid">
+flowchart TB
+  Run["natl run"] --> Config["配置 + YAML"]
+  Config --> Parse["解析 + 插值"]
+  Parse --> Interp["解释器"]
+  Interp --> Choice{"engine"}
+  Choice -->|"playwright / selenium / cypress"| UI["UI 适配器"]
+  Choice -->|"http"| Fetch["HTTP fetch"]
+</pre>
+</div>
+<p>浏览器与驱动细节留在适配器。core 从 <code>natl.config.yaml</code> 传入不透明选项（如 <code>browser</code>、<code>viewport</code>）。设计规则见<a href="canon.html">规范</a>。</p>`;
 
 const esArch = `
 <h1>Arquitectura</h1>
+<p>NATL separa <strong>qué probar</strong> (escenarios YAML) de <strong>cómo se conduce el navegador</strong> (adaptadores). Los flujos UI típicos siguen siendo portables al cambiar <code>engine:</code>.</p>
+
+<h2>Paquetes</h2>
+<div class="mermaid-wrap">
+<pre class="mermaid">
+flowchart LR
+  YAML["Escenarios YAML"] --> CLI["@natl/cli"]
+  CLI --> Core["@natl/core"]
+  Core --> Adapters["Adaptadores UI"]
+  Core --> HTTP["http integrado"]
+  Adapters --> PW["Playwright"]
+  Adapters --> SE["Selenium"]
+  Adapters --> CY["Cypress"]
+</pre>
+</div>
 <ul>
-  <li><strong>Escribes YAML</strong></li>
-  <li><strong>@natl/cli</strong> — archivos, config, filtros</li>
-  <li><strong>@natl/core</strong> — parseo, interpolación, intérprete</li>
-  <li><strong>Adaptador</strong> — Playwright / Selenium / Cypress — o <code>http</code></li>
+  <li><strong>@natl/cli</strong> — archivos, config, filtros, carga del adaptador</li>
+  <li><strong>@natl/core</strong> — parseo, interpolación, intérprete; sin dependencia del navegador</li>
+  <li><strong>Adaptadores</strong> — Playwright / Selenium / Cypress como paquetes aparte</li>
+  <li><strong>http</strong> — integrado en core para API-only o bloques <code>with: http</code></li>
 </ul>
-<p>Los flujos típicos siguen siendo portables al cambiar <code>engine:</code>. Detalles en el <a href="canon.html">canon</a>.</p>`;
+
+<h2>Camino de ejecución</h2>
+<div class="mermaid-wrap">
+<pre class="mermaid">
+flowchart TB
+  Run["natl run"] --> Config["Config + YAML"]
+  Config --> Parse["Parseo + interpolación"]
+  Parse --> Interp["Intérprete"]
+  Interp --> Choice{"engine"}
+  Choice -->|"playwright / selenium / cypress"| UI["Adaptador UI"]
+  Choice -->|"http"| Fetch["HTTP fetch"]
+</pre>
+</div>
+<p>Navegadores y drivers quedan en el adaptador. Core pasa opciones opacas como <code>browser</code> y <code>viewport</code> desde <code>natl.config.yaml</code>. Reglas de diseño: <a href="canon.html">Canon</a>.</p>`;
 
 const enCanon = `
 <h1>Canon</h1>

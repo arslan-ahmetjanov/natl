@@ -44,7 +44,7 @@
     },
     "architecture": {
       "title": "架构",
-      "html": "\n<h1>架构</h1>\n<ul>\n  <li><strong>你写 YAML</strong></li>\n  <li><strong>@natl/cli</strong> — 文件、配置、过滤</li>\n  <li><strong>@natl/core</strong> — 解析、插值、解释执行</li>\n  <li><strong>适配器</strong> — Playwright / Selenium / Cypress — 或内置 <code>http</code></li>\n</ul>\n<p>换 <code>engine:</code> 时典型流程仍可移植。详见<a href=\"canon.html\">规范</a>。</p>"
+      "html": "\n<h1>架构</h1>\n<p>NATL 把<strong>测什么</strong>（YAML 场景）和<strong>如何驱动浏览器</strong>（适配器）分开。更换 <code>engine:</code> 时，典型 UI 流程仍可移植。</p>\n\n<h2>包</h2>\n<div class=\"mermaid-wrap\">\n<pre class=\"mermaid\">\nflowchart LR\n  YAML[\"YAML 场景\"] --> CLI[\"@natl/cli\"]\n  CLI --> Core[\"@natl/core\"]\n  Core --> Adapters[\"UI 适配器\"]\n  Core --> HTTP[\"内置 http\"]\n  Adapters --> PW[\"Playwright\"]\n  Adapters --> SE[\"Selenium\"]\n  Adapters --> CY[\"Cypress\"]\n</pre>\n</div>\n<ul>\n  <li><strong>@natl/cli</strong> — 找文件、加载配置、过滤标签、加载适配器</li>\n  <li><strong>@natl/core</strong> — 解析、插值、解释执行；不依赖浏览器</li>\n  <li><strong>适配器</strong> — Playwright / Selenium / Cypress 为独立包</li>\n  <li><strong>http</strong> — 内置于 core，用于纯 API 或 <code>with: http</code></li>\n</ul>\n\n<h2>运行路径</h2>\n<div class=\"mermaid-wrap\">\n<pre class=\"mermaid\">\nflowchart TB\n  Run[\"natl run\"] --> Config[\"配置 + YAML\"]\n  Config --> Parse[\"解析 + 插值\"]\n  Parse --> Interp[\"解释器\"]\n  Interp --> Choice{\"engine\"}\n  Choice -->|\"playwright / selenium / cypress\"| UI[\"UI 适配器\"]\n  Choice -->|\"http\"| Fetch[\"HTTP fetch\"]\n</pre>\n</div>\n<p>浏览器与驱动细节留在适配器。core 从 <code>natl.config.yaml</code> 传入不透明选项（如 <code>browser</code>、<code>viewport</code>）。设计规则见<a href=\"canon.html\">规范</a>。</p>"
     },
     "canon": {
       "title": "规范",

@@ -43,6 +43,7 @@
     const title = dict.pages?.[page]?.title || dict.meta?.title || "NATL";
     document.title = `${title} · NATL test runner`;
     document.documentElement.lang = dict.meta?.htmlLang || "en";
+    document.dispatchEvent(new CustomEvent("natl:content"));
   }
 
   window.NATLI18n = {

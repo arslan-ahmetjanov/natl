@@ -17,7 +17,7 @@
           <img src="assets/img/natl-icon.svg" alt="" width="42" height="42" />
           <div class="brand-text">natl<span data-i18n="meta.tagline">YAML test runner</span></div>
         </a>
-                                                        <nav class="nav" aria-label="Docs">
+                                                                <nav class="nav" aria-label="Docs">
           <a href="index.html" data-i18n="nav.home">Home</a>
           <a href="getting-started.html" data-i18n="nav.guide">Guide</a>
           <a href="troubleshooting.html" data-i18n="nav.troubleshooting">Troubleshooting</a>
@@ -39,24 +39,53 @@
     <main class="shell">
       <article class="content" data-page-content>
 <h1>Architecture</h1>
+<p>NATL separates <strong>what to test</strong> (YAML scenarios) from <strong>how the browser is driven</strong> (adapters). Typical UI flows stay portable when you change <code>engine:</code>.</p>
+
+<h2>Packages</h2>
+<div class="mermaid-wrap">
+<pre class="mermaid">
+flowchart LR
+  YAML["YAML scenarios"] --> CLI["@natl/cli"]
+  CLI --> Core["@natl/core"]
+  Core --> Adapters["UI adapters"]
+  Core --> HTTP["built-in http"]
+  Adapters --> PW["Playwright"]
+  Adapters --> SE["Selenium"]
+  Adapters --> CY["Cypress"]
+</pre>
+</div>
 <ul>
-  <li><strong>You write YAML</strong></li>
-  <li><strong>@natl/cli</strong> — files, config, filters</li>
-  <li><strong>@natl/core</strong> — parse, interpolate, interpret</li>
-  <li><strong>Adapter</strong> — Playwright / Selenium / Cypress — or built-in <code>http</code></li>
+  <li><strong>@natl/cli</strong> — finds files, loads config, filters tags, loads the adapter</li>
+  <li><strong>@natl/core</strong> — parse, interpolate, interpret; no browser dependency</li>
+  <li><strong>Adapters</strong> — Playwright / Selenium / Cypress as separate packages</li>
+  <li><strong>http</strong> — built into core for API-only or <code>with: http</code> blocks</li>
 </ul>
-<p>Typical flows stay portable when you change <code>engine:</code>. Details live in the <a href="canon.html">canon</a>.</p>
+
+<h2>Run path</h2>
+<div class="mermaid-wrap">
+<pre class="mermaid">
+flowchart TB
+  Run["natl run"] --> Config["Config + YAML"]
+  Config --> Parse["Parse + interpolate"]
+  Parse --> Interp["Interpreter"]
+  Interp --> Choice{"engine"}
+  Choice -->|"playwright / selenium / cypress"| UI["UI adapter"]
+  Choice -->|"http"| Fetch["HTTP fetch"]
+</pre>
+</div>
+<p>Browsers and driver details stay in the adapter. Core passes opaque options like <code>browser</code> and <code>viewport</code> from <code>natl.config.yaml</code>. More design rules: <a href="canon.html">Canon</a>.</p>
       </article>
     </main>
     <footer class="footer">
       <div class="shell">
-                                                        <span data-i18n="footer.line">MIT License.</span>
+                                                                <span data-i18n="footer.line">MIT License.</span>
         · <a href="https://github.com/arslan-ahmetjanov/natl">GitHub</a>
         · <a href="https://www.npmjs.com/package/@natl/cli">npm</a>
       </div>
     </footer>
     <script src="assets/js/theme.js"></script>
     <script src="assets/js/i18n.js"></script>
+    <script src="assets/js/mermaid-brand.js"></script>
     <script src="assets/js/app.js"></script>
   </body>
 </html>

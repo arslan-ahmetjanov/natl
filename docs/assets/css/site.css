@@ -264,6 +264,35 @@ html[data-theme="dark"] .hero img.lockup {
   margin: 0.15rem 0;
 }
 
+.mermaid-wrap {
+  margin: 1.5rem 0;
+  padding: 1.1rem 1rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow-x: auto;
+}
+
+.mermaid-wrap pre.mermaid,
+.content .mermaid-wrap pre.mermaid {
+  margin: 0;
+  padding: 0.5rem 0;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  text-align: center;
+  overflow: visible;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.mermaid-wrap svg {
+  max-width: 100%;
+  height: auto;
+}
+
 .content h1,
 .content h2,
 .content h3 {

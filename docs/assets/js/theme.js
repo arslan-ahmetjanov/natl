@@ -17,6 +17,7 @@
       btn.textContent = btn.dataset[next] || next;
       btn.setAttribute("aria-label", btn.dataset.label || "Theme");
     }
+    document.dispatchEvent(new CustomEvent("natl:theme"));
   }
 
   window.NATLTheme = {
