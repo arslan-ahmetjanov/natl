@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./brand/natl-lockup.png" alt="NATL — Not Another Testing Language" width="360" />
+  <img src="./brand/natl-lockup.svg" alt="NATL — YAML test runner" width="360" />
 </p>
 
 # NATL examples

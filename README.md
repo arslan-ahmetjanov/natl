@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="brand/natl-lockup.png" alt="NATL — YAML test runner" width="360" />
+  <img src="brand/natl-lockup.svg" alt="NATL — YAML test runner" width="360" />
 </p>
 
 # NATL
@@ -8,9 +8,11 @@
 
 Write one compact scenario (optional POM). Run it locally or in CI. Keep it when the stack moves — swap `engine:` (`playwright` → `selenium` / `cypress`) without rewriting typical flows. Mix UI and HTTP in the same file.
 
-[![npm @natl/cli](https://img.shields.io/npm/v/@natl/cli.svg)](https://www.npmjs.com/package/@natl/cli)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
-[![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-brightgreen)](https://arslan-ahmetjanov.github.io/natl/)
+<p>
+  <a href="https://www.npmjs.com/package/@natl/cli"><img src="https://img.shields.io/npm/v/@natl%2Fcli.svg" alt="npm @natl/cli" /></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT" /></a>
+  <a href="https://arslan-ahmetjanov.github.io/natl/"><img src="https://img.shields.io/badge/docs-GitHub%20Pages-brightgreen.svg" alt="Docs" /></a>
+</p>
 
 ## Why NATL
 

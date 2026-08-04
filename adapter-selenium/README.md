@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://cdn.jsdelivr.net/npm/@natl/adapter-selenium/brand/natl-lockup.png" alt="NATL — Not Another Testing Language" width="360" />
+  <img src="https://cdn.jsdelivr.net/npm/@natl/adapter-selenium/brand/natl-lockup.png" alt="NATL — YAML test runner" width="360" />
 </p>
 
 # @natl/adapter-selenium
