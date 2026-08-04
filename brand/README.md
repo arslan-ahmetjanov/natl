@@ -13,6 +13,7 @@
 | [`natl-lockup.png`](./natl-lockup.png) / [`natl-lockup.svg`](./natl-lockup.svg) | Шапка README |
 | [`natl-wordmark.png`](./natl-wordmark.png) / [`natl-wordmark.svg`](./natl-wordmark.svg) | Wordmark + caret |
 | [`natl-wordmark-dark.png`](./natl-wordmark-dark.png) | Wordmark на тёмном |
+| [`badges/`](./badges/) | Статические npm / License / Docs бейджи для корневого README (без shields.io) |
 
 Цвета: slate `#0F172A`, bars `#94A3B8`, accent teal `#14B8A6` / `#0D9488`.
 
