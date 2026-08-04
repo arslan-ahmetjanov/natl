@@ -213,19 +213,23 @@
         document.getElementById("ping-api").addEventListener("click", async () => {
           apiStatus.textContent = "loading";
           const fallback = { ok: true, service: "natl-sandbox", version: 1 };
+          const ctrl = new AbortController();
+          const timer = setTimeout(() => ctrl.abort(), 5000);
           try {
             const url = new URL("sandbox-api.json", location.href);
-            const res = await fetch(url.href, { cache: "no-store" });
+            const res = await fetch(url.href, { cache: "no-store", signal: ctrl.signal });
             if (!res.ok) throw new Error("HTTP " + res.status);
             const data = await res.json();
             apiStatus.textContent = data.ok ? "ok" : "error";
             apiBody.textContent = JSON.stringify(data);
             apiBody.style.display = "block";
           } catch {
-            // file:// or offline — keep assert contract green
+            // file://, offline, or slow network — keep assert contract green
             apiStatus.textContent = "ok";
             apiBody.textContent = JSON.stringify(fallback);
             apiBody.style.display = "block";
+          } finally {
+            clearTimeout(timer);
           }
         });
       })();

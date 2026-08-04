@@ -30,6 +30,7 @@ steps:
       - assert: $ping.body.ok == true
 
   - click: "#ping-api"
+  - wait: 1500 ms
   - assert: "#api-status"
     text: "ok"
 
