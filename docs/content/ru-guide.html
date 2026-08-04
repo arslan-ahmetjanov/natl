@@ -44,14 +44,14 @@ natl run login.yaml</code></pre>
 <p>Должен быть <code>PASS</code>. Поменяйте текст assert на неверный, запустите снова, прочитайте ошибку и верните как было. Так быстрее всего понять, как выглядят FAIL.</p>
 
 <h2 id="anatomy">Форма сценария</h2>
-<pre><code>name: Login smoke
+<pre><code>name: Sandbox login smoke
 engine: playwright
 tags: [smoke]
 timeout: 15000
 retries: 0
 vars:
-  base_url: ./fixtures/shop.html
-  user: demo@test.com
+  base_url: ./fixtures/sandbox.html
+  user: demo@natl.dev
   pass: secret
 steps:
   - goto: $base_url
@@ -61,7 +61,7 @@ steps:
     with: $pass
   - click: "#login-btn"
   - assert: ".welcome"
-    text: "Добро пожаловать"</code></pre>
+    text: "Welcome, demo"</code></pre>
 <p>Поля в начале файла:</p>
 <table>
 <thead><tr><th>Поле</th><th>Зачем</th></tr></thead>

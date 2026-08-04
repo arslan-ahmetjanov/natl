@@ -63,13 +63,13 @@ Same YAML — different `engine:` (`playwright` / `selenium` / `cypress` / `http
 ## Example
 
 ```yaml
-name: Login smoke
+name: Sandbox login smoke
 engine: playwright
 tags: [smoke]
 
 vars:
-  base_url: ./fixtures/shop.html
-  user: demo@test.com
+  base_url: https://arslan-ahmetjanov.github.io/natl/sandbox.html
+  user: demo@natl.dev
   pass: secret
 
 steps:
@@ -80,7 +80,7 @@ steps:
     with: $pass
   - click: "#login-btn"
   - assert: ".welcome"
-    text: "Добро пожаловать"
+    text: "Welcome, demo"
 ```
 
 ## Contributing

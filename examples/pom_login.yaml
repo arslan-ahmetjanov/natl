@@ -1,4 +1,4 @@
-name: POM login test
+name: POM sandbox login
 engine: playwright
 timeout: 10000
 
@@ -6,8 +6,8 @@ imports:
   - pages/login.yaml
 
 vars:
-  base_url: ./fixtures/shop.html
-  test_user: pom@test.com
+  base_url: ./fixtures/sandbox.html
+  test_user: pom@natl.dev
   test_pass: secret
 
 steps:
@@ -16,5 +16,5 @@ steps:
     user: $test_user
     pass: $test_pass
   - assert: ".welcome"
-    visible: true
+    text: "Welcome, pom"
   - log: "POM login succeeded"

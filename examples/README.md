@@ -4,7 +4,7 @@
 
 # NATL examples
 
-Demo scenarios for the **web UI + API** YAML language: same steps, swap stands with `--env`, run under `@natl/cli` + `@natl/adapter-playwright`.
+Scenarios against the **docs sandbox** (local twin + live GitHub Pages): same steps, swap stands with `--env`, run under `@natl/cli` + `@natl/adapter-playwright`.
 
 Logo assets: [`brand/`](./brand/).
 
@@ -16,35 +16,42 @@ natl run login.yaml
 natl run env_login.yaml
 natl run pom_login.yaml
 natl run data_driven.yaml
-natl run e2e_shop.yaml
+natl run e2e_sandbox.yaml
 natl run env_profile_demo.yaml --env staging
+natl run env_profile_demo.yaml --env prod   # live Pages (network)
+natl run smoke_sandbox.yaml                 # live Pages login + API
 
-# HTTP examples need the local stub (not httpbin):
+# HTTP-only still uses the local echo stub:
 node stubs/echo-server.mjs   # terminal 1 → :8765
 natl run http_only.yaml
-natl run ui_http_block.yaml
+natl run ui_http_block.yaml  # sandbox UI + Pages JSON (+ UI ping)
 ```
 
-Project defaults live in [`natl.config.yaml`](./natl.config.yaml) (`engine`, `timeout`, `base_url`, …). Env overlays under [`config/`](./config/) (`--env staging` → local shop fixture, `--env prod` → `https://example.com`) — **one scenario, different stands**. CLI flags override them.
+Project defaults: [`natl.config.yaml`](./natl.config.yaml). Env overlays under [`config/`](./config/):
+`--env staging` → `./fixtures/sandbox.html`, `--env prod` → live [sandbox](https://arslan-ahmetjanov.github.io/natl/sandbox.html).
 
-GitHub Actions: copy [`.github/workflows/natl.yml`](./.github/workflows/natl.yml) into your project (see also `@natl/cli` README → CI).
+Sandbox credentials: `demo@natl.dev` / `secret` (welcome text uses the email local-part).
+
+GitHub Actions template: [`.github/workflows/natl.yml`](./.github/workflows/natl.yml).
 
 | File | What it shows |
 |------|----------------|
-| `natl.config.yaml` | Shared project defaults |
-| `config/staging.yaml` | Env profile (`--env staging`) |
-| `config/prod.yaml` | Env profile (`--env prod`) |
+| `natl.config.yaml` | Shared defaults (`base_url` → local sandbox) |
+| `config/staging.yaml` | Local sandbox twin |
+| `config/prod.yaml` | Live Pages sandbox |
 | `env_profile_demo.yaml` | `$base_url` from config / `--env` |
 | `env_login.yaml` | `$env.*` / `$secret.*` from `.env` |
-| `login.yaml` | Basic UI flow (compact) |
+| `login.yaml` | Basic sandbox login |
 | `pom_login.yaml` | Page Object via `do:` |
-| `data_driven.yaml` | `cases:` data-driven |
-| `e2e_shop.yaml` | Longer scenario + screenshot |
-| `smoke_example_com.yaml` | Live smoke (needs network) |
-| `smoke_selenium.yaml` | Same idea via `--engine selenium` / `engine: selenium` |
-| `smoke_cypress.yaml` | Local fixture via Cypress adapter (peer `cypress`) |
+| `data_driven.yaml` | `cases:` welcome per user |
+| `e2e_sandbox.yaml` | Login → API ping → logout → bad password |
+| `smoke_sandbox.yaml` | Live Pages smoke (network) |
+| `smoke_selenium.yaml` | Same idea via Selenium |
+| `smoke_cypress.yaml` | Local sandbox via Cypress adapter |
 | `soft_assert_demo.yaml` | Soft asserts (+ `tap` alias) |
 | `tap_smoke.yaml` | `tap:` = `click` |
-| `http_only.yaml` | `engine: http` vs local stub (`stubs/`) |
-| `ui_http_block.yaml` | UI + `with: http` vs local stub |
+| `http_only.yaml` | `engine: http` vs local stub |
+| `ui_http_block.yaml` | Sandbox UI + `with: http` to sandbox JSON |
+| `gestures_demo.yaml` | Gestures fixture (separate HTML) |
 | `stubs/` | Local echo API (`node stubs/echo-server.mjs`) |
+| `fixtures/sandbox.html` | Offline twin of the docs sandbox |

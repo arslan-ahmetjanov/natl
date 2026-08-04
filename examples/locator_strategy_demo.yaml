@@ -8,8 +8,8 @@ imports:
   - pages/login.yaml
 
 vars:
-  base_url: ./fixtures/shop.html
-  test_user: loc@test.com
+  base_url: ./fixtures/sandbox.html
+  test_user: loc@natl.dev
   test_pass: secret
 
 steps:
@@ -20,5 +20,5 @@ steps:
     user: $test_user
     pass: $test_pass
   - assert: ".welcome"
-    visible: true
+    text: "Welcome, loc"
   - log: "locator strategy demo ok"

@@ -8,10 +8,10 @@ imports:
   - pages/login.yaml
 
 vars:
-  base_url: ./fixtures/shop.html
-  # Start first: node stubs/echo-server.mjs
-  api_base: http://127.0.0.1:8765
-  test_user: mixed@test.com
+  base_url: ./fixtures/sandbox.html
+  # Static JSON next to the live sandbox (network). Local stub still used by http_only.yaml.
+  api_url: https://arslan-ahmetjanov.github.io/natl/sandbox-api.json
+  test_user: mixed@natl.dev
   test_pass: secret
 
 steps:
@@ -20,12 +20,17 @@ steps:
     user: $test_user
     pass: $test_pass
   - assert: ".welcome"
-    visible: true
+    text: "Welcome, mixed"
 
   - with: http
     steps:
-      - get: $api_base/get
+      - get: $api_url
         save: ping
       - assert: $ping.status == 200
+      - assert: $ping.body.ok == true
 
-  - log: "UI + HTTP block ok"
+  - click: "#ping-api"
+  - assert: "#api-status"
+    text: "ok"
+
+  - log: "UI + HTTP sandbox block ok"

@@ -1,8 +1,9 @@
-name: Live sandbox smoke (Selenium)
-engine: selenium
-timeout: 30000
-tags: [smoke, selenium, network]
+name: Live sandbox smoke
+engine: playwright
+timeout: 15000
+tags: [smoke, network]
 
+# Needs network — docs sandbox on GitHub Pages
 steps:
   - goto: https://arslan-ahmetjanov.github.io/natl/sandbox.html
   - assert: "#login h1"
@@ -14,4 +15,7 @@ steps:
   - click: "#login-btn"
   - assert: ".welcome"
     text: "Welcome, demo"
-  - log: "live sandbox ok via selenium"
+  - click: "#ping-api"
+  - assert: "#api-status"
+    text: "ok"
+  - log: "live sandbox ok"

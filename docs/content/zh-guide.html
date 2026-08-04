@@ -43,14 +43,14 @@ natl run login.yaml</code></pre>
 <p>应看到 <code>PASS</code>。将 assert 文本改成错误内容，再运行一次，阅读报错信息，然后改回。这是最快了解失败呈现方式的做法。</p>
 
 <h2 id="anatomy">场景结构</h2>
-<pre><code>name: Login smoke
+<pre><code>name: Sandbox login smoke
 engine: playwright
 tags: [smoke]
 timeout: 15000
 retries: 0
 vars:
-  base_url: ./fixtures/shop.html
-  user: demo@test.com
+  base_url: ./fixtures/sandbox.html
+  user: demo@natl.dev
   pass: secret
 steps:
   - goto: $base_url
@@ -60,7 +60,7 @@ steps:
     with: $pass
   - click: "#login-btn"
   - assert: ".welcome"
-    text: "Добро пожаловать"</code></pre>
+    text: "Welcome, demo"</code></pre>
 <p>文件顶部的字段：</p>
 <table>
 <thead><tr><th>字段</th><th>作用</th></tr></thead>

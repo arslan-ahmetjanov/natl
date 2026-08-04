@@ -1,4 +1,5 @@
 # Uses vars.base_url from natl.config / env profile (no local vars.base_url).
+# Default / --env staging → local fixture; --env prod → GitHub Pages sandbox.
 name: Env profile demo
 tags: [demo, env]
 steps:

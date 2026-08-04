@@ -1,13 +1,13 @@
-name: Data-driven login
+name: Data-driven sandbox login
 engine: playwright
 timeout: 10000
 
 vars:
-  base_url: ./fixtures/shop.html
+  base_url: ./fixtures/sandbox.html
 
 cases:
-  - { name: user1, user: "user1@test.com", pass: "secret", expect: "Добро пожаловать, User1" }
-  - { name: user2, user: "user2@test.com", pass: "secret", expect: "Добро пожаловать, User2" }
+  - { name: user1, user: "user1@natl.dev", pass: "secret", expect: "Welcome, user1" }
+  - { name: user2, user: "user2@natl.dev", pass: "secret", expect: "Welcome, user2" }
 
 steps:
   - goto: $base_url

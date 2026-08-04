@@ -4,13 +4,12 @@ timeout: 10000
 
 # Soft: prefer `assert` + `soft: true`. Alias `soft_assert:` still works.
 # Soft asserts collect failures and continue; the run fails at the end with a summary.
-# Hard assert would still stop immediately — commented out on purpose.
 #
 # Run: natl run examples/soft_assert_demo.yaml
 # Optional screenshots: natl run examples/soft_assert_demo.yaml --soft-assert-screenshot
 
 vars:
-  base_url: file://./fixtures/shop.html
+  base_url: ./fixtures/sandbox.html
 
 steps:
   - goto: $base_url

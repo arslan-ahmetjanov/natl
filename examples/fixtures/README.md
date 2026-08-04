@@ -2,7 +2,8 @@
 
 | File | Role |
 |------|------|
-| `shop.html` | Richer shop/login flow used by `examples/login.yaml` |
-| `sandbox.html` + `sandbox-api.json` | Twin of the docs [sandbox](https://arslan-ahmetjanov.github.io/natl/sandbox.html) (`natl init` target). Same selectors. |
+| `sandbox.html` + `sandbox-api.json` | Twin of the docs [sandbox](https://arslan-ahmetjanov.github.io/natl/sandbox.html). Used by almost all examples and by `natl init`. |
+| `gestures.html` | Scroll / swipe / long-press demo for `gestures_demo.yaml` |
+| `shop.html` | Legacy richer shop flow (not used by current examples) |
 
-Not a test suite — point `base_url` at a file here for offline runs.
+Contract (sandbox): `#email`, `#password`, `#login-btn`, `#login h1`, `.welcome`, `#ping-api`, `#api-status`, `#logout-btn`, `#error`. Password `secret`; welcome = `Welcome, <email-local-part>`.

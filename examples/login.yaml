@@ -1,11 +1,11 @@
-name: Вход в систему
+name: Sandbox login
 engine: playwright
 timeout: 10000
 tags: [smoke, auth]
 
 vars:
-  base_url: ./fixtures/shop.html
-  user: demo@test.com
+  base_url: ./fixtures/sandbox.html
+  user: demo@natl.dev
   pass: secret
 
 steps:
@@ -16,5 +16,5 @@ steps:
     with: $pass
   - click: "#login-btn"
   - assert: ".welcome"
-    text: "Добро пожаловать"
+    text: "Welcome, demo"
   - log: "Login OK for $user"
