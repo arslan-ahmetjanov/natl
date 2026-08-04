@@ -29,13 +29,15 @@
 npx playwright install chromium
 natl --version</code></pre>
 <p>Если печатается версия — всё в порядке. Если нет, смотрите <a href="troubleshooting.html">Сбои</a>.</p>
-<p>Пустой проект с нуля:</p>
+<p>Пустой проект с нуля (пример бьёт в живую <a href="sandbox.html">песочницу</a>):</p>
 <pre><code>mkdir my-tests &amp;&amp; cd my-tests
 natl init
 natl run tests/</code></pre>
+<p>Логин песочницы: <code>demo@natl.dev</code> / <code>secret</code>. Offline: <code>examples/fixtures/sandbox.html</code> в репо (пропишите <code>base_url</code> в <code>natl.config.yaml</code>).</p>
 
 <h2 id="first-run">Первый прогон</h2>
-<p>В репозитории есть пример логина. Он открывает локальный HTML, живой сайт не нужен.</p>
+<p>После <code>natl init</code> команда <code>natl run tests/</code> открывает sandbox на Pages, логинится и пингует статический JSON. Нужна сеть (или локальный fixture в <code>base_url</code>).</p>
+<p>В репозитории также есть пример логина на локальном HTML:</p>
 <pre><code>git clone https://github.com/arslan-ahmetjanov/natl.git
 cd natl/examples
 natl run login.yaml</code></pre>

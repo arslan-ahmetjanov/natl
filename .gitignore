@@ -33,6 +33,7 @@ coverage/
 # local-only (not published)
 AGENTS.md
 course/
+test/
 
 # logs
 npm-debug.log*

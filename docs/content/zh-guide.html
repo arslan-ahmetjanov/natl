@@ -28,13 +28,15 @@
 npx playwright install chromium
 natl --version</code></pre>
 <p>若输出版本号，说明安装成功。否则请参阅 <a href="troubleshooting.html">Troubleshooting</a>。</p>
-<p>从零开始创建项目：</p>
+<p>从零开始创建项目（示例指向在线 <a href="sandbox.html">沙箱</a>）：</p>
 <pre><code>mkdir my-tests &amp;&amp; cd my-tests
 natl init
 natl run tests/</code></pre>
+<p>沙箱账号：<code>demo@natl.dev</code> / <code>secret</code>。离线孪生页：仓库中的 <code>examples/fixtures/sandbox.html</code>（在 <code>natl.config.yaml</code> 里改 <code>base_url</code>）。</p>
 
 <h2 id="first-run">首次运行</h2>
-<p>仓库中有一个 login 示例。它打开本地 HTML 文件，因此不需要在线网站。</p>
+<p><code>natl init</code> 之后，<code>natl run tests/</code> 会打开文档沙箱、登录并 ping 静态 JSON。Pages URL 需要网络（或把 <code>base_url</code> 指到本地 fixture）。</p>
+<p>仓库里还有一个使用本地 HTML 的 login 示例：</p>
 <pre><code>git clone https://github.com/arslan-ahmetjanov/natl.git
 cd natl/examples
 natl run login.yaml</code></pre>

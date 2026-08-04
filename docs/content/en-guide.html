@@ -29,13 +29,15 @@
 npx playwright install chromium
 natl --version</code></pre>
 <p>If that prints a version, you are set. If not, see <a href="troubleshooting.html">Troubleshooting</a>.</p>
-<p>To start a project from scratch:</p>
+<p>To start a project from scratch (example hits the live <a href="sandbox.html">sandbox</a>):</p>
 <pre><code>mkdir my-tests &amp;&amp; cd my-tests
 natl init
 natl run tests/</code></pre>
+<p>Credentials for the sandbox: <code>demo@natl.dev</code> / <code>secret</code>. Offline twin: <code>examples/fixtures/sandbox.html</code> in the repo (set <code>base_url</code> in <code>natl.config.yaml</code>).</p>
 
 <h2 id="first-run">First run</h2>
-<p>There is a login example in the repo. It opens a local HTML file, so you do not need a live website.</p>
+<p>After <code>natl init</code>, <code>natl run tests/</code> opens the docs sandbox, logs in, and pings a static JSON API. You need network for the Pages URL (or point <code>base_url</code> at the local fixture).</p>
+<p>There is also a login example in the repo that uses a local HTML file:</p>
 <pre><code>git clone https://github.com/arslan-ahmetjanov/natl.git
 cd natl/examples
 natl run login.yaml</code></pre>

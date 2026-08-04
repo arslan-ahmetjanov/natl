@@ -29,13 +29,15 @@
 npx playwright install chromium
 natl --version</code></pre>
 <p>Si <code>natl --version</code> imprime un número, estás dentro. Si no — <a href="troubleshooting.html">Troubleshooting</a>.</p>
-<p>Proyecto vacío propio:</p>
+<p>Proyecto vacío (el ejemplo apunta al <a href="sandbox.html">sandbox</a> en vivo):</p>
 <pre><code>mkdir my-tests &amp;&amp; cd my-tests
 natl init
 natl run tests/</code></pre>
+<p>Credenciales del sandbox: <code>demo@natl.dev</code> / <code>secret</code>. Gemelo offline: <code>examples/fixtures/sandbox.html</code> en el repo (cambia <code>base_url</code> en <code>natl.config.yaml</code>).</p>
 
 <h2 id="first-run">Primera ejecución</h2>
-<p>Clona el repo y ejecuta el login que guardo en <code>examples/</code> (fixture HTML local — sin sitio público inestable):</p>
+<p>Tras <code>natl init</code>, <code>natl run tests/</code> abre el sandbox de docs, inicia sesión y hace ping a un JSON estático. Hace falta red para la URL de Pages (o apunta <code>base_url</code> al fixture local).</p>
+<p>También hay un login de ejemplo con HTML local en el repo:</p>
 <pre><code>git clone https://github.com/arslan-ahmetjanov/natl.git
 cd natl/examples
 natl run login.yaml</code></pre>

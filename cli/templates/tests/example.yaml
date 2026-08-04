@@ -1,9 +1,23 @@
-name: Example.com smoke
+name: Sandbox login smoke
+tags: [smoke]
 # engine / timeout / base_url come from natl.config.yaml
+# Target: https://arslan-ahmetjanov.github.io/natl/sandbox.html
+
+vars:
+  user: demo@natl.dev
+  pass: secret
 
 steps:
   - goto: $base_url
-  - wait: "h1" visible
-  - assert: "h1" text: "Example Domain"
-  - assert: current_url contains "example.com"
-  - log: "example.com is reachable"
+  - wait: "#email visible"
+  - fill: "#email"
+    with: $user
+  - fill: "#password"
+    with: $pass
+  - click: "#login-btn"
+  - assert: ".welcome"
+    text: "Welcome, demo"
+  - click: "#ping-api"
+  - assert: "#api-status"
+    text: "ok"
+  - log: "sandbox login + API ping passed"

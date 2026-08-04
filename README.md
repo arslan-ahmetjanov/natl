@@ -37,6 +37,10 @@ natl init
 natl run tests/
 ```
 
+`natl init` scaffolds a smoke test against the live
+[docs sandbox](https://arslan-ahmetjanov.github.io/natl/sandbox.html)
+(`demo@natl.dev` / `secret`). Offline twin: [`examples/fixtures/sandbox.html`](./examples/fixtures/sandbox.html).
+
 Or try the demos in [`examples/`](./examples/).
 
 ## Documentation

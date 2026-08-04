@@ -1,6 +1,8 @@
 # NATL tests
 
-Short YAML scenarios for **web UI + API**. Same steps across stands (`natl.config` / `--env`); UI engine defaults to Playwright.
+YAML scenarios for **web UI + API**. Default example hits the
+[docs sandbox](https://arslan-ahmetjanov.github.io/natl/sandbox.html)
+(`natl init` sets `base_url` there).
 
 ## How to run
 
@@ -10,4 +12,7 @@ npx playwright install chromium
 natl run tests/
 ```
 
-Copy `.env.example` to `.env` and fill in credentials when a scenario needs them.
+Offline: clone [natl](https://github.com/arslan-ahmetjanov/natl) and set
+`base_url` in `natl.config.yaml` to `examples/fixtures/sandbox.html`.
+
+Copy `.env.example` to `.env` when a scenario needs secrets.
