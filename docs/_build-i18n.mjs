@@ -462,6 +462,33 @@ const esCanon = `
 </tbody>
 </table>`;
 
+const sandboxCopy = {
+  en: {
+    title: "Sandbox",
+    lede: `Demo app for <code>natl init</code> and first runs. Selectors below are a <strong>stable contract</strong> — do not rename them lightly.`,
+    try: `<strong>Try:</strong> email <code>demo@natl.dev</code>, password <code>secret</code>.`,
+    contract: `Contract: <code>#email</code>, <code>#password</code>, <code>#login-btn</code>, <code>.welcome</code>, <code>#ping-api</code>, <code>#api-status</code>. JSON: <a href="sandbox-api.json"><code>sandbox-api.json</code></a>. Offline twin: <code>examples/fixtures/sandbox.html</code>.`,
+  },
+  ru: {
+    title: "Песочница",
+    lede: `Демо для <code>natl init</code> и первых прогонов. Селекторы ниже — <strong>стабильный контракт</strong>: не переименовывайте их без нужды.`,
+    try: `<strong>Попробуйте:</strong> email <code>demo@natl.dev</code>, пароль <code>secret</code>.`,
+    contract: `Контракт: <code>#email</code>, <code>#password</code>, <code>#login-btn</code>, <code>.welcome</code>, <code>#ping-api</code>, <code>#api-status</code>. JSON: <a href="sandbox-api.json"><code>sandbox-api.json</code></a>. Offline-копия: <code>examples/fixtures/sandbox.html</code>.`,
+  },
+  zh: {
+    title: "沙箱",
+    lede: `供 <code>natl init</code> 与首次运行使用的演示页。下方选择器是<strong>稳定约定</strong>——请勿轻易改名。`,
+    try: `<strong>试用：</strong>邮箱 <code>demo@natl.dev</code>，密码 <code>secret</code>。`,
+    contract: `约定：<code>#email</code>、<code>#password</code>、<code>#login-btn</code>、<code>.welcome</code>、<code>#ping-api</code>、<code>#api-status</code>。JSON：<a href="sandbox-api.json"><code>sandbox-api.json</code></a>。离线孪生页：<code>examples/fixtures/sandbox.html</code>。`,
+  },
+  es: {
+    title: "Sandbox",
+    lede: `App demo para <code>natl init</code> y las primeras ejecuciones. Los selectores de abajo son un <strong>contrato estable</strong>: no los renombres a la ligera.`,
+    try: `<strong>Prueba:</strong> email <code>demo@natl.dev</code>, contraseña <code>secret</code>.`,
+    contract: `Contrato: <code>#email</code>, <code>#password</code>, <code>#login-btn</code>, <code>.welcome</code>, <code>#ping-api</code>, <code>#api-status</code>. JSON: <a href="sandbox-api.json"><code>sandbox-api.json</code></a>. Gemelo offline: <code>examples/fixtures/sandbox.html</code>.`,
+  },
+};
+
 const locales = {
   en: pack(
     "en",
@@ -484,7 +511,7 @@ const locales = {
     {
       home: { title: "Home", html: enHome },
       guide: { title: "Guide", html: load("en-guide.html") },
-      sandbox: { title: "Sandbox" },
+      sandbox: sandboxCopy.en,
       troubleshooting: { title: "Troubleshooting", html: enTrouble },
       adapters: { title: "Adapters", html: enAdapters },
       architecture: { title: "Architecture", html: enArch },
@@ -512,7 +539,7 @@ const locales = {
     {
       home: { title: "Главная", html: ruHome },
       guide: { title: "Гайд", html: load("ru-guide.html") },
-      sandbox: { title: "Песочница" },
+      sandbox: sandboxCopy.ru,
       troubleshooting: { title: "Сбои", html: ruTrouble },
       adapters: { title: "Адаптеры", html: ruAdapters },
       architecture: { title: "Архитектура", html: ruArch },
@@ -540,7 +567,7 @@ const locales = {
     {
       home: { title: "首页", html: zhHome },
       guide: { title: "指南", html: load("zh-guide.html") },
-      sandbox: { title: "沙箱" },
+      sandbox: sandboxCopy.zh,
       troubleshooting: { title: "排错", html: zhTrouble },
       adapters: { title: "适配器", html: zhAdapters },
       architecture: { title: "架构", html: zhArch },
@@ -568,7 +595,7 @@ const locales = {
     {
       home: { title: "Inicio", html: esHome },
       guide: { title: "Guía", html: load("es-guide.html") },
-      sandbox: { title: "Sandbox" },
+      sandbox: sandboxCopy.es,
       troubleshooting: { title: "Problemas", html: esTrouble },
       adapters: { title: "Adaptadores", html: esAdapters },
       architecture: { title: "Arquitectura", html: esArch },

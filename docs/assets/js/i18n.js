@@ -25,20 +25,20 @@
       if (typeof val === "string") el.textContent = val;
     });
 
-    // Page body: prefer pages[data-page].html (avoids fragile dotted keys)
+    // Page body: prefer pages[data-page].html into [data-page-content]
     const page = document.body.dataset.page || "home";
     const pageHtml = dict.pages?.[page]?.html;
-    const pageEl =
-      document.querySelector("[data-page-content]") ||
-      document.querySelector("[data-i18n-html]");
+    const pageEl = document.querySelector("[data-page-content]");
     if (pageEl && typeof pageHtml === "string") {
       pageEl.innerHTML = pageHtml;
-    } else {
-      document.querySelectorAll("[data-i18n-html]").forEach((el) => {
-        const val = lookup(dict, el.getAttribute("data-i18n-html"));
-        if (typeof val === "string") el.innerHTML = val;
-      });
     }
+
+    // Inline HTML snippets (e.g. sandbox lede) — never wipe the assert form
+    document.querySelectorAll("[data-i18n-html]").forEach((el) => {
+      if (pageEl && pageEl.contains(el) && typeof pageHtml === "string") return;
+      const val = lookup(dict, el.getAttribute("data-i18n-html"));
+      if (typeof val === "string") el.innerHTML = val;
+    });
 
     const title = dict.pages?.[page]?.title || dict.meta?.title || "NATL";
     document.title = `${title} · NATL test runner`;
