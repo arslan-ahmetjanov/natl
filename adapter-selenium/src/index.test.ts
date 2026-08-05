@@ -1,7 +1,11 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 import { By } from 'selenium-webdriver';
-import { resolveSeleniumBrowser, resolveSeleniumBy } from './index.js';
+import {
+  describeUnsupportedSeleniumArtifacts,
+  resolveSeleniumBrowser,
+  resolveSeleniumBy,
+} from './index.js';
 
 describe('resolveSeleniumBrowser', () => {
   it('defaults to chrome', () => {
@@ -43,5 +47,28 @@ describe('resolveSeleniumBy', () => {
       () => resolveSeleniumBy({ strategy: 'role', value: 'button' }),
       /does not support locator strategy "role"/,
     );
+  });
+});
+
+describe('describeUnsupportedSeleniumArtifacts', () => {
+  it('is silent when modes are off', () => {
+    assert.equal(describeUnsupportedSeleniumArtifacts('off', 'off', false), undefined);
+  });
+
+  it('is silent for on-fail when the run passed', () => {
+    assert.equal(describeUnsupportedSeleniumArtifacts('on-fail', 'on-fail', true), undefined);
+  });
+
+  it('mentions trace and video when a keep would apply', () => {
+    const msg = describeUnsupportedSeleniumArtifacts('on-fail', 'on', false);
+    assert.match(msg ?? '', /trace \(\.zip\)/);
+    assert.match(msg ?? '', /video \(\.webm\)/);
+    assert.match(msg ?? '', /Playwright/);
+  });
+
+  it('mentions only video when trace is off', () => {
+    const msg = describeUnsupportedSeleniumArtifacts('off', 'on-fail', false);
+    assert.match(msg ?? '', /video \(\.webm\)/);
+    assert.doesNotMatch(msg ?? '', /trace \(\.zip\)/);
   });
 });

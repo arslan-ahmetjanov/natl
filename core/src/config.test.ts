@@ -64,6 +64,12 @@ describe('parseProjectConfig', () => {
     assert.throws(() => parseProjectConfig({ retries: -1 }), /retries/);
   });
 
+  it('parses workers and rejects invalid', () => {
+    assert.equal(parseProjectConfig({ workers: 4 }).workers, 4);
+    assert.throws(() => parseProjectConfig({ workers: 0 }), /workers/);
+    assert.throws(() => parseProjectConfig({ workers: 1.5 }), /workers/);
+  });
+
   it('rejects invalid trace/video mode', () => {
     assert.throws(() => parseProjectConfig({ trace: 'always' }), /trace/);
     assert.throws(() => parseProjectConfig({ video: true }), /video/);

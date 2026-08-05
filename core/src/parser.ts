@@ -775,9 +775,8 @@ const RootSchema = z.object({
           encoding: z.string().optional(),
         })
         .optional(),
-      vault: z.record(z.unknown()).optional(),
-      aws: z.record(z.unknown()).optional(),
     })
+    .strict()
     .optional(),
   imports: z.array(z.string()).optional(),
   data: z.array(z.unknown()).optional(),

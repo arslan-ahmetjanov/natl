@@ -3,6 +3,9 @@ import { existsSync, readFileSync } from 'node:fs';
 import { dirname, resolve, isAbsolute } from 'node:path';
 import type { SecretsConfig } from './types.js';
 
+const UNSUPPORTED_BACKEND =
+  'Vault/AWS secret backends are not built into NATL. Inject secrets via process environment or a .env file ($env.KEY / $secret.KEY / ${ENV:KEY}).';
+
 export class SecretsStore {
   private readonly values = new Map<string, string>();
   private readonly masked = new Set<string>();
@@ -51,14 +54,16 @@ export class SecretsStore {
     return v;
   }
 
-  /** Resolve ${ENV:KEY} (compat), ${VAULT:...}, ${AWS:...} in a string. Prefer `$env.KEY` / `$secret.KEY`. */
+  /**
+   * Resolve `${ENV:KEY}` (compat). Prefer `$env.KEY` / `$secret.KEY`.
+   * `${VAULT:…}` / `${AWS:…}` are rejected — use CI/process env instead.
+   */
   resolveRefs(input: string): string {
     return input.replace(/\$\{(ENV|VAULT|AWS):([^}]+)\}/g, (_m, source: string, key: string) => {
       if (source === 'ENV') {
         return this.getEnv(key.trim());
       }
-      // Vault/AWS not in MVP — leave placeholder or throw
-      throw new Error(`${source} secrets are not supported in MVP (key: ${key})`);
+      throw new Error(`${UNSUPPORTED_BACKEND} (ref: \${${source}:${key.trim()}})`);
     });
   }
 

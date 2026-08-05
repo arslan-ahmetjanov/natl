@@ -6,7 +6,7 @@
 
 Official **Selenium WebDriver** UI adapter for NATL.
 
-Same compact YAML scenarios as Playwright; set `engine: selenium` (or `--engine selenium`). Browser choice is a capability of this adapter (`chrome` / `firefox` / `edge`). Not the default engine.
+**Status: supported with limits** — fine for Grid / classic WebDriver pilots; prefer Playwright when you need Trace Viewer or video. Same compact YAML; set `engine: selenium` (or `--engine selenium`).
 
 Logo assets: [`brand/`](./brand/).
 
@@ -23,6 +23,17 @@ Use with the CLI:
 npm install -g @natl/cli @natl/adapter-selenium
 natl run tests/ --engine selenium
 ```
+
+## Artifact parity (vs Playwright)
+
+| Capability | Selenium | Notes |
+|------------|----------|--------|
+| Fail / step `screenshot` | Yes | Written under `artifacts_dir` like Playwright |
+| `fullPage` screenshot | Best-effort | Chrome/Edge via CDP `captureBeyondViewport`; Firefox → viewport |
+| Trace (`.zip` / Trace Viewer) | No | Explicit no-op; warns when `trace` is `on` / `on-fail` and a keep would apply |
+| Video (`.webm`) | No | Explicit no-op; warns when `video` is `on` / `on-fail` and a keep would apply |
+
+Set `trace: off` and `video: off` in config (or CLI) to silence those warnings. Use `@natl/adapter-playwright` when you need Trace Viewer or video.
 
 ## Config (factory opts)
 
@@ -67,9 +78,9 @@ pnpm test
 | `SeleniumAdapter` | Class |
 | `resolveSeleniumBrowser` | Map `browser` string → chrome/firefox/edge |
 | `resolveSeleniumBy` | Map `LocatorRef` (`css` \| `xpath`) → Selenium `By` |
+| `describeUnsupportedSeleniumArtifacts` | Warn text when trace/video cannot be saved |
 
 ## Notes
 
-- Trace/video (`finalizeArtifacts`) are not implemented (Playwright-only in practice); omit or leave `trace`/`video` off.
 - Gestures (`scroll` / `swipe` / `longPress`) are best-effort via WebDriver Actions / script.
-- `screenshot` fullPage is viewport capture in MVP.
+- See **Artifact parity** above for screenshot / trace / video.

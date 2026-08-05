@@ -32,6 +32,11 @@ export interface NatlProjectConfig {
   artifacts_dir?: string;
   /** Extra full-scenario attempts after the first failure */
   retries?: number;
+  /**
+   * Max concurrent scenario files for `natl run` (default 1).
+   * CLI `--workers` overrides. Does not change YAML `parallel:` steps.
+   */
+  workers?: number;
   /** Playwright trace policy (default `on-fail`) */
   trace?: ArtifactMode;
   /** Playwright video policy (default `off`) */
@@ -213,6 +218,13 @@ export function parseProjectConfig(raw: unknown, path?: string): NatlProjectConf
     out.retries = raw.retries;
   }
 
+  if (raw.workers !== undefined) {
+    if (typeof raw.workers !== 'number' || !Number.isInteger(raw.workers) || raw.workers < 1) {
+      throw new Error(`${path ?? 'natl.config'}: "workers" must be an integer >= 1`);
+    }
+    out.workers = raw.workers;
+  }
+
   if (raw.trace !== undefined) {
     out.trace = parseArtifactMode(raw.trace, 'trace', path);
   }
@@ -298,6 +310,7 @@ export function mergeProjectConfigs(
     locator_strategy: overlay.locator_strategy ?? base.locator_strategy,
     artifacts_dir: overlay.artifacts_dir ?? base.artifacts_dir,
     retries: overlay.retries ?? base.retries,
+    workers: overlay.workers ?? base.workers,
     trace: overlay.trace ?? base.trace,
     video: overlay.video ?? base.video,
     soft_assert_screenshot: overlay.soft_assert_screenshot ?? base.soft_assert_screenshot,

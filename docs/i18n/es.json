@@ -47,7 +47,7 @@
     },
     "adapters": {
       "title": "Adaptadores",
-      "html": "\n<h1>Adaptadores</h1>\n<p>El YAML es el contrato. El adaptador conduce el navegador — o lo omite para HTTP.</p>\n<table>\n<thead><tr><th>engine</th><th>Paquete</th><th>Cuándo</th></tr></thead>\n<tbody>\n<tr><td><code>playwright</code></td><td><code>@natl/adapter-playwright</code></td><td>Por defecto</td></tr>\n<tr><td><code>selenium</code></td><td><code>@natl/adapter-selenium</code></td><td>WebDriver / Grid</td></tr>\n<tr><td><code>cypress</code></td><td><code>@natl/adapter-cypress</code></td><td>Equipos Cypress (MVP)</td></tr>\n<tr><td><code>http</code></td><td>integrado en <code>@natl/core</code></td><td>Solo API</td></tr>\n</tbody>\n</table>\n<p>UI + HTTP → <code>with: http</code> en la <a href=\"getting-started.html#http\">guía</a>.</p>"
+      "html": "\n<h1>Adaptadores</h1>\n<p>El YAML es el contrato. El adaptador conduce el navegador — o lo omite para HTTP.</p>\n<table>\n<thead><tr><th>engine</th><th>Paquete</th><th>Cuándo</th></tr></thead>\n<tbody>\n<tr><td><code>playwright</code></td><td><code>@natl/adapter-playwright</code></td><td>Por defecto</td></tr>\n<tr><td><code>selenium</code></td><td><code>@natl/adapter-selenium</code></td><td>WebDriver / Grid</td></tr>\n<tr><td><code>cypress</code></td><td><code>@natl/adapter-cypress</code></td><td>MVP experimental — solo equipos Cypress; sin paridad de gestos/trace; sin e2e en CI</td></tr>\n<tr><td><code>http</code></td><td>integrado en <code>@natl/core</code></td><td>Solo API</td></tr>\n</tbody>\n</table>\n<p>UI + HTTP → <code>with: http</code> en la <a href=\"getting-started.html#http\">guía</a>.</p>"
     },
     "architecture": {
       "title": "Arquitectura",

@@ -34,7 +34,8 @@
     },
     "secrets": {
       "type": "object",
-      "additionalProperties": true,
+      "additionalProperties": false,
+      "description": "Only dotenv is supported. Inject Vault/AWS values in CI as process env, then use $env / $secret.",
       "properties": {
         "env": {
           "type": "object",
@@ -43,9 +44,7 @@
             "file": { "type": "string" },
             "encoding": { "type": "string" }
           }
-        },
-        "vault": { "type": "object", "additionalProperties": true },
-        "aws": { "type": "object", "additionalProperties": true }
+        }
       }
     },
     "imports": {

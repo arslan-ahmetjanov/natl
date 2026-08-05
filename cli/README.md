@@ -40,6 +40,7 @@ natl run tests/
 natl run tests/ --tags smoke
 natl run tests/ --grep Login
 natl run tests/ --retries 2
+natl run tests/ --workers 2
 natl run tests/login.yaml --no-screenshot
 natl validate tests/
 natl engines
@@ -63,6 +64,46 @@ natl run tests/ --tags smoke --grep API
 
 If no tests match the filter, NATL prints a clear message and exits with code **1**.
 
+### Parallel files (`--workers`)
+
+By default NATL runs scenario **files** one after another (`--workers 1`). Use `--workers N` (or `workers` in `natl.config.yaml`) to run up to N files concurrently — each file gets its own browser/session.
+
+```bash
+natl run tests/ --workers 2
+```
+
+This is not the same as YAML `parallel:` (steps inside one scenario). Console PASS/FAIL lines may appear out of order when `workers > 1`; JUnit/JSON/Allure summaries still count every result. Failure screenshots/traces share `artifacts_dir` but use unique timestamped names, so collisions are unlikely.
+
+### Fail-fast, max-failures, shard
+
+Stop a large suite early, or split it across CI jobs:
+
+```bash
+natl run tests/ --fail-fast
+natl run tests/ --max-failures 3
+natl run tests/ --shard 1/2
+natl run tests/ --shard 2/2 --workers 2
+```
+
+| Flag | Behavior |
+|------|----------|
+| `--fail-fast` | After the first **failed file** (retries included), do not start more files |
+| `--max-failures <n>` | After **N failed tests** (cases count separately), stop starting files |
+| `--shard <i>/<n>` | Deterministic slice of the filtered file list (`i` is 1-based). Shards `1/n`…`n/n` partition the suite without overlap |
+
+In-flight files still finish and report when a stop triggers (compatible with `--workers`). Exit code is ≠ 0 if any completed test failed.
+
+GitHub Actions matrix example:
+
+```yaml
+strategy:
+  fail-fast: false
+  matrix:
+    shard: [1/2, 2/2]
+steps:
+  - run: natl run tests/ --shard ${{ matrix.shard }} --reporter junit --output artifacts/junit-${{ strategy.job-index }}.xml
+```
+
 ### Retries
 
 Re-run a failed scenario from the start (fresh browser) instead of re-running manually:
@@ -78,6 +119,8 @@ natl run tests/ --retries 2
 
 `retries` is the number of **extra** attempts after the first. Priority: `--retries` → test YAML → `natl.config` → `0`. Final status is last attempt wins; console/JSON show the attempt, and JSON may set `flaky: true` when a later attempt passes after a failure.
 
+JUnit (`--reporter junit`) keeps **one** `<testcase>` per scenario (final status — safe for dorny/GitLab). When `attempts > 1` it also writes machine-readable `<property name="attempt|attempts|flaky"/>` (same fields as JSON) and keeps a short `<system-out>` line. Pass-after-retry adds a Surefire-style empty `<flakyFailure message="passed after retry …"/>` marker (ignored by parsers that do not understand it).
+
 On failure NATL prints a `FAIL file:line step — reason` line and saves a screenshot under `artifacts/` next to the scenario (unless `--no-screenshot`). Soft asserts (`assert` + `soft: true`; alias `soft_assert`) continue the scenario; failures are summarized at the end (exit ≠ 0). Optional `--soft-assert-screenshot` (or `soft_assert_screenshot` in config) captures a shot per soft fail. With the default `--trace on-fail`, a Playwright trace `.zip` is written there too (open with `npx playwright show-trace <file>`). Optional `--video on-fail` (or `on`) saves a `.webm`. Trace/video save failures are warnings only. With retries configured, artifact names include `-attempt-N`.
 
 ```bash
@@ -86,9 +129,11 @@ natl run tests/ --trace off
 natl run tests/ --video on-fail
 ```
 
-### 4. Secrets via `.env`
+### 4. Secrets (`.env` + CI)
 
-Copy `.env.example` to `.env` and fill in values (`.env` is gitignored by the init template):
+Supported backends: **process environment** and optional **dotenv** files. There is no built-in Vault or AWS Secrets Manager — fetch there in CI/CD (or a wrapper script) and export plain env vars before `natl run`.
+
+**Local:** copy `.env.example` to `.env` (gitignored by the init template):
 
 ```bash
 cp .env.example .env
@@ -97,6 +142,15 @@ cp .env.example .env
 ```env
 TEST_USER=qa@example.com
 TEST_PASS=secret
+```
+
+**CI (GitHub Actions):** map repository secrets into the job `env:` block — same keys work as `$env.KEY` / `$secret.KEY`:
+
+```yaml
+- run: natl run tests/
+  env:
+    TEST_USER: ${{ secrets.TEST_USER }}
+    TEST_PASS: ${{ secrets.TEST_PASS }}
 ```
 
 Use them in YAML with `$env.KEY` / `$secret.KEY` (preferred) or `${ENV:KEY}` (compat):
@@ -113,29 +167,37 @@ steps:
     with: $secret.TEST_PASS
 ```
 
-NATL loads `.env` from the process working directory (and from a path declared under `secrets.env` in the scenario). Do not commit real credentials.
+NATL loads `.env` from the process working directory (and from a path declared under `secrets.env` in the scenario). Values read via `$env` / `$secret` / `${ENV:}` are masked as `***` in failure messages. Do not commit real credentials. Refs like `${VAULT:…}` / `${AWS:…}` fail with a clear error.
 
 ### Reporters
 
-Default reporter is `console` (PASS/FAIL on stdout). For CI, add JUnit and/or JSON:
+Default reporter is `console` (PASS/FAIL on stdout). For CI, add JUnit, JSON, and/or Allure:
 
 ```bash
 natl run tests/ --reporter junit --output artifacts/junit.xml
 natl run tests/ --reporter json --output artifacts/report.json
 natl run tests/ --reporter console --reporter junit --output artifacts/junit.xml
+natl run tests/ --reporter console --reporter allure --output allure-results
 ```
 
 | Reporter | Output |
 |----------|--------|
 | `console` | stdout (default) |
-| `junit` | XML (`artifacts/junit.xml` if `--output` omitted) |
+| `junit` | XML (`artifacts/junit.xml` if `--output` omitted). Retry/flaky: properties `attempt` / `attempts` / `flaky` + optional `<flakyFailure>` |
 | `json` | `{ results, summary }` (`artifacts/report.json` if omitted) |
+| `allure` | Allure 2 results dir (`allure-results` if `--output` omitted) |
 
-JSON `results[]` entries: `name`, `ok`, `durationMs`, `error`, `path`, and optionally `attempt`, `attempts`, `flaky`. Repeat `--reporter` to combine. If both `junit` and `json` share one `--output`, treat it as a directory and write `junit.xml` + `report.json` inside.
+JSON `results[]` entries: `name`, `ok`, `durationMs`, `error`, `path`, and optionally `attempt`, `attempts`, `flaky`, `tags`, `engine`, `attachments` (`[{ name, path, type }]` for screenshot/trace/video when present), `steps`. Repeat `--reporter` to combine. If both `junit` and `json` share one `--output`, treat it as a directory and write `junit.xml` + `report.json` inside. With `allure` plus file reporters and a shared directory `--output`, Allure writes under `<output>/allure-results`.
+
+Generate an HTML report from Allure results (requires the [Allure CLI](https://allurereport.org/docs/install/)):
+
+```bash
+npx allure generate allure-results -o allure-report --clean
+```
 
 ### Project config
 
-Optional `natl.config.yaml` (or `.yml`) next to your tests sets shared defaults (`engine`, `timeout`, `base_url`, `headless`, `artifacts_dir`, `retries`, `trace`, `video`). NATL walks up from the scenario file to find it. `--engine`, `--headed`, `--retries`, `--trace`, and `--video` override the config.
+Optional `natl.config.yaml` (or `.yml`) next to your tests sets shared defaults (`engine`, `timeout`, `base_url`, `headless`, `artifacts_dir`, `retries`, `workers`, `trace`, `video`). NATL walks up from the scenario file to find it. `--engine`, `--headed`, `--retries`, `--workers`, `--trace`, and `--video` override the config.
 
 Env profiles: put stand-specific overrides in `config/<name>.yaml` and run `natl run tests/ --env staging` (or `--config path/to/overlay.yaml`). Same scenarios, different stands — no step rewrites. Merge order: CLI → test YAML → env profile → base config → defaults. Without `--env` / `--config`, behavior is unchanged.
 
@@ -174,7 +236,22 @@ Same-line one-liners (`fill: "#x" with: $y`) still run via the preprocessor but 
 
 ## CI (GitHub Actions)
 
-Copy the workflow below into `.github/workflows/natl.yml` in your project (same file ships in the repo under `examples/.github/workflows/natl.yml`). Assumes tests live under `tests/` after `natl init`.
+Copy the workflow below into `.github/workflows/natl.yml` in your project (same file ships under `examples/.github/workflows/natl.yml`). Assumes tests live under `tests/` after `natl init`.
+
+Shared `--output artifacts` with both `junit` and `allure` writes:
+
+- `artifacts/junit.xml`
+- `artifacts/allure-results/` (Allure 2 raw results — upload this folder; generate HTML locally or in a follow-up step)
+
+### CI with Allure
+
+```bash
+# raw results only (fast CI artifact)
+natl run tests/ --reporter junit --reporter allure --output artifacts
+
+# HTML report (Allure CLI on the runner or your machine)
+npx allure generate artifacts/allure-results -o allure-report --clean
+```
 
 ```yaml
 name: NATL
@@ -187,6 +264,10 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1/2, 2/2]
     steps:
       - uses: actions/checkout@v4
 
@@ -196,17 +277,33 @@ jobs:
 
       - run: npm i -g @natl/cli @natl/adapter-playwright
       - run: npx playwright install --with-deps chromium
-      - run: natl run tests/ --reporter junit --output artifacts/junit.xml
+      - run: >
+          natl run tests/
+          --shard ${{ matrix.shard }}
+          --reporter junit
+          --reporter allure
+          --output artifacts
         env:
-          # optional: map GitHub secrets into ${ENV:…} for scenarios
+          # Inject CI secrets as process env → $env.KEY / $secret.KEY
           TEST_USER: ${{ secrets.TEST_USER }}
           TEST_PASS: ${{ secrets.TEST_PASS }}
 
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: natl-artifacts
-          path: artifacts/
+          name: natl-artifacts-${{ strategy.job-index }}
+          path: |
+            artifacts/junit.xml
+            artifacts/allure-results/
+
+      # optional: Allure HTML
+      # - run: npx allure generate artifacts/allure-results -o allure-report --clean
+      #   if: always()
+      # - uses: actions/upload-artifact@v4
+      #   if: always()
+      #   with:
+      #     name: allure-report-${{ strategy.job-index }}
+      #     path: allure-report/
 
       # optional: publish test results from artifacts/junit.xml
       # - uses: dorny/test-reporter@v1
@@ -222,6 +319,7 @@ jobs:
 ```bash
 pnpm install
 pnpm build
+pnpm test
 node dist/index.js --help
 ```
 
@@ -257,7 +355,7 @@ Engine adapters are loaded dynamically (not bundled into the language core). Sam
 |------------------------|---------|----------|
 | `playwright` | `@natl/adapter-playwright` | chromium / firefox / webkit (Playwright) |
 | `selenium` | `@natl/adapter-selenium` | chrome / firefox / edge (Selenium Manager; optional `SELENIUM_REMOTE_URL`) |
-| `cypress` | `@natl/adapter-cypress` | chrome / electron / edge / firefox (peer `cypress`) |
+| `cypress` | `@natl/adapter-cypress` | chrome / electron / edge / firefox — **experimental** MVP (peer `cypress`; no gesture/trace parity) |
 | `http` | built-in (`@natl/core`) | n/a (API only) |
 
 ```bash

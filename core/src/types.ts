@@ -48,8 +48,6 @@ export interface SecretsConfig {
     file?: string;
     encoding?: string;
   };
-  vault?: Record<string, unknown>;
-  aws?: Record<string, unknown>;
 }
 
 export type Step =

@@ -2,7 +2,10 @@ import type {
   ActionOptions,
   AdapterFactory,
   AdapterFactoryOptions,
+  ArtifactMode,
   EngineAdapter,
+  FinalizeArtifactsOptions,
+  FinalizeArtifactsResult,
   LocatorRef,
   LongPressOptions,
   ScreenshotOptions,
@@ -79,12 +82,16 @@ export class CypressAdapter implements EngineAdapter {
     private readonly projectRoot: string,
     private readonly runPromise: Promise<unknown>,
     private readonly defaultTimeout: number,
+    private readonly trace: ArtifactMode,
+    private readonly video: ArtifactMode,
   ) {}
 
   static async create(options?: AdapterFactoryOptions): Promise<CypressAdapter> {
     const timeout = options?.timeout ?? 10000;
     const headless = options?.headless ?? true;
     const browser = resolveCypressBrowser(options?.browser);
+    const trace = options?.trace ?? 'off';
+    const video = options?.video ?? 'off';
 
     const bridge = new CommandBridge();
     const bridgeUrl = await bridge.start();
@@ -113,7 +120,7 @@ export class CypressAdapter implements EngineAdapter {
       throw err;
     }
 
-    return new CypressAdapter(bridge, projectRoot, runPromise, timeout);
+    return new CypressAdapter(bridge, projectRoot, runPromise, timeout, trace, video);
   }
 
   private t(opts?: ActionOptions): number {
@@ -235,6 +242,22 @@ export class CypressAdapter implements EngineAdapter {
 
   async longPress(_locator: LocatorRef, _opts?: LongPressOptions): Promise<void> {
     throw new Error('Cypress adapter MVP: longPress is not supported');
+  }
+
+  async finalizeArtifacts(opts: FinalizeArtifactsOptions): Promise<FinalizeArtifactsResult> {
+    const wantTrace = this.trace === 'on' || (this.trace === 'on-fail' && !opts.ok);
+    const wantVideo = this.video === 'on' || (this.video === 'on-fail' && !opts.ok);
+    const parts: string[] = [];
+    if (wantTrace) parts.push('trace (.zip)');
+    if (wantVideo) parts.push('video (.webm)');
+    if (parts.length) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        `[natl/adapter-cypress] Experimental adapter cannot save ${parts.join(' / ')} — ` +
+          `use Playwright, or set trace/video to off.`,
+      );
+    }
+    return {};
   }
 
   async dispose(): Promise<void> {

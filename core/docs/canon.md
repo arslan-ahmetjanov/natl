@@ -72,7 +72,7 @@ Same steps for staging vs prod (`--env`), desktop vs mobile web (config / adapte
 
 | Now | Direction |
 |-----|-----------|
-| Built-in `api:` steps | Compat / freeze trajectory |
+| Built-in `api:` steps | **Deprecated compat** (still run in 1.0) |
 | Growth | `engine: http` + blocks `with: http` |
 
 Do not grow a parallel “fat” `api:` dialect. Keep HTTP thin and block-scoped next to UI steps.
@@ -100,7 +100,7 @@ Not goals of the short language (or deferred):
 - Visual / pixel asserts in core
 - Native mobile apps
 - Plugins / JS actions as the main extension story (escape hatch later)
-- TMS UI, marketplace, Vault/AWS backends in-core
+- TMS UI, marketplace, Vault/AWS backends in-core (inject those in CI as process env → `$env` / `$secret`)
 
 ---
 

@@ -6,7 +6,10 @@ import type {
   ActionOptions,
   AdapterFactory,
   AdapterFactoryOptions,
+  ArtifactMode,
   EngineAdapter,
+  FinalizeArtifactsOptions,
+  FinalizeArtifactsResult,
   LocatorRef,
   LongPressOptions,
   ScreenshotOptions,
@@ -23,6 +26,31 @@ export const engine = 'selenium' as const;
 
 const SUPPORTED_BROWSERS = ['chrome', 'chromium', 'firefox', 'edge'] as const;
 export type SeleniumBrowser = (typeof SUPPORTED_BROWSERS)[number];
+
+type CdpDriver = WebDriver & {
+  executeCdpCommand?: (cmd: string, params: Record<string, unknown>) => Promise<{ data?: string }>;
+};
+
+/**
+ * Message when Selenium would have been asked to keep Playwright-style artifacts.
+ * Used by finalizeArtifacts and unit tests.
+ */
+export function describeUnsupportedSeleniumArtifacts(
+  trace: ArtifactMode,
+  video: ArtifactMode,
+  ok: boolean,
+): string | undefined {
+  const wantTrace = trace === 'on' || (trace === 'on-fail' && !ok);
+  const wantVideo = video === 'on' || (video === 'on-fail' && !ok);
+  const parts: string[] = [];
+  if (wantTrace) parts.push('trace (.zip)');
+  if (wantVideo) parts.push('video (.webm)');
+  if (!parts.length) return undefined;
+  return (
+    `Selenium adapter cannot save ${parts.join(' / ')} — ` +
+    `use Playwright for Trace Viewer / video, or set trace/video to off.`
+  );
+}
 
 /** Normalize browser id; `chromium` → Chrome. Unknown ids throw. */
 export function resolveSeleniumBrowser(browser?: string): SeleniumBrowser {
@@ -70,12 +98,17 @@ export class SeleniumAdapter implements EngineAdapter {
   private constructor(
     private readonly driver: WebDriver,
     private readonly defaultTimeout: number,
+    private readonly browser: SeleniumBrowser,
+    private readonly trace: ArtifactMode,
+    private readonly video: ArtifactMode,
   ) {}
 
   static async create(options?: AdapterFactoryOptions): Promise<SeleniumAdapter> {
     const timeout = options?.timeout ?? 10000;
     const headless = options?.headless ?? true;
     const browser = resolveSeleniumBrowser(options?.browser);
+    const trace = options?.trace ?? 'off';
+    const video = options?.video ?? 'off';
     const remoteUrl =
       process.env.SELENIUM_REMOTE_URL?.trim() ||
       process.env.SELENIUM_GRID_URL?.trim() ||
@@ -116,7 +149,7 @@ export class SeleniumAdapter implements EngineAdapter {
 
       const driver = await builder.build();
       await driver.manage().setTimeouts({ implicit: 0, pageLoad: timeout, script: timeout });
-      return new SeleniumAdapter(driver, timeout);
+      return new SeleniumAdapter(driver, timeout, browser, trace, video);
     } catch (err) {
       throw driverErrorHint(err);
     }
@@ -228,10 +261,47 @@ export class SeleniumAdapter implements EngineAdapter {
   async screenshot(file: string, opts?: ScreenshotOptions): Promise<void> {
     mkdirSync(dirname(file), { recursive: true });
     if (opts?.fullPage) {
-      // Selenium full-page is browser-specific; capture viewport as MVP baseline.
+      const cdp = await this.tryCdpFullPagePng();
+      if (cdp) {
+        writeFileSync(file, Buffer.from(cdp, 'base64'));
+        return;
+      }
     }
     const b64 = await this.driver.takeScreenshot();
     writeFileSync(file, Buffer.from(b64, 'base64'));
+  }
+
+  /**
+   * Chromium CDP full-page capture when available (Chrome / Edge).
+   * Returns undefined on Firefox or when CDP is unavailable.
+   */
+  private async tryCdpFullPagePng(): Promise<string | undefined> {
+    if (this.browser !== 'chrome' && this.browser !== 'edge') return undefined;
+    const driver = this.driver as CdpDriver;
+    if (typeof driver.executeCdpCommand !== 'function') return undefined;
+    try {
+      const result = await driver.executeCdpCommand('Page.captureScreenshot', {
+        format: 'png',
+        captureBeyondViewport: true,
+        fromSurface: true,
+      });
+      return typeof result?.data === 'string' ? result.data : undefined;
+    } catch {
+      return undefined;
+    }
+  }
+
+  /**
+   * Explicit no-op for Playwright-style trace/video with a clear warn when
+   * artifacts would have been kept. Fail screenshots still use `screenshot`.
+   */
+  async finalizeArtifacts(opts: FinalizeArtifactsOptions): Promise<FinalizeArtifactsResult> {
+    const msg = describeUnsupportedSeleniumArtifacts(this.trace, this.video, opts.ok);
+    if (msg) {
+      // eslint-disable-next-line no-console
+      console.warn(`[natl/adapter-selenium] ${msg}`);
+    }
+    return {};
   }
 
   async getText(locator: LocatorRef, opts?: ActionOptions): Promise<string> {

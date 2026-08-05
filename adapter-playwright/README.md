@@ -6,7 +6,7 @@
 
 Official **Playwright** UI adapter for NATL.
 
-NATL scenarios stay in compact YAML; this package is the default `EngineAdapter` implementation. Browser choice (`chromium` / `firefox` / `webkit`) is a **capability of this adapter** — set via `browser:` in `natl.config` (opaque string to `@natl/core`). Other adapters (Selenium, Cypress — planned) can run the same typical scenarios with `engine:` swapped.
+**Status: supported** — default engine for production pilots. NATL scenarios stay in compact YAML; this package is the default `EngineAdapter` implementation. Browser choice (`chromium` / `firefox` / `webkit`) is a **capability of this adapter** — set via `browser:` in `natl.config` (opaque string to `@natl/core`).
 
 Logo assets: [`brand/`](./brand/).
 

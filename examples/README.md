@@ -32,7 +32,8 @@ Project defaults: [`natl.config.yaml`](./natl.config.yaml). Env overlays under [
 
 Sandbox credentials: `demo@natl.dev` / `secret` (welcome text uses the email local-part).
 
-GitHub Actions template: [`.github/workflows/natl.yml`](./.github/workflows/natl.yml).
+GitHub Actions template: [`.github/workflows/natl.yml`](./.github/workflows/natl.yml).  
+Agent on PR/MR (GitHub / GitLab / Jenkins): [`.github/workflows/natl-agent.yml`](./.github/workflows/natl-agent.yml), [`ci/`](./ci/).
 
 | File | What it shows |
 |------|----------------|
@@ -40,14 +41,14 @@ GitHub Actions template: [`.github/workflows/natl.yml`](./.github/workflows/natl
 | `config/staging.yaml` | Local sandbox twin |
 | `config/prod.yaml` | Live Pages sandbox |
 | `env_profile_demo.yaml` | `$base_url` from config / `--env` |
-| `env_login.yaml` | `$env.*` / `$secret.*` from `.env` |
+| `env_login.yaml` | `$env.*` / `$secret.*` from `.env` (CI: inject same keys in job `env:`) |
 | `login.yaml` | Basic sandbox login |
 | `pom_login.yaml` | Page Object via `do:` |
 | `data_driven.yaml` | `cases:` welcome per user |
 | `e2e_sandbox.yaml` | Login → API ping → logout → bad password |
 | `smoke_sandbox.yaml` | Live Pages smoke (network) |
 | `smoke_selenium.yaml` | Same idea via Selenium |
-| `smoke_cypress.yaml` | Local sandbox via Cypress adapter |
+| `smoke_cypress.yaml` | Local sandbox via Cypress (**experimental**; not CI-gated) |
 | `soft_assert_demo.yaml` | Soft asserts (+ `tap` alias) |
 | `tap_smoke.yaml` | `tap:` = `click` |
 | `http_only.yaml` | `engine: http` vs local stub |
@@ -55,3 +56,4 @@ GitHub Actions template: [`.github/workflows/natl.yml`](./.github/workflows/natl
 | `gestures_demo.yaml` | Gestures fixture (separate HTML) |
 | `stubs/` | Local echo API (`node stubs/echo-server.mjs`) |
 | `fixtures/sandbox.html` | Offline twin of the docs sandbox |
+| `ci/` | GitLab CI + Jenkins templates for `@natl/agent` |

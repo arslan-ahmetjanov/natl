@@ -6,11 +6,41 @@
 
 **Not Another Testing Language** — an open-source **test runner**: YAML scenarios for **web UI and API**.
 
-Write one compact scenario (optional POM). Run it locally or in CI. Keep it when the stack moves — swap `engine:` (`playwright` → `selenium` / `cypress`) without rewriting typical flows. Mix UI and HTTP in the same file.
+Write one compact scenario (optional POM). Run it locally or in CI. Keep typical flows when the stack moves — swap `engine:` (`playwright` → `selenium`; `cypress` is **experimental** with a lower ceiling). Mix UI and HTTP in the same file.
 
-[![npm v0.1.5](./brand/badges/npm.svg)](https://www.npmjs.com/package/@natl/cli)
+[![npm v1.0.0](./brand/badges/npm.svg)](https://www.npmjs.com/package/@natl/cli)
 [![License: MIT](./brand/badges/license.svg)](./LICENSE)
 [![Docs](./brand/badges/docs.svg)](https://arslan-ahmetjanov.github.io/natl/)
+
+## Production status (1.0)
+
+NATL **1.0.0** freezes the public API for Playwright-based production use. Contract: [`core/docs/api-1.0.md`](./core/docs/api-1.0.md). Changelog: [`CHANGELOG.md`](./CHANGELOG.md).
+
+| Ready | Notes |
+|-------|--------|
+| Playwright + CLI | Default path: `natl run`, tags/grep, retries, `--workers`, fail-fast / shard |
+| Reporters | `console`, `junit` (retry/flaky properties), `json`, `allure` |
+| Root CI | Package build/unit + offline sandbox **smoke** (see [`CONTRIBUTING.md`](./CONTRIBUTING.md)) |
+| Consumer CI | Copy [`examples/.github/workflows/natl.yml`](./examples/.github/workflows/natl.yml) |
+| Secrets | Process env + `.env` only — inject Vault/AWS in CI as env vars |
+| Semver | Breaking changes to the frozen surface require a **major** bump |
+
+Upgrade from 0.1.x: install `@natl/cli@^1` + `@natl/adapter-playwright@^1` — pilot YAML stays compatible.
+
+### Adapter status
+
+| Engine | Status | Ceiling |
+|--------|--------|---------|
+| **playwright** | **Supported** (1.0 default) | Trace / video / fullPage screenshots |
+| **selenium** | **Supported with limits** | Screenshots yes; no Trace Viewer / video (warns) |
+| **cypress** | **Experimental** | Not covered by the 1.0 stability promise |
+| **http** | Built-in (`@natl/core`) | API-only scenarios / `with: http` |
+
+### Known limits (not blocking 1.0)
+
+- Language wave 6+: iframe, network mock, upload/download, tabs — see [`core/docs/canon.md`](./core/docs/canon.md)
+- No TMS / dashboard product in the CLI
+- `api:` steps remain as **deprecated** compat; prefer HTTP verbs / `with: http`
 
 ## Why NATL
 
@@ -53,9 +83,9 @@ Start with the [guide](https://arslan-ahmetjanov.github.io/natl/getting-started.
 | Package | Role |
 |---------|------|
 | [`@natl/core`](./core/) | Language, interpreter, `EngineAdapter` contract, reporters |
-| [`@natl/adapter-playwright`](./adapter-playwright/) | Default UI engine |
-| [`@natl/adapter-selenium`](./adapter-selenium/) | Selenium WebDriver |
-| [`@natl/adapter-cypress`](./adapter-cypress/) | Cypress (command-bridge MVP) |
+| [`@natl/adapter-playwright`](./adapter-playwright/) | Default UI engine (**supported**) |
+| [`@natl/adapter-selenium`](./adapter-selenium/) | Selenium WebDriver (**supported with limits**) |
+| [`@natl/adapter-cypress`](./adapter-cypress/) | Cypress (**experimental** MVP; not PW parity) |
 | [`@natl/cli`](./cli/) | `natl` CLI |
 
 Same YAML — different `engine:` (`playwright` / `selenium` / `cypress` / `http`).

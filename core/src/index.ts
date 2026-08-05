@@ -37,9 +37,11 @@ export {
   ConsoleReporter,
   JUnitReporter,
   JsonReporter,
+  AllureReporter,
   MultiReporter,
   createReporters,
   parseReporterName,
+  allureHistoryId,
 } from './reporter.js';
 export type {
   Reporter,
@@ -47,6 +49,10 @@ export type {
   ReporterStartInfo,
   ReporterSummary,
   ReporterTestResult,
+  ReporterAttachment,
+  ReporterStepResult,
+  ReporterStepStartInfo,
+  ReporterStepEndInfo,
   JsonReport,
   CreateReportersOptions,
 } from './reporter.js';

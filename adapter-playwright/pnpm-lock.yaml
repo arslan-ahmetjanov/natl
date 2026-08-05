@@ -4,17 +4,20 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  '@natl/core': link:../core
+
 importers:
 
   .:
     dependencies:
+      '@natl/core':
+        specifier: link:../core
+        version: link:../core
       playwright:
         specifier: ^1.49.1
         version: 1.62.0
     devDependencies:
-      '@natl/core':
-        specifier: ^0.1.1
-        version: 0.1.1
       '@types/node':
         specifier: ^22.10.5
         version: 22.20.1
@@ -183,16 +186,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@natl/core@0.1.1':
-    resolution: {integrity: sha512-srO8IU5QH1K8cVnS65WD3aE5VosqQvfGX0H0UEAH/H+9/PLkGKS5wPtx7aRS+87zHOu+G9UxZq1pa2iFTb7MhQ==}
-    engines: {node: '>=18'}
-
   '@types/node@22.20.1':
     resolution: {integrity: sha512-EANqOCF9QFyra+4pfxUcX9STKJpCLjMbObVzljIJomAWSnuSIEAvyzEU53GaajbXJEgdh0iEcPL+DGvpUd4k1Q==}
-
-  dotenv@16.6.1:
-    resolution: {integrity: sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow==}
-    engines: {node: '>=12'}
 
   esbuild@0.28.1:
     resolution: {integrity: sha512-HrJrvZv5ayxBzPfwphOoNzkzOIIlifzk0KJrGK2c8R4+LKpMtpYLQeUdjnwjWv/LZlkH2laZk+4w78pi99D4Vw==}
@@ -231,14 +226,6 @@ packages:
 
   undici-types@6.21.0:
     resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
-
-  yaml@2.9.0:
-    resolution: {integrity: sha512-2AvhNX3mb8zd6Zy7INTtSpl1F15HW6Wnqj0srWlkKLcpYl/gMIMJiyuGq2KeI2YFxUPjdlB+3Lc10seMLtL4cA==}
-    engines: {node: '>= 14.6'}
-    hasBin: true
-
-  zod@3.25.76:
-    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
 
 snapshots:
 
@@ -320,17 +307,9 @@ snapshots:
   '@esbuild/win32-x64@0.28.1':
     optional: true
 
-  '@natl/core@0.1.1':
-    dependencies:
-      dotenv: 16.6.1
-      yaml: 2.9.0
-      zod: 3.25.76
-
   '@types/node@22.20.1':
     dependencies:
       undici-types: 6.21.0
-
-  dotenv@16.6.1: {}
 
   esbuild@0.28.1:
     optionalDependencies:
@@ -384,7 +363,3 @@ snapshots:
   typescript@5.9.3: {}
 
   undici-types@6.21.0: {}
-
-  yaml@2.9.0: {}
-
-  zod@3.25.76: {}

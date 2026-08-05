@@ -11,11 +11,13 @@ Write compact steps once (plus optional POM). UI engines plug in via `EngineAdap
 Logo assets: [`brand/`](./brand/).
 
 - YAML / compact-step parser → AST
-- Expression engine (`$vars`, `$env.*` / `$secret.*`, `${ENV:…}` compat, builtins)
+- Expression engine (`$vars`, `$env.*` / `$secret.*`, `${ENV:…}` compat; dotenv / process env only — no Vault/AWS in-core)
 - Interpreter (flow + actions + HTTP)
 - `EngineAdapter` v2 for UI engines; built-in `http` engine for API steps (`with: http` / `engine: http`)
-- Built-in `api:` steps (compat; growth moves to `engine: http`)
-- Reporters (`console` / `junit` / `json`) for CI
+- Built-in `api:` steps (**deprecated compat**; growth moves to `engine: http`)
+- Reporters (`console` / `junit` / `json` / `allure`) for CI
+
+**Public API 1.0:** [`docs/api-1.0.md`](./docs/api-1.0.md).
 
 ## Install
 

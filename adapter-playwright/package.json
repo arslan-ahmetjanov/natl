@@ -1,6 +1,6 @@
 {
   "name": "@natl/adapter-playwright",
-  "version": "0.1.5",
+  "version": "1.0.0",
   "description": "Official Playwright engine adapter for NATL",
   "license": "MIT",
   "type": "module",
@@ -35,13 +35,13 @@
     "prepublishOnly": "pnpm build"
   },
   "peerDependencies": {
-    "@natl/core": "^0.1.5"
+    "@natl/core": "^1.0.0"
   },
   "dependencies": {
     "playwright": "^1.49.1"
   },
   "devDependencies": {
-    "@natl/core": "^0.1.5",
+    "@natl/core": "^1.0.0",
     "@types/node": "^22.10.5",
     "tsx": "^4.19.2",
     "typescript": "^5.7.3"

@@ -1,6 +1,6 @@
 {
   "name": "@natl/cli",
-  "version": "0.1.5",
+  "version": "1.0.0",
   "description": "NATL CLI — run and validate YAML test scenarios",
   "license": "MIT",
   "type": "module",
@@ -36,19 +36,19 @@
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "start": "node --import tsx src/index.ts",
-    "test": "node -e \"console.log('no cli unit tests')\"",
+    "test": "node --import tsx --test src/flags.test.ts",
     "prepublishOnly": "pnpm build"
   },
   "dependencies": {
-    "@natl/core": "^0.1.5"
+    "@natl/core": "^1.0.0"
   },
   "optionalDependencies": {
-    "@natl/adapter-playwright": "^0.1.5",
-    "@natl/adapter-selenium": "^0.1.5",
-    "@natl/adapter-cypress": "^0.1.5"
+    "@natl/adapter-playwright": "^1.0.0",
+    "@natl/adapter-selenium": "^1.0.0",
+    "@natl/adapter-cypress": "^1.0.0"
   },
   "devDependencies": {
-    "@natl/adapter-playwright": "^0.1.5",
+    "@natl/adapter-playwright": "^1.0.0",
     "@types/node": "^22.10.5",
     "tsx": "^4.19.2",
     "typescript": "^5.7.3"

@@ -54,6 +54,11 @@
       "minimum": 0,
       "description": "Extra full-scenario attempts after failure"
     },
+    "workers": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Max concurrent scenario files for natl run (default 1). CLI --workers overrides. Not YAML parallel: steps."
+    },
     "trace": {
       "type": "string",
       "enum": ["off", "on", "on-fail"],

@@ -22,6 +22,8 @@ artifacts/
 **/artifacts/
 coverage/
 .nyc_output/
+agent/eval/live-report.json
+**/eval/live-report.json
 
 # editors / OS
 .idea/
@@ -33,6 +35,8 @@ coverage/
 AGENTS.md
 course/
 test/
+tasks/
+local-llm/
 
 # logs
 npm-debug.log*

@@ -44,6 +44,26 @@ jobs:
       - run: pnpm build
       - run: pnpm test
 
+  # Experimental: build + unit only (no e2e smoke — bridge/Cypress binary is slow/flaky for gate)
+  adapter-cypress:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: adapter-cypress
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: adapter-cypress/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - run: pnpm test
+
   cli:
     runs-on: ubuntu-latest
     needs: [core]
@@ -62,4 +82,58 @@ jobs:
           cache-dependency-path: cli/pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
+      - run: pnpm test
       - run: node dist/index.js --version
+
+  # Offline happy-path: fixtures/sandbox.html via examples/login.yaml (no network to Pages).
+  # cli pnpm.overrides link local core + adapter-playwright after those packages are built.
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: |
+            core/pnpm-lock.yaml
+            adapter-playwright/pnpm-lock.yaml
+            cli/pnpm-lock.yaml
+
+      - name: Build @natl/core
+        working-directory: core
+        run: pnpm install --frozen-lockfile && pnpm build
+
+      - name: Build @natl/adapter-playwright
+        working-directory: adapter-playwright
+        run: pnpm install --frozen-lockfile && pnpm build
+
+      - name: Build @natl/cli
+        working-directory: cli
+        run: pnpm install --frozen-lockfile && pnpm build
+
+      - name: Install Chromium
+        working-directory: adapter-playwright
+        run: npx playwright install --with-deps chromium
+
+      - name: Offline sandbox smoke
+        working-directory: examples
+        run: >
+          node ../cli/dist/index.js run login.yaml
+          --reporter console
+          --reporter junit
+          --output artifacts/junit.xml
+          --trace off
+          --video off
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: smoke-artifacts
+          path: |
+            examples/artifacts/
+          if-no-files-found: ignore

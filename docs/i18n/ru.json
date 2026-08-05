@@ -47,7 +47,7 @@
     },
     "adapters": {
       "title": "Адаптеры",
-      "html": "\n<h1>Адаптеры</h1>\n<p>YAML — контракт. Adapter водит браузер или обходится HTTP.</p>\n<table>\n<thead><tr><th>engine</th><th>Пакет</th><th>Когда</th></tr></thead>\n<tbody>\n<tr><td><code>playwright</code></td><td><code>@natl/adapter-playwright</code></td><td>По умолчанию</td></tr>\n<tr><td><code>selenium</code></td><td><code>@natl/adapter-selenium</code></td><td>WebDriver / Grid</td></tr>\n<tr><td><code>cypress</code></td><td><code>@natl/adapter-cypress</code></td><td>Команды на Cypress (MVP)</td></tr>\n<tr><td><code>http</code></td><td>встроен в <code>@natl/core</code></td><td>Только API</td></tr>\n</tbody>\n</table>\n<p>UI + HTTP → <code>with: http</code> в <a href=\"getting-started.html#http\">гайде</a>.</p>"
+      "html": "\n<h1>Адаптеры</h1>\n<p>YAML — контракт. Adapter водит браузер или обходится HTTP.</p>\n<table>\n<thead><tr><th>engine</th><th>Пакет</th><th>Когда</th></tr></thead>\n<tbody>\n<tr><td><code>playwright</code></td><td><code>@natl/adapter-playwright</code></td><td>По умолчанию</td></tr>\n<tr><td><code>selenium</code></td><td><code>@natl/adapter-selenium</code></td><td>WebDriver / Grid</td></tr>\n<tr><td><code>cypress</code></td><td><code>@natl/adapter-cypress</code></td><td>Experimental MVP — только Cypress-команды; без parity жестов/trace; e2e в CI нет</td></tr>\n<tr><td><code>http</code></td><td>встроен в <code>@natl/core</code></td><td>Только API</td></tr>\n</tbody>\n</table>\n<p>UI + HTTP → <code>with: http</code> в <a href=\"getting-started.html#http\">гайде</a>.</p>"
     },
     "architecture": {
       "title": "Архитектура",

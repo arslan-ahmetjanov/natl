@@ -47,7 +47,7 @@
     },
     "adapters": {
       "title": "适配器",
-      "html": "\n<h1>适配器</h1>\n<p>YAML 是契约。适配器驱动浏览器，或对 HTTP 跳过浏览器。</p>\n<table>\n<thead><tr><th>engine</th><th>包</th><th>何时</th></tr></thead>\n<tbody>\n<tr><td><code>playwright</code></td><td><code>@natl/adapter-playwright</code></td><td>默认</td></tr>\n<tr><td><code>selenium</code></td><td><code>@natl/adapter-selenium</code></td><td>WebDriver / Grid</td></tr>\n<tr><td><code>cypress</code></td><td><code>@natl/adapter-cypress</code></td><td>Cypress 团队（MVP）</td></tr>\n<tr><td><code>http</code></td><td>内置于 <code>@natl/core</code></td><td>仅 API</td></tr>\n</tbody>\n</table>\n<p>UI + HTTP → 见<a href=\"getting-started.html#http\">指南</a>中的 <code>with: http</code>。</p>"
+      "html": "\n<h1>适配器</h1>\n<p>YAML 是契约。适配器驱动浏览器，或对 HTTP 跳过浏览器。</p>\n<table>\n<thead><tr><th>engine</th><th>包</th><th>何时</th></tr></thead>\n<tbody>\n<tr><td><code>playwright</code></td><td><code>@natl/adapter-playwright</code></td><td>默认</td></tr>\n<tr><td><code>selenium</code></td><td><code>@natl/adapter-selenium</code></td><td>WebDriver / Grid</td></tr>\n<tr><td><code>cypress</code></td><td><code>@natl/adapter-cypress</code></td><td>实验性 MVP — 仅 Cypress 团队；无手势/trace 对等；CI 不做 e2e</td></tr>\n<tr><td><code>http</code></td><td>内置于 <code>@natl/core</code></td><td>仅 API</td></tr>\n</tbody>\n</table>\n<p>UI + HTTP → 见<a href=\"getting-started.html#http\">指南</a>中的 <code>with: http</code>。</p>"
     },
     "architecture": {
       "title": "架构",

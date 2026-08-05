@@ -15,7 +15,13 @@ import {
 } from './locator.js';
 import { parseNatlFile, resolveImportPath } from './parser.js';
 import { loadSecretsForFile, type SecretsStore } from './secrets.js';
-import { formatStepFail } from './step-format.js';
+import { formatStepFail, formatStepShort } from './step-format.js';
+import type {
+  Reporter,
+  ReporterStepEndInfo,
+  ReporterStepResult,
+  ReporterStepStartInfo,
+} from './reporter.js';
 import type { NatFileMeta, Step } from './types.js';
 
 function fileLocatorStrategy(doc: NatFileMeta, fallback: string): string {
@@ -116,6 +122,11 @@ export interface RunOptions {
   timeout?: number;
   /** Injected as `vars.base_url` when the test does not define its own */
   baseUrl?: string;
+  /**
+   * Optional reporter for step lifecycle hooks (`stepStart` / `stepEnd`).
+   * Does not call `testFinished` — the CLI owns that.
+   */
+  reporter?: Pick<Reporter, 'stepStart' | 'stepEnd'>;
 }
 
 export interface RunResult {
@@ -135,6 +146,8 @@ export interface RunResult {
   attempts?: number;
   /** True when an earlier attempt failed and a later one passed */
   flaky?: boolean;
+  /** Flat step list from the last attempt */
+  steps?: ReporterStepResult[];
   /** When the scenario defines `cases:` — one result per row */
   caseResults?: RunResult[];
 }
@@ -226,7 +239,13 @@ async function captureEngineArtifacts(
   baseName: string,
   log: (level: string, message: string) => void,
 ): Promise<{ tracePath?: string; videoPath?: string }> {
-  if (!adapter.finalizeArtifacts) return {};
+  if (!adapter.finalizeArtifacts) {
+    log(
+      'warn',
+      'Trace/video were requested but this engine adapter does not implement finalizeArtifacts; skipping.',
+    );
+    return {};
+  }
   try {
     return await adapter.finalizeArtifacts({
       ok,
@@ -479,12 +498,14 @@ async function runScenarioAttempts(
   let lastScreenshotPath: string | undefined;
   let lastTracePath: string | undefined;
   let lastVideoPath: string | undefined;
+  let lastSteps: ReporterStepResult[] | undefined;
   let hadFailure = false;
   let attemptsRun = 0;
 
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     attemptsRun = attempt;
     let adapter: EngineAdapter | undefined;
+    let interp: InterpreterContext | undefined;
 
     if (attempt > 1) {
       log('info', `Retry ${attempt}/${maxAttempts}: ${opts.displayName ?? options.file}`);
@@ -505,7 +526,7 @@ async function runScenarioAttempts(
           });
 
       const expr = new ExpressionEngine(attemptVars, secrets);
-      const interp = new InterpreterContext({
+      interp = new InterpreterContext({
         adapter,
         expr,
         secrets,
@@ -520,6 +541,12 @@ async function runScenarioAttempts(
         artifactsDir,
         softAssertScreenshot,
         testName: opts.displayName ?? doc.name,
+        onStepStart: options.reporter?.stepStart
+          ? (info) => options.reporter!.stepStart!(info)
+          : undefined,
+        onStepEnd: options.reporter?.stepEnd
+          ? (info) => options.reporter!.stepEnd!(info)
+          : undefined,
       });
 
       if (doc.before_each) {
@@ -550,11 +577,13 @@ async function runScenarioAttempts(
         attempt,
         attempts: attemptsRun,
         flaky: hadFailure || undefined,
+        steps: interp.getRecordedSteps(),
       };
     } catch (err) {
       hadFailure = true;
       const message = err instanceof Error ? err.message : String(err);
       lastError = secrets.mask(message);
+      if (interp) lastSteps = interp.getRecordedSteps();
 
       const baseName = makeArtifactBaseName(
         opts.displayName ?? doc.name,
@@ -610,6 +639,7 @@ async function runScenarioAttempts(
     videoPath: lastVideoPath,
     attempt: attemptsRun,
     attempts: attemptsRun,
+    steps: lastSteps,
   };
 }
 
@@ -628,6 +658,8 @@ interface InterpreterContextOptions {
   artifactsDir: string;
   softAssertScreenshot: boolean;
   testName?: string;
+  onStepStart?: (info: ReporterStepStartInfo) => void | Promise<void>;
+  onStepEnd?: (info: ReporterStepEndInfo) => void | Promise<void>;
 }
 
 class InterpreterContext {
@@ -635,9 +667,14 @@ class InterpreterContext {
   private softFailures: SoftAssertFailure[] = [];
   private softShotIndex = 0;
   private readonly engineStack: string[] = [];
+  private readonly recordedSteps: ReporterStepResult[] = [];
 
   constructor(private readonly opts: InterpreterContextOptions) {
     this.engineStack.push(opts.engineName);
+  }
+
+  getRecordedSteps(): ReporterStepResult[] {
+    return [...this.recordedSteps];
   }
 
   private currentEngine(): string {
@@ -682,19 +719,33 @@ class InterpreterContext {
       this.opts.log('debug', `Step: ${JSON.stringify(step)}`);
     }
 
+    const interpolate = (s: string) => this.opts.expr.interpolate(s);
+    const name = formatStepShort(step, interpolate);
+    const started = Date.now();
+    await this.opts.onStepStart?.({ name });
+
     try {
       await this.executeStep(step);
+      const durationMs = Date.now() - started;
+      const info: ReporterStepEndInfo = { name, ok: true, durationMs };
+      this.recordedSteps.push(info);
+      await this.opts.onStepEnd?.(info);
     } catch (err) {
+      const durationMs = Date.now() - started;
       const reason = err instanceof Error ? err.message : String(err);
       if (reason.startsWith('FAIL ') || err instanceof SoftAssertError) {
+        const info: ReporterStepEndInfo = { name, ok: false, durationMs, error: reason };
+        this.recordedSteps.push(info);
+        await this.opts.onStepEnd?.(info);
         throw err instanceof Error ? err : new Error(reason);
       }
-      const interpolate = (s: string) => this.opts.expr.interpolate(s);
-      throw new Error(
-        formatStepFail(this.opts.sourcePath, step, reason, interpolate, {
-          engine: this.currentEngine(),
-        }),
-      );
+      const formatted = formatStepFail(this.opts.sourcePath, step, reason, interpolate, {
+        engine: this.currentEngine(),
+      });
+      const info: ReporterStepEndInfo = { name, ok: false, durationMs, error: formatted };
+      this.recordedSteps.push(info);
+      await this.opts.onStepEnd?.(info);
+      throw new Error(formatted);
     }
   }
 

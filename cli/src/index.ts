@@ -9,25 +9,15 @@ import {
   loadMergedProjectConfig,
   resolveRunSettings,
   createReporters,
-  parseReporterName,
   filterNatlFiles,
   parseTagsCsv,
 } from '@natl/core';
-import type { AdapterFactory, ArtifactMode, NatFileMeta, ReporterName } from '@natl/core';
+import type { AdapterFactory, NatFileMeta } from '@natl/core';
 import { loadAdapterFactory, listInstalledEngines, OFFICIAL_ENGINES } from './engines.js';
 import { cmdInit } from './init.js';
+import { parseFlags, selectShardFiles, type CliFlags } from './flags.js';
 
 const require = createRequire(import.meta.url);
-
-const ARTIFACT_MODES = new Set<ArtifactMode>(['off', 'on', 'on-fail']);
-
-function parseArtifactModeFlag(raw: string | undefined, flag: string): ArtifactMode {
-  if (raw === undefined) throw new Error(`Missing value for ${flag}`);
-  if (!ARTIFACT_MODES.has(raw as ArtifactMode)) {
-    throw new Error(`Invalid ${flag} "${raw}": expected off, on, or on-fail`);
-  }
-  return raw as ArtifactMode;
-}
 
 function getVersion(): string {
   try {
@@ -60,10 +50,14 @@ Options:
   --trace <mode>            Playwright trace: off | on | on-fail (default: on-fail)
   --video <mode>            Playwright video: off | on | on-fail (default: off)
   --retries <n>             Extra full-scenario attempts after failure (default 0)
+  --workers <n>             Run scenario files in parallel (default 1)
+  --fail-fast               Stop scheduling after the first failed file
+  --max-failures <n>        Stop scheduling after N failed tests
+  --shard <index>/<total>   Run a deterministic slice of files (e.g. 1/3)
   --tags <csv>              Run tests with any of these tags (OR)
   --grep <pattern>          Run tests whose name or path matches RegExp
-  --reporter <name>         console | junit | json (repeatable; default: console)
-  --output <path>           Report file (or dir if both junit+json)
+  --reporter <name>         console | junit | json | allure (repeatable; default: console)
+  --output <path>           Report file, or results dir for allure (default allure-results)
   --force                   Overwrite existing files (init only)
   --help, -h                Show help
 
@@ -73,15 +67,24 @@ Examples:
   natl run tests/ --env staging
   natl run tests/ --config config/prod.yaml
   natl run tests/ --retries 2
+  natl run tests/ --workers 2
+  natl run tests/ --fail-fast
+  natl run tests/ --max-failures 3
+  natl run tests/ --shard 1/2 --workers 2
   natl run tests/ --trace on-fail
   natl run tests/ --trace off --video off
   natl run tests/ --reporter junit --output artifacts/junit.xml
   natl run tests/ --reporter json --output artifacts/report.json
   natl run tests/ --reporter console --reporter junit
+  natl run tests/ --reporter console --reporter allure --output allure-results
 
 Project defaults: nearest natl.config.yaml / natl.config.yml (walk-up from the test file).
 Env profiles: config/<env>.yaml relative to the project root (--env), or --config <path>.
 Engines are separate packages (e.g. @natl/adapter-playwright).
+--workers runs files concurrently (each file = own browser/session). YAML parallel: steps are unchanged.
+Console line order may vary when workers > 1; reporter summary stays accurate.
+--fail-fast / --max-failures stop starting new files; in-flight files still finish and report.
+--shard splits the filtered file list (1-based index); combine with a CI matrix for parallel jobs.
 `);
 }
 
@@ -143,32 +146,31 @@ async function cmdEngines(): Promise<number> {
   return 0;
 }
 
-interface CliFlags {
-  /** Set only when `--engine` was passed */
-  engine?: string;
-  enginePackage?: string;
-  /** `--env <name>` → config/<name>.yaml */
-  env?: string;
-  /** Explicit env-profile path (`--config`) */
-  config?: string;
-  /** Set only when `--headed` was passed */
-  headed?: boolean;
-  screenshot: boolean;
-  /** Set only when `--soft-assert-screenshot` was passed */
-  softAssertScreenshot?: boolean;
-  /** Set only when `--trace` was passed */
-  trace?: ArtifactMode;
-  /** Set only when `--video` was passed */
-  video?: ArtifactMode;
-  /** Set only when `--retries` was passed */
-  retries?: number;
-  force: boolean;
-  reporters: ReporterName[];
-  output?: string;
-  /** Raw `--tags` CSV */
-  tags?: string;
-  /** Raw `--grep` pattern */
-  grep?: string;
+/** Run up to `concurrency` async tasks over `items` (stable index order of starts). */
+async function mapPool<T>(
+  items: T[],
+  concurrency: number,
+  fn: (item: T) => Promise<void>,
+  opts?: { shouldContinue?: () => boolean },
+): Promise<void> {
+  const limit = Math.max(1, Math.min(concurrency, items.length || 1));
+  if (limit <= 1 || items.length <= 1) {
+    for (const item of items) {
+      if (opts?.shouldContinue && !opts.shouldContinue()) return;
+      await fn(item);
+    }
+    return;
+  }
+  let next = 0;
+  const workers = Array.from({ length: limit }, async () => {
+    while (true) {
+      if (opts?.shouldContinue && !opts.shouldContinue()) return;
+      const i = next++;
+      if (i >= items.length) return;
+      await fn(items[i]!);
+    }
+  });
+  await Promise.all(workers);
 }
 
 async function cmdRun(target: string, flags: CliFlags): Promise<number> {
@@ -184,8 +186,9 @@ async function cmdRun(target: string, flags: CliFlags): Promise<number> {
   }
 
   // Resolve env profile once (fail fast if missing) against the first test / cwd.
+  let suiteConfig;
   try {
-    loadMergedProjectConfig({
+    suiteConfig = loadMergedProjectConfig({
       startDir: dirname(allFiles[0]!),
       fallbackDir: process.cwd(),
       env: flags.env,
@@ -195,6 +198,8 @@ async function cmdRun(target: string, flags: CliFlags): Promise<number> {
     console.error(err instanceof Error ? err.message : String(err));
     return 1;
   }
+
+  const workers = Math.max(1, flags.workers ?? suiteConfig?.workers ?? 1);
 
   const tagList = parseTagsCsv(flags.tags);
   const grep = flags.grep?.trim() || undefined;
@@ -231,6 +236,17 @@ async function cmdRun(target: string, flags: CliFlags): Promise<number> {
     return 1;
   }
 
+  if (flags.shard) {
+    const before = files.length;
+    files = selectShardFiles(files, flags.shard.index, flags.shard.total);
+    if (before > 0 && files.length === 0) {
+      console.log(
+        `Shard ${flags.shard.index}/${flags.shard.total}: no files in this slice (${before} filtered)`,
+      );
+      return 0;
+    }
+  }
+
   const reporter = createReporters({
     names: flags.reporters,
     output: flags.output,
@@ -245,9 +261,26 @@ async function cmdRun(target: string, flags: CliFlags): Promise<number> {
   }
   await reporter.start({ total: plannedTotal });
 
+  if (verbose && flags.shard) {
+    console.log(
+      `\n→ shard ${flags.shard.index}/${flags.shard.total}: ${files.length} file(s)`,
+    );
+  }
+
   let failed = 0;
+  let completed = 0;
+  let failedFiles = 0;
+
+  const shouldStopScheduling = () => {
+    if (flags.failFast && failedFiles > 0) return true;
+    if (flags.maxFailures !== undefined && failed >= flags.maxFailures) return true;
+    return false;
+  };
+
   for (const pe of parseErrorsToReport) {
     failed++;
+    completed++;
+    failedFiles++;
     await reporter.testFinished({
       name: pe.file,
       path: pe.file,
@@ -255,26 +288,33 @@ async function cmdRun(target: string, flags: CliFlags): Promise<number> {
       durationMs: 0,
       error: pe.error,
     });
+    if (shouldStopScheduling()) break;
   }
 
-  const adapterCache = new Map<string, { factory: AdapterFactory; packageName: string }>();
+  const adapterCache = new Map<string, Promise<{ factory: AdapterFactory; packageName: string } | null>>();
 
-  const loadEngine = async (engine: string) => {
+  const loadEngine = (engine: string) => {
     const cached = adapterCache.get(engine);
     if (cached) return cached;
-    try {
-      const loaded = await loadAdapterFactory(engine, flags.enginePackage);
-      adapterCache.set(engine, loaded);
-      return loaded;
-    } catch (err) {
-      console.error(err instanceof Error ? err.message : String(err));
-      const hint = OFFICIAL_ENGINES[engine];
-      if (hint) console.error(`Hint: npm install ${hint} && npx playwright install chromium`);
-      return null;
-    }
+    const pending = (async () => {
+      try {
+        return await loadAdapterFactory(engine, flags.enginePackage);
+      } catch (err) {
+        console.error(err instanceof Error ? err.message : String(err));
+        const hint = OFFICIAL_ENGINES[engine];
+        if (hint) console.error(`Hint: npm install ${hint} && npx playwright install chromium`);
+        return null;
+      }
+    })();
+    adapterCache.set(engine, pending);
+    return pending;
   };
 
-  for (const file of files) {
+  // Live step hooks race when workers > 1; Allure/JSON use RunResult.steps instead.
+  const stepReporter = workers > 1 ? undefined : reporter;
+
+  const runFile = async (file: string) => {
+    let fileHadFailure = false;
     let projectConfig;
     try {
       projectConfig = loadMergedProjectConfig({
@@ -285,9 +325,11 @@ async function cmdRun(target: string, flags: CliFlags): Promise<number> {
       });
     } catch (err) {
       failed++;
+      completed++;
+      failedFiles++;
       const error = err instanceof Error ? err.message : String(err);
       await reporter.testFinished({ name: file, path: file, ok: false, durationMs: 0, error });
-      continue;
+      return;
     }
 
     const doc = docs.get(file)!;
@@ -310,6 +352,8 @@ async function cmdRun(target: string, flags: CliFlags): Promise<number> {
       const loaded = await loadEngine(settings.engine);
       if (!loaded) {
         failed++;
+        completed++;
+        failedFiles++;
         await reporter.testFinished({
           name: doc.name ?? file,
           path: file,
@@ -317,7 +361,7 @@ async function cmdRun(target: string, flags: CliFlags): Promise<number> {
           durationMs: 0,
           error: `Failed to load engine "${settings.engine}"`,
         });
-        continue;
+        return;
       }
       adapters = { [settings.engine]: loaded.factory };
       engineLabel = `${settings.engine} (${loaded.packageName})`;
@@ -351,11 +395,26 @@ async function cmdRun(target: string, flags: CliFlags): Promise<number> {
       adapters,
       screenshot: flags.screenshot,
       softAssertScreenshot: flags.softAssertScreenshot,
+      reporter: stepReporter,
     });
 
     const reportOne = async (r: typeof result, path: string) => {
       const name = r.name ?? path;
-      if (!r.ok) failed++;
+      if (!r.ok) {
+        failed++;
+        fileHadFailure = true;
+      }
+      completed++;
+      const attachments: { name: string; path: string; type: string }[] = [];
+      if (r.screenshotPath) {
+        attachments.push({ name: 'screenshot', path: r.screenshotPath, type: 'image/png' });
+      }
+      if (r.tracePath) {
+        attachments.push({ name: 'trace', path: r.tracePath, type: 'application/zip' });
+      }
+      if (r.videoPath) {
+        attachments.push({ name: 'video', path: r.videoPath, type: 'video/webm' });
+      }
       await reporter.testFinished({
         name,
         path,
@@ -365,6 +424,10 @@ async function cmdRun(target: string, flags: CliFlags): Promise<number> {
         attempt: r.attempt,
         attempts: r.attempts,
         flaky: r.flaky,
+        tags: doc.tags,
+        engine: settings.engine,
+        attachments: attachments.length ? attachments : undefined,
+        steps: r.steps,
       });
       if (!r.ok && verbose) {
         if (r.screenshotPath) {
@@ -386,82 +449,26 @@ async function cmdRun(target: string, flags: CliFlags): Promise<number> {
     } else {
       await reportOne(result, file);
     }
+
+    if (fileHadFailure) failedFiles++;
+  };
+
+  if (verbose && workers > 1) {
+    console.log(`\n→ workers: ${workers} (scenario files in parallel)`);
   }
 
-  const totalReported = plannedTotal;
+  if (!shouldStopScheduling()) {
+    await mapPool(files, workers, runFile, { shouldContinue: () => !shouldStopScheduling() });
+  } else if (verbose) {
+    console.log('\n→ stop: fail-fast / max-failures (skipping remaining files)');
+  }
+
   await reporter.end({
-    passed: totalReported - failed,
+    passed: completed - failed,
     failed,
     durationMs: Date.now() - runStarted,
   });
   return failed > 0 ? 1 : 0;
-}
-
-function parseFlags(args: string[]): { cmd: string; positional: string[]; flags: CliFlags } {
-  const flags: CliFlags = { screenshot: true, force: false, reporters: [] };
-  const positional: string[] = [];
-  const first = args[0] ?? '';
-
-  const consume = (list: string[], startIndex: number) => {
-    for (let i = startIndex; i < list.length; i++) {
-      const a = list[i];
-      if (a === '--engine') {
-        flags.engine = list[++i] ?? flags.engine;
-      } else if (a === '--engine-package') {
-        flags.enginePackage = list[++i];
-      } else if (a === '--env') {
-        flags.env = list[++i];
-        if (flags.env === undefined) throw new Error('Missing value for --env');
-      } else if (a === '--config') {
-        flags.config = list[++i];
-        if (flags.config === undefined) throw new Error('Missing value for --config');
-      } else if (a === '--headed') {
-        flags.headed = true;
-      } else if (a === '--no-screenshot') {
-        flags.screenshot = false;
-      } else if (a === '--soft-assert-screenshot') {
-        flags.softAssertScreenshot = true;
-      } else if (a === '--trace') {
-        flags.trace = parseArtifactModeFlag(list[++i], '--trace');
-      } else if (a === '--video') {
-        flags.video = parseArtifactModeFlag(list[++i], '--video');
-      } else if (a === '--retries') {
-        const raw = list[++i];
-        if (raw === undefined) throw new Error('Missing value for --retries');
-        const n = Number(raw);
-        if (!Number.isInteger(n) || n < 0) {
-          throw new Error(`Invalid --retries "${raw}": expected a non-negative integer`);
-        }
-        flags.retries = n;
-      } else if (a === '--tags') {
-        flags.tags = list[++i];
-        if (flags.tags === undefined) throw new Error('Missing value for --tags');
-      } else if (a === '--grep') {
-        flags.grep = list[++i];
-        if (flags.grep === undefined) throw new Error('Missing value for --grep');
-      } else if (a === '--reporter') {
-        const raw = list[++i];
-        if (!raw) throw new Error('Missing value for --reporter');
-        flags.reporters.push(parseReporterName(raw));
-      } else if (a === '--output') {
-        flags.output = list[++i];
-        if (!flags.output) throw new Error('Missing value for --output');
-      } else if (a === '--force') {
-        flags.force = true;
-      } else if (!a.startsWith('-')) {
-        positional.push(a);
-      }
-    }
-  };
-
-  if (first === 'run' || first === 'validate' || first === 'engines' || first === 'init') {
-    consume(args, 1);
-    return { cmd: first, positional, flags };
-  }
-
-  // Subcommand-less: `natl [--flags] file.yaml`
-  consume(args, 0);
-  return { cmd: positional[0] ?? first, positional, flags };
 }
 
 async function main(): Promise<void> {
