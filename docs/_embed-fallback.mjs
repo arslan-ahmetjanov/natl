@@ -21,7 +21,7 @@ const map = {
 };
 
 const footer = `        <span data-i18n="footer.line">MIT License.</span>
-        · <a href="https://github.com/arslan-ahmetjanov/natl">GitHub</a>
+        · <a href="https://github.com/natl-dev/natl">GitHub</a>
         · <a href="https://www.npmjs.com/package/@natl/cli">npm</a>`;
 
 for (const [file, page] of Object.entries(map)) {

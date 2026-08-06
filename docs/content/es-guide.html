@@ -38,7 +38,7 @@ natl run tests/</code></pre>
 <h2 id="first-run">Primera ejecución</h2>
 <p>Tras <code>natl init</code>, <code>natl run tests/</code> abre el sandbox de docs, inicia sesión y hace ping a un JSON estático. Hace falta red para la URL de Pages (o apunta <code>base_url</code> al fixture local).</p>
 <p>También hay un login de ejemplo con HTML local en el repo:</p>
-<pre><code>git clone https://github.com/arslan-ahmetjanov/natl.git
+<pre><code>git clone https://github.com/natl-dev/natl.git
 cd natl/examples
 natl run login.yaml</code></pre>
 <p>Deberías ver <code>✓ PASS</code>. Rompe a propósito el texto del assert, ejecuta de nuevo, lee la línea FAIL y arréglalo — así aprendes el runner.</p>
@@ -332,7 +332,7 @@ natl run tests/ --video off</code></pre>
 
 <h2 id="next">Qué sigue</h2>
 <ul>
-  <li><a href="https://github.com/arslan-ahmetjanov/natl/tree/main/examples">examples/</a> — POM, cases, HTTP, gestos, soft assert</li>
+  <li><a href="https://github.com/natl-dev/natl/tree/main/examples">examples/</a> — POM, cases, HTTP, gestos, soft assert</li>
   <li><a href="agent.html">Agent</a> — borrador YAML desde un git diff; GitHub, GitLab, Jenkins</li>
   <li><a href="troubleshooting.html">Troubleshooting</a> — cuando PASS se niega a aparecer</li>
   <li><a href="adapters.html">Adapters</a> — Playwright / Selenium / Cypress / http</li>

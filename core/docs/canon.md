@@ -2,7 +2,7 @@
 
 **Audience:** QA, developers, DevOps.  
 **Product:** a **short fullstack YAML** language for **web UI** (desktop + mobile web) and **API** in one scenario file.  
-**Detail / how-to:** [syntax.md](syntax.md). Canonical site: https://arslan-ahmetjanov.github.io/natl/
+**Detail / how-to:** [syntax.md](syntax.md). Canonical site: https://natl-dev.github.io/natl/
 
 ---
 
@@ -118,4 +118,4 @@ Not goals of the short language (or deferred):
 
 ## Related
 
-Docs site: https://arslan-ahmetjanov.github.io/natl/
+Docs site: https://natl-dev.github.io/natl/

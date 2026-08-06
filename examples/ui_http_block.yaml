@@ -10,7 +10,7 @@ imports:
 vars:
   base_url: ./fixtures/sandbox.html
   # Static JSON next to the live sandbox (network). Local stub still used by http_only.yaml.
-  api_url: https://arslan-ahmetjanov.github.io/natl/sandbox-api.json
+  api_url: https://natl-dev.github.io/natl/sandbox-api.json
   test_user: mixed@natl.dev
   test_pass: secret
 

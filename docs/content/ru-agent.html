@@ -45,7 +45,7 @@ self_healing:
 natl-agent --config natl-agent.yml --mode stdout --base origin/main</code></pre>
 <p>Скопируйте черновик в <code>tests/</code>, поправьте селекторы и URL, затем <code>natl validate</code> и <code>natl run</code>.</p>
 <h2 id="github">GitHub Actions</h2>
-<p>Шаблон: <a href="https://github.com/arslan-ahmetjanov/natl/blob/main/examples/.github/workflows/natl-agent.yml"><code>examples/.github/workflows/natl-agent.yml</code></a>. Нужны <code>fetch-depth: 0</code>, секрет <code>OPENAI_API_KEY</code> и <code>pull-requests: write</code> для <code>mode: comment</code>.</p>
+<p>Шаблон: <a href="https://github.com/natl-dev/natl/blob/main/examples/.github/workflows/natl-agent.yml"><code>examples/.github/workflows/natl-agent.yml</code></a>. Нужны <code>fetch-depth: 0</code>, секрет <code>OPENAI_API_KEY</code> и <code>pull-requests: write</code> для <code>mode: comment</code>.</p>
 <pre><code>- uses: actions/checkout@v4
   with:
     fetch-depth: 0
@@ -57,9 +57,9 @@ natl-agent --config natl-agent.yml --mode stdout --base origin/main</code></pre>
     config: natl-agent.yml</code></pre>
 <p>В чужом репозитории: либо подключите composite action из дерева NATL, либо <code>npm install -g @natl/agent</code> и вызов <code>natl-agent</code> в шаге.</p>
 <h2 id="gitlab">GitLab CI</h2>
-<p>Шаблон: <a href="https://github.com/arslan-ahmetjanov/natl/blob/main/examples/ci/gitlab-ci.yml"><code>examples/ci/gitlab-ci.yml</code></a>. По умолчанию <code>NATL_AGENT_MODE=stdout</code> (dry-run в логе). Для note в MR: <code>NATL_AGENT_MODE=comment</code> и masked <code>LLM_API_KEY</code> + <code>GITLAB_TOKEN</code>.</p>
+<p>Шаблон: <a href="https://github.com/natl-dev/natl/blob/main/examples/ci/gitlab-ci.yml"><code>examples/ci/gitlab-ci.yml</code></a>. По умолчанию <code>NATL_AGENT_MODE=stdout</code> (dry-run в логе). Для note в MR: <code>NATL_AGENT_MODE=comment</code> и masked <code>LLM_API_KEY</code> + <code>GITLAB_TOKEN</code>.</p>
 <h2 id="jenkins">Jenkins</h2>
-<p>Шаблон: <a href="https://github.com/arslan-ahmetjanov/natl/blob/main/examples/ci/Jenkinsfile"><code>examples/ci/Jenkinsfile</code></a>. Credential <code>llm-api-key</code>; параметры <code>AGENT_MODE</code> и <code>COMMENT_PROVIDER</code> (<code>auto</code> / <code>github</code> / <code>gitlab</code> / <code>stdout</code>).</p>
+<p>Шаблон: <a href="https://github.com/natl-dev/natl/blob/main/examples/ci/Jenkinsfile"><code>examples/ci/Jenkinsfile</code></a>. Credential <code>llm-api-key</code>; параметры <code>AGENT_MODE</code> и <code>COMMENT_PROVIDER</code> (<code>auto</code> / <code>github</code> / <code>gitlab</code> / <code>stdout</code>).</p>
 <h2 id="run">Сгенерировали — прогнали в CI</h2>
 <ul>
   <li><strong>Job A</strong> — <code>natl-agent</code>: предложение + validate gate; comment или stdout</li>
@@ -73,4 +73,4 @@ natl-agent --config natl-agent.yml --mode stdout --base origin/main</code></pre>
   <li>Крошечные локальные модели — только smoke pipeline; в CI лучше класс <code>gpt-4o-mini</code> или Ollama ≥3B</li>
   <li>Validate gate не ослабляется; self-healing делает retry, затем всё равно fail при невалидном YAML</li>
 </ul>
-<p>Подробнее: README пакета <code>@natl/agent</code> и <a href="https://github.com/arslan-ahmetjanov/natl/tree/main/examples/ci"><code>examples/ci/</code></a>.</p>
+<p>Подробнее: README пакета <code>@natl/agent</code> и <a href="https://github.com/natl-dev/natl/tree/main/examples/ci"><code>examples/ci/</code></a>.</p>

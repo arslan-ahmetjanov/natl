@@ -38,7 +38,7 @@ natl run tests/</code></pre>
 <h2 id="first-run">Первый прогон</h2>
 <p>После <code>natl init</code> команда <code>natl run tests/</code> открывает sandbox на Pages, логинится и пингует статический JSON. Нужна сеть (или локальный fixture в <code>base_url</code>).</p>
 <p>В репозитории также есть пример логина на локальном HTML:</p>
-<pre><code>git clone https://github.com/arslan-ahmetjanov/natl.git
+<pre><code>git clone https://github.com/natl-dev/natl.git
 cd natl/examples
 natl run login.yaml</code></pre>
 <p>Должен быть <code>PASS</code>. Поменяйте текст assert на неверный, запустите снова, прочитайте ошибку и верните как было. Так быстрее всего понять, как выглядят FAIL.</p>
@@ -328,7 +328,7 @@ natl run tests/ --engine selenium</code></pre>
 
 <h2 id="next">Куда дальше</h2>
 <ul>
-  <li><a href="https://github.com/arslan-ahmetjanov/natl/tree/main/examples">examples/</a></li>
+  <li><a href="https://github.com/natl-dev/natl/tree/main/examples">examples/</a></li>
   <li><a href="agent.html">Agent</a> — черновик YAML из git diff; GitHub, GitLab, Jenkins</li>
   <li><a href="troubleshooting.html">Сбои</a></li>
   <li><a href="adapters.html">Адаптеры</a></li>

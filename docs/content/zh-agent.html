@@ -45,7 +45,7 @@ self_healing:
 natl-agent --config natl-agent.yml --mode stdout --base origin/main</code></pre>
 <p>把草稿拷到 <code>tests/</code>，改选择器与 URL，再 <code>natl validate</code> 与 <code>natl run</code>。</p>
 <h2 id="github">GitHub Actions</h2>
-<p>模板：<a href="https://github.com/arslan-ahmetjanov/natl/blob/main/examples/.github/workflows/natl-agent.yml"><code>examples/.github/workflows/natl-agent.yml</code></a>。需要 <code>fetch-depth: 0</code>、密钥 <code>OPENAI_API_KEY</code>，以及 <code>mode: comment</code> 时的 <code>pull-requests: write</code>。</p>
+<p>模板：<a href="https://github.com/natl-dev/natl/blob/main/examples/.github/workflows/natl-agent.yml"><code>examples/.github/workflows/natl-agent.yml</code></a>。需要 <code>fetch-depth: 0</code>、密钥 <code>OPENAI_API_KEY</code>，以及 <code>mode: comment</code> 时的 <code>pull-requests: write</code>。</p>
 <pre><code>- uses: actions/checkout@v4
   with:
     fetch-depth: 0
@@ -57,9 +57,9 @@ natl-agent --config natl-agent.yml --mode stdout --base origin/main</code></pre>
     config: natl-agent.yml</code></pre>
 <p>在业务仓库里可引入 NATL 的 composite action，或 <code>npm install -g @natl/agent</code> 后在步骤中调用 <code>natl-agent</code>。</p>
 <h2 id="gitlab">GitLab CI</h2>
-<p>模板：<a href="https://github.com/arslan-ahmetjanov/natl/blob/main/examples/ci/gitlab-ci.yml"><code>examples/ci/gitlab-ci.yml</code></a>。默认 <code>NATL_AGENT_MODE=stdout</code>。要写 MR note：设 <code>NATL_AGENT_MODE=comment</code>，并配置 masked <code>LLM_API_KEY</code> 与 <code>GITLAB_TOKEN</code>。</p>
+<p>模板：<a href="https://github.com/natl-dev/natl/blob/main/examples/ci/gitlab-ci.yml"><code>examples/ci/gitlab-ci.yml</code></a>。默认 <code>NATL_AGENT_MODE=stdout</code>。要写 MR note：设 <code>NATL_AGENT_MODE=comment</code>，并配置 masked <code>LLM_API_KEY</code> 与 <code>GITLAB_TOKEN</code>。</p>
 <h2 id="jenkins">Jenkins</h2>
-<p>模板：<a href="https://github.com/arslan-ahmetjanov/natl/blob/main/examples/ci/Jenkinsfile"><code>examples/ci/Jenkinsfile</code></a>。凭证 <code>llm-api-key</code>；参数 <code>AGENT_MODE</code> 与 <code>COMMENT_PROVIDER</code>。</p>
+<p>模板：<a href="https://github.com/natl-dev/natl/blob/main/examples/ci/Jenkinsfile"><code>examples/ci/Jenkinsfile</code></a>。凭证 <code>llm-api-key</code>；参数 <code>AGENT_MODE</code> 与 <code>COMMENT_PROVIDER</code>。</p>
 <h2 id="run">生成后再在 CI 运行</h2>
 <ul>
   <li><strong>Job A</strong> — <code>natl-agent</code>：建议 + validate；comment 或 stdout</li>
@@ -73,4 +73,4 @@ natl-agent --config natl-agent.yml --mode stdout --base origin/main</code></pre>
   <li>极小本地模型仅用于打通管道；CI 建议 <code>gpt-4o-mini</code> 级或 Ollama ≥3B</li>
   <li>validate 门槛不会放宽</li>
 </ul>
-<p>更多：<code>@natl/agent</code> README 与 <a href="https://github.com/arslan-ahmetjanov/natl/tree/main/examples/ci"><code>examples/ci/</code></a>。</p>
+<p>更多：<code>@natl/agent</code> README 与 <a href="https://github.com/natl-dev/natl/tree/main/examples/ci"><code>examples/ci/</code></a>。</p>

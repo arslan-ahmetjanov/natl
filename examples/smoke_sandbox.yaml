@@ -5,7 +5,7 @@ tags: [smoke, network]
 
 # Needs network — docs sandbox on GitHub Pages
 steps:
-  - goto: https://arslan-ahmetjanov.github.io/natl/sandbox.html
+  - goto: https://natl-dev.github.io/natl/sandbox.html
   - assert: "#login h1"
     text: "Login"
   - fill: "#email"

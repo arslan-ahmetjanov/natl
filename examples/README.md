@@ -28,7 +28,7 @@ natl run ui_http_block.yaml  # sandbox UI + Pages JSON (+ UI ping)
 ```
 
 Project defaults: [`natl.config.yaml`](./natl.config.yaml). Env overlays under [`config/`](./config/):
-`--env staging` → `./fixtures/sandbox.html`, `--env prod` → live [sandbox](https://arslan-ahmetjanov.github.io/natl/sandbox.html).
+`--env staging` → `./fixtures/sandbox.html`, `--env prod` → live [sandbox](https://natl-dev.github.io/natl/sandbox.html).
 
 Sandbox credentials: `demo@natl.dev` / `secret` (welcome text uses the email local-part).
 

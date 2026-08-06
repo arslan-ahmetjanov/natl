@@ -45,7 +45,7 @@ self_healing:
 natl-agent --config natl-agent.yml --mode stdout --base origin/main</code></pre>
 <p>Copy the draft into <code>tests/</code>, edit selectors/URLs, then <code>natl validate</code> and <code>natl run</code>.</p>
 <h2 id="github">GitHub Actions</h2>
-<p>Template: <a href="https://github.com/arslan-ahmetjanov/natl/blob/main/examples/.github/workflows/natl-agent.yml"><code>examples/.github/workflows/natl-agent.yml</code></a>. Needs <code>fetch-depth: 0</code>, secret <code>OPENAI_API_KEY</code>, and <code>pull-requests: write</code> for <code>mode: comment</code>.</p>
+<p>Template: <a href="https://github.com/natl-dev/natl/blob/main/examples/.github/workflows/natl-agent.yml"><code>examples/.github/workflows/natl-agent.yml</code></a>. Needs <code>fetch-depth: 0</code>, secret <code>OPENAI_API_KEY</code>, and <code>pull-requests: write</code> for <code>mode: comment</code>.</p>
 <pre><code>- uses: actions/checkout@v4
   with:
     fetch-depth: 0
@@ -57,9 +57,9 @@ natl-agent --config natl-agent.yml --mode stdout --base origin/main</code></pre>
     config: natl-agent.yml</code></pre>
 <p>In a consumer repo either vendor the composite action from the NATL tree or install CLI: <code>npm install -g @natl/agent</code> and call <code>natl-agent</code> in a step. See <code>examples/.github/workflows/natl-agent.yml</code>.</p>
 <h2 id="gitlab">GitLab CI</h2>
-<p>Template: <a href="https://github.com/arslan-ahmetjanov/natl/blob/main/examples/ci/gitlab-ci.yml"><code>examples/ci/gitlab-ci.yml</code></a>. Default <code>NATL_AGENT_MODE=stdout</code> (dry-run in the job log). For an MR note set <code>NATL_AGENT_MODE=comment</code> and masked <code>LLM_API_KEY</code> + <code>GITLAB_TOKEN</code>.</p>
+<p>Template: <a href="https://github.com/natl-dev/natl/blob/main/examples/ci/gitlab-ci.yml"><code>examples/ci/gitlab-ci.yml</code></a>. Default <code>NATL_AGENT_MODE=stdout</code> (dry-run in the job log). For an MR note set <code>NATL_AGENT_MODE=comment</code> and masked <code>LLM_API_KEY</code> + <code>GITLAB_TOKEN</code>.</p>
 <h2 id="jenkins">Jenkins</h2>
-<p>Template: <a href="https://github.com/arslan-ahmetjanov/natl/blob/main/examples/ci/Jenkinsfile"><code>examples/ci/Jenkinsfile</code></a>. Credential <code>llm-api-key</code>; parameters <code>AGENT_MODE</code> and <code>COMMENT_PROVIDER</code> (<code>auto</code> / <code>github</code> / <code>gitlab</code> / <code>stdout</code>).</p>
+<p>Template: <a href="https://github.com/natl-dev/natl/blob/main/examples/ci/Jenkinsfile"><code>examples/ci/Jenkinsfile</code></a>. Credential <code>llm-api-key</code>; parameters <code>AGENT_MODE</code> and <code>COMMENT_PROVIDER</code> (<code>auto</code> / <code>github</code> / <code>gitlab</code> / <code>stdout</code>).</p>
 <h2 id="run">Generate then run in CI</h2>
 <ul>
   <li><strong>Job A</strong> вЂ” <code>natl-agent</code>: suggest + validate gate; publish comment or stdout</li>
@@ -73,4 +73,4 @@ natl-agent --config natl-agent.yml --mode stdout --base origin/main</code></pre>
   <li>Small local models are for pipeline smoke only; prefer <code>gpt-4o-mini</code>-class or Ollama в‰Ґ3B in CI</li>
   <li>Agent never weakens the validate gate; self-healing retries, then still fails if invalid</li>
 </ul>
-<p>More detail: package README <code>@natl/agent</code> and <a href="https://github.com/arslan-ahmetjanov/natl/tree/main/examples/ci"><code>examples/ci/</code></a>.</p>
+<p>More detail: package README <code>@natl/agent</code> and <a href="https://github.com/natl-dev/natl/tree/main/examples/ci"><code>examples/ci/</code></a>.</p>

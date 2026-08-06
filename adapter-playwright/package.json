@@ -51,11 +51,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/arslan-ahmetjanov/natl.git",
+    "url": "git+https://github.com/natl-dev/natl.git",
     "directory": "adapter-playwright"
   },
-  "homepage": "https://arslan-ahmetjanov.github.io/natl/",
+  "homepage": "https://natl-dev.github.io/natl/",
   "bugs": {
-    "url": "https://github.com/arslan-ahmetjanov/natl/issues"
+    "url": "https://github.com/natl-dev/natl/issues"
   }
 }

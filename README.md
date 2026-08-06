@@ -10,7 +10,7 @@ Write one compact scenario (optional POM). Run it locally or in CI. Keep typical
 
 [![npm v1.0.0](./brand/badges/npm.svg)](https://www.npmjs.com/package/@natl/cli)
 [![License: MIT](./brand/badges/license.svg)](./LICENSE)
-[![Docs](./brand/badges/docs.svg)](https://arslan-ahmetjanov.github.io/natl/)
+[![Docs](./brand/badges/docs.svg)](https://natl-dev.github.io/natl/)
 
 ## Production status (1.0)
 
@@ -68,16 +68,16 @@ natl run tests/
 ```
 
 `natl init` scaffolds a smoke test against the live
-[docs sandbox](https://arslan-ahmetjanov.github.io/natl/sandbox.html)
+[docs sandbox](https://natl-dev.github.io/natl/sandbox.html)
 (`demo@natl.dev` / `secret`). Offline twin: [`examples/fixtures/sandbox.html`](./examples/fixtures/sandbox.html).
 
 Or try the demos in [`examples/`](./examples/).
 
 ## Documentation
 
-Site (EN / RU / 中文 / ES · light & dark): **https://arslan-ahmetjanov.github.io/natl/**  
-Start with the [guide](https://arslan-ahmetjanov.github.io/natl/getting-started.html) — install first, then every language block on one page.  
-Agent (draft tests from a git diff + CI): [agent.html](https://arslan-ahmetjanov.github.io/natl/agent.html).
+Site (EN / RU / 中文 / ES · light & dark): **https://natl-dev.github.io/natl/**  
+Start with the [guide](https://natl-dev.github.io/natl/getting-started.html) — install first, then every language block on one page.  
+Agent (draft tests from a git diff + CI): [agent.html](https://natl-dev.github.io/natl/agent.html).
 
 ## Packages
 
@@ -99,7 +99,7 @@ engine: playwright
 tags: [smoke]
 
 vars:
-  base_url: https://arslan-ahmetjanov.github.io/natl/sandbox.html
+  base_url: https://natl-dev.github.io/natl/sandbox.html
   user: demo@natl.dev
   pass: secret
 

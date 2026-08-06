@@ -28,7 +28,7 @@ natl init
 ```
 
 Creates `natl.config.yaml`, `tests/example.yaml`, `.env.example`, `.gitignore`, and a short README.
-The example smoke hits the live [docs sandbox](https://arslan-ahmetjanov.github.io/natl/sandbox.html)
+The example smoke hits the live [docs sandbox](https://natl-dev.github.io/natl/sandbox.html)
 (`demo@natl.dev` / `secret`). Existing files are left alone unless you pass `--force`.
 
 Alternatively, copy a YAML scenario from the `examples/` folder of the NATL repos into `tests/`.

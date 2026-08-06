@@ -45,7 +45,7 @@ self_healing:
 natl-agent --config natl-agent.yml --mode stdout --base origin/main</code></pre>
 <p>Copia el borrador a <code>tests/</code>, ajusta selectores/URLs, luego <code>natl validate</code> y <code>natl run</code>.</p>
 <h2 id="github">GitHub Actions</h2>
-<p>Plantilla: <a href="https://github.com/arslan-ahmetjanov/natl/blob/main/examples/.github/workflows/natl-agent.yml"><code>examples/.github/workflows/natl-agent.yml</code></a>. Hace falta <code>fetch-depth: 0</code>, secreto <code>OPENAI_API_KEY</code> y <code>pull-requests: write</code> para <code>mode: comment</code>.</p>
+<p>Plantilla: <a href="https://github.com/natl-dev/natl/blob/main/examples/.github/workflows/natl-agent.yml"><code>examples/.github/workflows/natl-agent.yml</code></a>. Hace falta <code>fetch-depth: 0</code>, secreto <code>OPENAI_API_KEY</code> y <code>pull-requests: write</code> para <code>mode: comment</code>.</p>
 <pre><code>- uses: actions/checkout@v4
   with:
     fetch-depth: 0
@@ -57,9 +57,9 @@ natl-agent --config natl-agent.yml --mode stdout --base origin/main</code></pre>
     config: natl-agent.yml</code></pre>
 <p>En un repo consumidor: action composite del árbol NATL, o <code>npm install -g @natl/agent</code> y llamar <code>natl-agent</code>.</p>
 <h2 id="gitlab">GitLab CI</h2>
-<p>Plantilla: <a href="https://github.com/arslan-ahmetjanov/natl/blob/main/examples/ci/gitlab-ci.yml"><code>examples/ci/gitlab-ci.yml</code></a>. Por defecto <code>NATL_AGENT_MODE=stdout</code>. Para nota en MR: <code>NATL_AGENT_MODE=comment</code> y variables masked <code>LLM_API_KEY</code> + <code>GITLAB_TOKEN</code>.</p>
+<p>Plantilla: <a href="https://github.com/natl-dev/natl/blob/main/examples/ci/gitlab-ci.yml"><code>examples/ci/gitlab-ci.yml</code></a>. Por defecto <code>NATL_AGENT_MODE=stdout</code>. Para nota en MR: <code>NATL_AGENT_MODE=comment</code> y variables masked <code>LLM_API_KEY</code> + <code>GITLAB_TOKEN</code>.</p>
 <h2 id="jenkins">Jenkins</h2>
-<p>Plantilla: <a href="https://github.com/arslan-ahmetjanov/natl/blob/main/examples/ci/Jenkinsfile"><code>examples/ci/Jenkinsfile</code></a>. Credencial <code>llm-api-key</code>; parámetros <code>AGENT_MODE</code> y <code>COMMENT_PROVIDER</code>.</p>
+<p>Plantilla: <a href="https://github.com/natl-dev/natl/blob/main/examples/ci/Jenkinsfile"><code>examples/ci/Jenkinsfile</code></a>. Credencial <code>llm-api-key</code>; parámetros <code>AGENT_MODE</code> y <code>COMMENT_PROVIDER</code>.</p>
 <h2 id="run">Generar y luego correr en CI</h2>
 <ul>
   <li><strong>Job A</strong> — <code>natl-agent</code>: sugerencia + validate; comment o stdout</li>
@@ -73,4 +73,4 @@ natl-agent --config natl-agent.yml --mode stdout --base origin/main</code></pre>
   <li>Modelos locales muy pequeños solo para humo del pipeline; en CI preferir clase <code>gpt-4o-mini</code> u Ollama ≥3B</li>
   <li>El gate de validate no se relaja</li>
 </ul>
-<p>Más detalle: README de <code>@natl/agent</code> y <a href="https://github.com/arslan-ahmetjanov/natl/tree/main/examples/ci"><code>examples/ci/</code></a>.</p>
+<p>Más detalle: README de <code>@natl/agent</code> y <a href="https://github.com/natl-dev/natl/tree/main/examples/ci"><code>examples/ci/</code></a>.</p>

@@ -1,7 +1,7 @@
 name: Sandbox login smoke
 tags: [smoke]
 # engine / timeout / base_url come from natl.config.yaml
-# Target: https://arslan-ahmetjanov.github.io/natl/sandbox.html
+# Target: https://natl-dev.github.io/natl/sandbox.html
 
 vars:
   user: demo@natl.dev

@@ -24,7 +24,7 @@ examples/               demo YAML scenarios
 docs/                   documentation (GitHub Pages)
 ```
 
-One Git repository ([arslan-ahmetjanov/natl](https://github.com/arslan-ahmetjanov/natl)); each package directory is published to npm independently.
+One Git repository ([natl-dev/natl](https://github.com/natl-dev/natl)); each package directory is published to npm independently.
 
 ## Boundaries
 
@@ -48,4 +48,4 @@ flowchart TB
 - **adapters** — separate packages; peer on core; own browser/driver matrix
 - **cli** — depends on core; loads adapters at runtime via `engine:` / `--engine-package`
 
-Docs: https://arslan-ahmetjanov.github.io/natl/
+Docs: https://natl-dev.github.io/natl/

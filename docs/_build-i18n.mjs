@@ -24,14 +24,10 @@ const enHome = `
 npx playwright install chromium
 natl --version</code></pre>
 <ul>
-  <li><a href="https://github.com/arslan-ahmetjanov/natl">GitHub</a></li>
+  <li><a href="https://github.com/natl-dev/natl">GitHub</a></li>
   <li><a href="https://www.npmjs.com/package/@natl/cli">npm @natl/cli</a></li>
-  <li><a href="https://github.com/arslan-ahmetjanov/natl/tree/main/examples">examples/</a></li>
-</ul>
-<div class="author-block">
-  <p><strong>Arslan Ahmetjanov</strong></p>
-  <p class="muted"><a href="https://telegram.me/arslan_ahmetjanov">Telegram</a></p>
-</div>`;
+  <li><a href="https://github.com/natl-dev/natl/tree/main/examples">examples/</a></li>
+</ul>`;
 
 const ruHome = `
 <p>NATL — open-source <strong>тест-раннер</strong>: сценарии на YAML для <strong>web UI и API</strong>. Один компактный сценарий, локально или в CI. Сменился браузерный стек — меняете <code>engine:</code>, а не весь сьют.</p>
@@ -49,14 +45,10 @@ const ruHome = `
 npx playwright install chromium
 natl --version</code></pre>
 <ul>
-  <li><a href="https://github.com/arslan-ahmetjanov/natl">GitHub</a></li>
+  <li><a href="https://github.com/natl-dev/natl">GitHub</a></li>
   <li><a href="https://www.npmjs.com/package/@natl/cli">npm @natl/cli</a></li>
-  <li><a href="https://github.com/arslan-ahmetjanov/natl/tree/main/examples">examples/</a></li>
-</ul>
-<div class="author-block">
-  <p><strong>Арслан Ахметжанов</strong></p>
-  <p class="muted"><a href="https://telegram.me/arslan_ahmetjanov">Telegram</a></p>
-</div>`;
+  <li><a href="https://github.com/natl-dev/natl/tree/main/examples">examples/</a></li>
+</ul>`;
 
 const zhHome = `
 <p>NATL 是开源<strong>测试运行器</strong>：用 YAML 写 <strong>Web UI 与 API</strong> 场景。写一份紧凑场景，本地或 CI 运行；浏览器栈变了，改 <code>engine:</code> 即可，不必整套重写。</p>
@@ -74,14 +66,10 @@ const zhHome = `
 npx playwright install chromium
 natl --version</code></pre>
 <ul>
-  <li><a href="https://github.com/arslan-ahmetjanov/natl">GitHub</a></li>
+  <li><a href="https://github.com/natl-dev/natl">GitHub</a></li>
   <li><a href="https://www.npmjs.com/package/@natl/cli">npm @natl/cli</a></li>
-  <li><a href="https://github.com/arslan-ahmetjanov/natl/tree/main/examples">examples/</a></li>
-</ul>
-<div class="author-block">
-  <p><strong>Arslan Ahmetjanov</strong></p>
-  <p class="muted"><a href="https://telegram.me/arslan_ahmetjanov">Telegram</a></p>
-</div>`;
+  <li><a href="https://github.com/natl-dev/natl/tree/main/examples">examples/</a></li>
+</ul>`;
 
 const esHome = `
 <p>NATL es un <strong>test runner</strong> de código abierto: escenarios YAML para <strong>UI web y API</strong>. Escribes un escenario compacto, lo corres local o en CI, y lo conservas cuando cambia el stack del navegador: cambias <code>engine:</code>, no toda la suite.</p>
@@ -99,14 +87,10 @@ const esHome = `
 npx playwright install chromium
 natl --version</code></pre>
 <ul>
-  <li><a href="https://github.com/arslan-ahmetjanov/natl">GitHub</a></li>
+  <li><a href="https://github.com/natl-dev/natl">GitHub</a></li>
   <li><a href="https://www.npmjs.com/package/@natl/cli">npm @natl/cli</a></li>
-  <li><a href="https://github.com/arslan-ahmetjanov/natl/tree/main/examples">examples/</a></li>
-</ul>
-<div class="author-block">
-  <p><strong>Arslan Ahmetjanov</strong></p>
-  <p class="muted"><a href="https://telegram.me/arslan_ahmetjanov">Telegram</a></p>
-</div>`;
+  <li><a href="https://github.com/natl-dev/natl/tree/main/examples">examples/</a></li>
+</ul>`;
 
 const enTrouble = `
 <h1>Troubleshooting</h1>
@@ -133,7 +117,7 @@ natl run http_only.yaml</code></pre>
 <h2>Wrong engine</h2>
 <pre><code>natl engines
 npm install -g @natl/adapter-playwright</code></pre>
-<p>Still stuck? <a href="https://github.com/arslan-ahmetjanov/natl/issues">GitHub issues</a>.</p>`;
+<p>Still stuck? <a href="https://github.com/natl-dev/natl/issues">GitHub issues</a>.</p>`;
 
 const ruTrouble = `
 <h1>Сбои</h1>
@@ -156,7 +140,7 @@ natl --version</code></pre>
 <h2>HTTP зависает</h2>
 <pre><code>node stubs/echo-server.mjs
 natl run http_only.yaml</code></pre>
-<p><a href="https://github.com/arslan-ahmetjanov/natl/issues">GitHub issues</a>.</p>`;
+<p><a href="https://github.com/natl-dev/natl/issues">GitHub issues</a>.</p>`;
 
 const zhTrouble = `
 <h1>排错</h1>
@@ -178,7 +162,7 @@ natl --version</code></pre>
   with: $user</code></pre>
 <pre><code>node stubs/echo-server.mjs
 natl run http_only.yaml</code></pre>
-<p><a href="https://github.com/arslan-ahmetjanov/natl/issues">GitHub issues</a>。</p>`;
+<p><a href="https://github.com/natl-dev/natl/issues">GitHub issues</a>。</p>`;
 
 const esTrouble = `
 <h1>Problemas frecuentes</h1>
@@ -199,7 +183,7 @@ natl --version</code></pre>
   with: $user</code></pre>
 <pre><code>node stubs/echo-server.mjs
 natl run http_only.yaml</code></pre>
-<p><a href="https://github.com/arslan-ahmetjanov/natl/issues">GitHub issues</a>.</p>`;
+<p><a href="https://github.com/natl-dev/natl/issues">GitHub issues</a>.</p>`;
 
 const enAdapters = `
 <h1>Adapters</h1>
