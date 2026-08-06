@@ -76,7 +76,8 @@ Or try the demos in [`examples/`](./examples/).
 ## Documentation
 
 Site (EN / RU / 中文 / ES · light & dark): **https://arslan-ahmetjanov.github.io/natl/**  
-Start with the [guide](https://arslan-ahmetjanov.github.io/natl/getting-started.html) — install first, then every language block on one page.
+Start with the [guide](https://arslan-ahmetjanov.github.io/natl/getting-started.html) — install first, then every language block on one page.  
+Agent (draft tests from a git diff + CI): [agent.html](https://arslan-ahmetjanov.github.io/natl/agent.html).
 
 ## Packages
 

@@ -33,7 +33,7 @@ agent/eval/live-report.json
 
 # local-only (not published)
 AGENTS.md
-course/
+courses/
 test/
 tasks/
 local-llm/

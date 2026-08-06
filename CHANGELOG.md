@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Docs / course
+
+- **Agent page** on the site (`docs/agent.html` + i18n en/ru/zh/es): setup, local run, GitHub Actions / GitLab / Jenkins, generate-then-run flow
+- **Course module 6** in `courses/01_NATL_avtotesty_UI_i_API`: `@natl/agent` from scratch (roles, config, CI)
+
 ### `@natl/agent` (0.1.0 local / npm)
 
 Agent MVP 2.0 (API-first) — generate NATL YAML from git diffs via OpenAI-compatible LLM.

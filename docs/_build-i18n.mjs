@@ -14,6 +14,7 @@ const enHome = `
 <div class="card-grid">
   <a class="card" href="getting-started.html"><h3>Guide</h3><p>Install, first PASS, then the language block by block.</p></a>
   <a class="card" href="sandbox.html"><h3>Sandbox</h3><p>Live demo page for <code>natl init</code> — login + API ping.</p></a>
+  <a class="card" href="agent.html"><h3>Agent</h3><p>Draft NATL YAML from a git diff; GitHub, GitLab, Jenkins.</p></a>
   <a class="card" href="troubleshooting.html"><h3>Troubleshooting</h3><p>Common failures and how to fix them.</p></a>
   <a class="card" href="adapters.html"><h3>Adapters</h3><p>Playwright by default; Selenium and Cypress when you need them.</p></a>
   <a class="card" href="canon.html"><h3>Canon</h3><p>Design choices that stay fixed.</p></a>
@@ -38,6 +39,7 @@ const ruHome = `
 <div class="card-grid">
   <a class="card" href="getting-started.html"><h3>Гайд</h3><p>Установка, первый PASS, затем язык по блокам.</p></a>
   <a class="card" href="sandbox.html"><h3>Песочница</h3><p>Живая страница для <code>natl init</code> — логин + ping API.</p></a>
+  <a class="card" href="agent.html"><h3>Agent</h3><p>Черновик NATL YAML из git diff; GitHub, GitLab, Jenkins.</p></a>
   <a class="card" href="troubleshooting.html"><h3>Сбои</h3><p>Типичные ошибки и что с ними делать.</p></a>
   <a class="card" href="adapters.html"><h3>Адаптеры</h3><p>Playwright по умолчанию; Selenium и Cypress при необходимости.</p></a>
   <a class="card" href="canon.html"><h3>Канон</h3><p>Зафиксированные решения по дизайну.</p></a>
@@ -62,6 +64,7 @@ const zhHome = `
 <div class="card-grid">
   <a class="card" href="getting-started.html"><h3>指南</h3><p>安装、首次 PASS，再按块看语言。</p></a>
   <a class="card" href="sandbox.html"><h3>沙箱</h3><p><code>natl init</code> 的在线演示页 — 登录 + API ping。</p></a>
+  <a class="card" href="agent.html"><h3>Agent</h3><p>从 git diff 生成 NATL YAML 草稿；GitHub / GitLab / Jenkins。</p></a>
   <a class="card" href="troubleshooting.html"><h3>排错</h3><p>常见失败与处理办法。</p></a>
   <a class="card" href="adapters.html"><h3>适配器</h3><p>默认 Playwright；需要时用 Selenium / Cypress。</p></a>
   <a class="card" href="canon.html"><h3>规范</h3><p>固定下来的设计取舍。</p></a>
@@ -86,6 +89,7 @@ const esHome = `
 <div class="card-grid">
   <a class="card" href="getting-started.html"><h3>Guía</h3><p>Instalación, primer PASS y el lenguaje por bloques.</p></a>
   <a class="card" href="sandbox.html"><h3>Sandbox</h3><p>Página demo para <code>natl init</code> — login + ping API.</p></a>
+  <a class="card" href="agent.html"><h3>Agent</h3><p>Borrador NATL YAML desde un git diff; GitHub, GitLab, Jenkins.</p></a>
   <a class="card" href="troubleshooting.html"><h3>Problemas</h3><p>Fallos habituales y cómo resolverlos.</p></a>
   <a class="card" href="adapters.html"><h3>Adaptadores</h3><p>Playwright por defecto; Selenium y Cypress cuando haga falta.</p></a>
   <a class="card" href="canon.html"><h3>Canon</h3><p>Decisiones de diseño que se mantienen.</p></a>
@@ -497,6 +501,7 @@ const locales = {
       home: "Home",
       guide: "Guide",
       sandbox: "Sandbox",
+      agent: "Agent",
       troubleshooting: "Troubleshooting",
       canon: "Canon",
       architecture: "Architecture",
@@ -512,6 +517,7 @@ const locales = {
       home: { title: "Home", html: enHome },
       guide: { title: "Guide", html: load("en-guide.html") },
       sandbox: sandboxCopy.en,
+      agent: { title: "Agent", html: load("en-agent.html") },
       troubleshooting: { title: "Troubleshooting", html: enTrouble },
       adapters: { title: "Adapters", html: enAdapters },
       architecture: { title: "Architecture", html: enArch },
@@ -525,6 +531,7 @@ const locales = {
       home: "Главная",
       guide: "Гайд",
       sandbox: "Песочница",
+      agent: "Agent",
       troubleshooting: "Сбои",
       canon: "Канон",
       architecture: "Архитектура",
@@ -540,6 +547,7 @@ const locales = {
       home: { title: "Главная", html: ruHome },
       guide: { title: "Гайд", html: load("ru-guide.html") },
       sandbox: sandboxCopy.ru,
+      agent: { title: "Agent", html: load("ru-agent.html") },
       troubleshooting: { title: "Сбои", html: ruTrouble },
       adapters: { title: "Адаптеры", html: ruAdapters },
       architecture: { title: "Архитектура", html: ruArch },
@@ -553,6 +561,7 @@ const locales = {
       home: "首页",
       guide: "指南",
       sandbox: "沙箱",
+      agent: "Agent",
       troubleshooting: "排错",
       canon: "规范",
       architecture: "架构",
@@ -568,6 +577,7 @@ const locales = {
       home: { title: "首页", html: zhHome },
       guide: { title: "指南", html: load("zh-guide.html") },
       sandbox: sandboxCopy.zh,
+      agent: { title: "Agent", html: load("zh-agent.html") },
       troubleshooting: { title: "排错", html: zhTrouble },
       adapters: { title: "适配器", html: zhAdapters },
       architecture: { title: "架构", html: zhArch },
@@ -581,6 +591,7 @@ const locales = {
       home: "Inicio",
       guide: "Guía",
       sandbox: "Sandbox",
+      agent: "Agent",
       troubleshooting: "Problemas",
       canon: "Canon",
       architecture: "Arquitectura",
@@ -596,6 +607,7 @@ const locales = {
       home: { title: "Inicio", html: esHome },
       guide: { title: "Guía", html: load("es-guide.html") },
       sandbox: sandboxCopy.es,
+      agent: { title: "Agent", html: load("es-agent.html") },
       troubleshooting: { title: "Problemas", html: esTrouble },
       adapters: { title: "Adaptadores", html: esAdapters },
       architecture: { title: "Arquitectura", html: esArch },
