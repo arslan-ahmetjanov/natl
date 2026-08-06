@@ -51,8 +51,8 @@ natl-agent --config natl-agent.yml --mode stdout --base origin/main</code></pre>
     fetch-depth: 0
 - uses: ./agent
   with:
-    openai_api_key: ${{ secrets.OPENAI_API_KEY }}
-    base_ref: origin/${{ github.base_ref }}
+    openai_api_key: $&#123;&#123; secrets.OPENAI_API_KEY &#125;&#125;
+    base_ref: origin/$&#123;&#123; github.base_ref &#125;&#125;
     mode: comment
     config: natl-agent.yml</code></pre>
 <p>In a consumer repo either vendor the composite action from the NATL tree or install CLI: <code>npm install -g @natl/agent</code> and call <code>natl-agent</code> in a step. See <code>examples/.github/workflows/natl-agent.yml</code>.</p>
