@@ -32,11 +32,12 @@ agent/eval/live-report.json
 *~
 
 # local-only (not published)
-AGENTS.md
 courses/
 test/
 tasks/
 local-llm/
+AGENTS.md
+.agents/
 
 # logs
 npm-debug.log*
