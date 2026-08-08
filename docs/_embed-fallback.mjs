@@ -5,6 +5,8 @@ const en = JSON.parse(readFileSync("docs/i18n/en.json", "utf8"));
 const NAV = `        <nav class="nav" aria-label="Docs">
           <a href="index.html" data-i18n="nav.home">Home</a>
           <a href="getting-started.html" data-i18n="nav.guide">Guide</a>
+          <a href="sandbox.html" data-i18n="nav.sandbox">Sandbox</a>
+          <a href="agent.html" data-i18n="nav.agent">Agent</a>
           <a href="troubleshooting.html" data-i18n="nav.troubleshooting">Troubleshooting</a>
           <a href="canon.html" data-i18n="nav.canon">Canon</a>
           <a href="architecture.html" data-i18n="nav.architecture">Architecture</a>
