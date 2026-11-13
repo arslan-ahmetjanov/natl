@@ -118,7 +118,7 @@ jobs:
 
       - name: Install Chromium
         working-directory: adapter-playwright
-        run: npx playwright install --with-deps chromium
+        run: pnpm exec playwright install --with-deps chromium
 
       - name: Offline sandbox smoke
         working-directory: examples
