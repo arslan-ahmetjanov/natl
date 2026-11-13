@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://cdn.jsdelivr.net/npm/@natl/adapter-cypress/brand/natl-lockup.png" alt="NATL — YAML test runner" width="360" />
+  <img src="https://raw.githubusercontent.com/arslan-ahmetjanov/natl/main/brand/natl-lockup.png" alt="NATL — YAML test runner" width="360" />
 </p>
 
 # @natl/adapter-cypress

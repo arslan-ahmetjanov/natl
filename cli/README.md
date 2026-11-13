@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://cdn.jsdelivr.net/npm/@natl/cli/brand/natl-lockup.png" alt="NATL — YAML test runner" width="360" />
+  <img src="https://raw.githubusercontent.com/arslan-ahmetjanov/natl/main/brand/natl-lockup.png" alt="NATL — YAML test runner" width="360" />
 </p>
 
 # @natl/cli
@@ -8,7 +8,7 @@ CLI for **NATL** — YAML scenarios for **web UI + API**.
 
 One compact scenario (and optional POM) for QA, developers, and DevOps. Swap the UI adapter (`engine:`) when the team’s stack changes; browser matrix is whatever that adapter supports. Stands and data differ via config / `--env` / vars — not by rewriting steps.
 
-Logo assets: [`brand/`](./brand/).
+Logo assets: [`brand/`](https://github.com/arslan-ahmetjanov/natl/tree/main/brand).
 
 ## Getting Started
 

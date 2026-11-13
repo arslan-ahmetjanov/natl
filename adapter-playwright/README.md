@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://cdn.jsdelivr.net/npm/@natl/adapter-playwright/brand/natl-lockup.png" alt="NATL — YAML test runner" width="360" />
+  <img src="https://raw.githubusercontent.com/arslan-ahmetjanov/natl/main/brand/natl-lockup.png" alt="NATL — YAML test runner" width="360" />
 </p>
 
 # @natl/adapter-playwright
@@ -8,7 +8,7 @@ Official **Playwright** UI adapter for NATL.
 
 **Status: supported** — default engine for production pilots. NATL scenarios stay in compact YAML; this package is the default `EngineAdapter` implementation. Browser choice (`chromium` / `firefox` / `webkit`) is a **capability of this adapter** — set via `browser:` in `natl.config` (opaque string to `@natl/core`).
 
-Logo assets: [`brand/`](./brand/).
+Logo assets: [`brand/`](https://github.com/arslan-ahmetjanov/natl/tree/main/brand).
 
 ## Install
 

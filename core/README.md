@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://cdn.jsdelivr.net/npm/@natl/core/brand/natl-lockup.png" alt="NATL — YAML test runner" width="360" />
+  <img src="https://raw.githubusercontent.com/arslan-ahmetjanov/natl/main/brand/natl-lockup.png" alt="NATL — YAML test runner" width="360" />
 </p>
 
 # @natl/core
@@ -8,7 +8,7 @@ Language runtime for **NATL** — a YAML DSL for **web UI + API** scenarios.
 
 Write compact steps once (plus optional POM). UI engines plug in via `EngineAdapter`; browsers and driver features are whatever the chosen adapter supports. Typical flows stay portable across adapters; engine-specific edges are an escape hatch, not the happy path.
 
-Logo assets: [`brand/`](./brand/).
+Logo assets: [`brand/`](https://github.com/arslan-ahmetjanov/natl/tree/main/brand).
 
 - YAML / compact-step parser → AST
 - Expression engine (`$vars`, `$env.*` / `$secret.*`, `${ENV:…}` compat; dotenv / process env only — no Vault/AWS in-core)

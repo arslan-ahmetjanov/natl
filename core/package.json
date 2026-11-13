@@ -16,7 +16,6 @@
   "files": [
     "dist",
     "schemas",
-    "brand",
     "LICENSE",
     "README.md"
   ],

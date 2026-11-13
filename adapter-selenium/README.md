@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://cdn.jsdelivr.net/npm/@natl/adapter-selenium/brand/natl-lockup.png" alt="NATL — YAML test runner" width="360" />
+  <img src="https://raw.githubusercontent.com/arslan-ahmetjanov/natl/main/brand/natl-lockup.png" alt="NATL — YAML test runner" width="360" />
 </p>
 
 # @natl/adapter-selenium
@@ -8,7 +8,7 @@ Official **Selenium WebDriver** UI adapter for NATL.
 
 **Status: supported with limits** — fine for Grid / classic WebDriver pilots; prefer Playwright when you need Trace Viewer or video. Same compact YAML; set `engine: selenium` (or `--engine selenium`).
 
-Logo assets: [`brand/`](./brand/).
+Logo assets: [`brand/`](https://github.com/arslan-ahmetjanov/natl/tree/main/brand).
 
 ## Install
 
