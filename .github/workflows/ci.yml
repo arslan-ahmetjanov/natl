@@ -15,13 +15,13 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 11.18.0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
           cache-dependency-path: core/pnpm-lock.yaml
-      - run: pnpm install --no-frozen-lockfile
+      - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - run: pnpm test
 
@@ -34,13 +34,13 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 11.18.0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
           cache-dependency-path: adapter-playwright/pnpm-lock.yaml
-      - run: pnpm install --no-frozen-lockfile
+      - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - run: pnpm test
 
@@ -54,13 +54,13 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 11.18.0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
           cache-dependency-path: adapter-cypress/pnpm-lock.yaml
-      - run: pnpm install --no-frozen-lockfile
+      - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - run: pnpm test
 
@@ -74,19 +74,19 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 11.18.0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
           cache-dependency-path: cli/pnpm-lock.yaml
-      - run: pnpm install --no-frozen-lockfile
+      - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - run: pnpm test
       - run: node dist/index.js --version
 
   # Offline happy-path: fixtures/sandbox.html via examples/login.yaml (no network to Pages).
-  # cli pnpm.overrides link local core + adapter-playwright after those packages are built.
+  # cli overrides (pnpm-workspace.yaml) link local core + adapter-playwright after those packages are built.
   smoke:
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -94,7 +94,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 11.18.0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -106,22 +106,21 @@ jobs:
 
       - name: Build @natl/core
         working-directory: core
-        run: pnpm install --no-frozen-lockfile && pnpm build
+        run: pnpm install --frozen-lockfile && pnpm build
 
       - name: Build @natl/adapter-playwright
         working-directory: adapter-playwright
-        run: pnpm install --no-frozen-lockfile && pnpm build
+        run: pnpm install --frozen-lockfile && pnpm build
 
       - name: Build @natl/cli
         working-directory: cli
-        run: pnpm install --no-frozen-lockfile && pnpm build
+        run: pnpm install --frozen-lockfile && pnpm build
 
-      - name: Install Chromium (adapter)
+      # Один раз на весь smoke: cli работает через связанный
+      # @natl/adapter-playwright, у него же лежит playwright. Отдельный шаг в cli
+      # падал с ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL: там нет бинарника playwright.
+      - name: Install Chromium
         working-directory: adapter-playwright
-        run: pnpm exec playwright install --with-deps chromium
-
-      - name: Install Chromium (cli, разрешает adapter из npm)
-        working-directory: cli
         run: pnpm exec playwright install --with-deps chromium
 
       - name: Offline sandbox smoke
