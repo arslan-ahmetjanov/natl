@@ -116,8 +116,12 @@ jobs:
         working-directory: cli
         run: pnpm install --no-frozen-lockfile && pnpm build
 
-      - name: Install Chromium
+      - name: Install Chromium (adapter)
         working-directory: adapter-playwright
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Install Chromium (cli, разрешает adapter из npm)
+        working-directory: cli
         run: pnpm exec playwright install --with-deps chromium
 
       - name: Offline sandbox smoke
